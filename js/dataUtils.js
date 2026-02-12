@@ -41,6 +41,15 @@ const DataUtils = {
         return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
     },
 
+    // Calculate ISO week number from a date
+    getWeekNumber(date) {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    },
+
     // Load and parse CSV data
     async loadData() {
         return new Promise((resolve, reject) => {
@@ -49,29 +58,44 @@ const DataUtils = {
                 header: true,
                 skipEmptyLines: true,
                 complete: (results) => {
-                    this.rawData = results.data.map((row, index) => ({
-                        id: index,
-                        salida: row['No. Salida'],
-                        fecha: this.parseDate(row['Fecha Contabilizacion']),
-                        fechaStr: row['Fecha Contabilizacion'],
-                        dia: parseInt(row['Dia']) || 0,
-                        semana: parseInt(row['Semana']) || 0,
-                        mes: parseInt(row['Mes']) || 0,
-                        articulo: row['Articulo'] || '',
-                        descripcion: row['Descripcion'] || '',
-                        cantidad: parseFloat(row['Cantidad']) || 0,
-                        costoArticulo: this.parseCurrency(row['Costo Articulo']),
-                        valorSalida: this.parseCurrency(row['Valor Salida']),
-                        autorizador: row['Nombre Autorizador'] || '',
-                        encargado: row['Encargado'] || '',
-                        departamento: row['Departamento'] || '',
-                        maquinaria: row['Maquinaria'] || '',
-                        seccion: row['Seccion'] || '',
-                        mercado: row['Mercado'] || '',
-                        comentario: row['Comentario'] || '',
-                        bodeguero: row['Bodeguero'] || '',
-                        tipoMantenimiento: row['Tipo Mantenimiento'] || ''
-                    })).filter(row => row.fecha && row.valorSalida > 0);
+                    this.rawData = results.data.map((row, index) => {
+                        const fecha = this.parseDate(row['Fecha Contabilizacion']);
+                        
+                        // Calculate date fields from fecha if not present in CSV
+                        let dia = parseInt(row['Dia']) || 0;
+                        let mes = parseInt(row['Mes']) || 0;
+                        let semana = parseInt(row['Semana']) || 0;
+                        
+                        if (fecha) {
+                            if (!dia) dia = fecha.getDate();
+                            if (!mes) mes = fecha.getMonth() + 1; // JavaScript months are 0-indexed
+                            if (!semana) semana = this.getWeekNumber(fecha);
+                        }
+                        
+                        return {
+                            id: index,
+                            salida: row['No. Salida'],
+                            fecha: fecha,
+                            fechaStr: row['Fecha Contabilizacion'],
+                            dia: dia,
+                            semana: semana,
+                            mes: mes,
+                            articulo: row['Articulo'] || '',
+                            descripcion: row['Descripcion'] || '',
+                            cantidad: parseFloat(row['Cantidad']) || 0,
+                            costoArticulo: this.parseCurrency(row['Costo Articulo']),
+                            valorSalida: this.parseCurrency(row['Valor Salida']),
+                            autorizador: row['Nombre Autorizador'] || '',
+                            encargado: row['Encargado'] || '',
+                            departamento: row['Departamento'] || '',
+                            maquinaria: row['Maquinaria'] || '',
+                            seccion: row['Seccion'] || '',
+                            mercado: row['Mercado'] || '',
+                            comentario: row['Comentario'] || '',
+                            bodeguero: row['Bodeguero'] || '',
+                            tipoMantenimiento: row['Tipo Mantenimiento'] || ''
+                        };
+                    }).filter(row => row.fecha && row.valorSalida > 0);
                     
                     this.filteredData = [...this.rawData];
                     console.log(`Loaded ${this.rawData.length} records`);
@@ -262,33 +286,33 @@ const DataUtils = {
             .slice(0, limit);
     },
 
-    // Get hierarchical structure (Dept -> Section -> Machine)
+    // Get hierarchical structure (Dept -> Machine -> Section)
     getHierarchy() {
         const hierarchy = {};
         
         this.filteredData.forEach(row => {
             const dept = row.departamento || 'Sin Departamento';
-            const section = row.seccion || 'Sin Sección';
             const machine = row.maquinaria || 'Sin Máquina';
+            const section = row.seccion || 'Sin Sección';
             
             if (!hierarchy[dept]) {
-                hierarchy[dept] = { sections: {}, total: 0 };
+                hierarchy[dept] = { machines: {}, total: 0 };
             }
             
-            if (!hierarchy[dept].sections[section]) {
-                hierarchy[dept].sections[section] = { machines: {}, total: 0 };
+            if (!hierarchy[dept].machines[machine]) {
+                hierarchy[dept].machines[machine] = { sections: {}, total: 0 };
             }
             
-            if (!hierarchy[dept].sections[section].machines[machine]) {
-                hierarchy[dept].sections[section].machines[machine] = { 
+            if (!hierarchy[dept].machines[machine].sections[section]) {
+                hierarchy[dept].machines[machine].sections[section] = { 
                     items: [], 
                     total: 0 
                 };
             }
             
-            hierarchy[dept].sections[section].machines[machine].items.push(row);
-            hierarchy[dept].sections[section].machines[machine].total += row.valorSalida;
-            hierarchy[dept].sections[section].total += row.valorSalida;
+            hierarchy[dept].machines[machine].sections[section].items.push(row);
+            hierarchy[dept].machines[machine].sections[section].total += row.valorSalida;
+            hierarchy[dept].machines[machine].total += row.valorSalida;
             hierarchy[dept].total += row.valorSalida;
         });
 
@@ -541,29 +565,44 @@ const DataUtils = {
 
     // Process imported data to match internal format
     processImportedData(data) {
-        return data.map((row, index) => ({
-            id: this.rawData.length + index,
-            salida: row['No. Salida'] || row['No Salida'] || '',
-            fecha: this.parseDate(row['Fecha Contabilizacion'] || row['Fecha']),
-            fechaStr: row['Fecha Contabilizacion'] || row['Fecha'] || '',
-            dia: parseInt(row['Dia']) || 0,
-            semana: parseInt(row['Semana']) || 0,
-            mes: parseInt(row['Mes']) || 0,
-            articulo: row['Articulo'] || '',
-            descripcion: row['Descripcion'] || '',
-            cantidad: parseFloat(row['Cantidad']) || 0,
-            costoArticulo: this.parseCurrency(row['Costo Articulo'] || row['Costo']),
-            valorSalida: this.parseCurrency(row['Valor Salida'] || row['Valor']),
-            autorizador: row['Nombre Autorizador'] || row['Autorizador'] || '',
-            encargado: row['Encargado'] || '',
-            departamento: row['Departamento'] || '',
-            maquinaria: row['Maquinaria'] || '',
-            seccion: row['Seccion'] || '',
-            mercado: row['Mercado'] || '',
-            comentario: row['Comentario'] || '',
-            bodeguero: row['Bodeguero'] || '',
-            tipoMantenimiento: row['Tipo Mantenimiento'] || row['Tipo'] || ''
-        })).filter(row => row.fecha && row.valorSalida > 0);
+        return data.map((row, index) => {
+            const fecha = this.parseDate(row['Fecha Contabilizacion'] || row['Fecha']);
+            
+            // Calculate date fields from fecha if not present in CSV
+            let dia = parseInt(row['Dia']) || 0;
+            let mes = parseInt(row['Mes']) || 0;
+            let semana = parseInt(row['Semana']) || 0;
+            
+            if (fecha) {
+                if (!dia) dia = fecha.getDate();
+                if (!mes) mes = fecha.getMonth() + 1; // JavaScript months are 0-indexed
+                if (!semana) semana = this.getWeekNumber(fecha);
+            }
+            
+            return {
+                id: this.rawData.length + index,
+                salida: row['No. Salida'] || row['No Salida'] || '',
+                fecha: fecha,
+                fechaStr: row['Fecha Contabilizacion'] || row['Fecha'] || '',
+                dia: dia,
+                semana: semana,
+                mes: mes,
+                articulo: row['Articulo'] || '',
+                descripcion: row['Descripcion'] || '',
+                cantidad: parseFloat(row['Cantidad']) || 0,
+                costoArticulo: this.parseCurrency(row['Costo Articulo'] || row['Costo']),
+                valorSalida: this.parseCurrency(row['Valor Salida'] || row['Valor']),
+                autorizador: row['Nombre Autorizador'] || row['Autorizador'] || '',
+                encargado: row['Encargado'] || '',
+                departamento: row['Departamento'] || '',
+                maquinaria: row['Maquinaria'] || '',
+                seccion: row['Seccion'] || '',
+                mercado: row['Mercado'] || '',
+                comentario: row['Comentario'] || '',
+                bodeguero: row['Bodeguero'] || '',
+                tipoMantenimiento: row['Tipo Mantenimiento'] || row['Tipo'] || ''
+            };
+        }).filter(row => row.fecha && row.valorSalida > 0);
     },
 
     // Merge imported data with existing data

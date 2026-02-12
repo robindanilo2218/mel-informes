@@ -2,7 +2,7 @@
   "name": "Presupuestos Mantenimiento Eléctrico",
   "short_name": "Presupuestos MTO",
   "description": "Sistema de Gestión de Presupuestos de Mantenimiento Eléctrico con análisis y visualizaciones interactivas",
-  "start_url": "/presupuesto-app/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1e40af",
   "theme_color": "#1e40af",

@@ -204,13 +204,19 @@ const Views = {
             return;
         }
 
+        // Sort machines by total spending (highest to lowest)
+        const sortedMachines = Object.entries(hierarchy).sort((a, b) => b[1].total - a[1].total);
+
         // Create tree view: Machine -> Section
-        Object.entries(hierarchy).forEach(([machine, machineData]) => {
+        sortedMachines.forEach(([machine, machineData]) => {
             const machineNode = this.createTreeNode(machine, machineData.total, 'machine', machineData.department);
             const machineContent = document.createElement('div');
             machineContent.className = 'tree-content hidden';
             
-            Object.entries(machineData.sections).forEach(([section, sectionData]) => {
+            // Sort sections by total spending (highest to lowest)
+            const sortedSections = Object.entries(machineData.sections).sort((a, b) => b[1].total - a[1].total);
+            
+            sortedSections.forEach(([section, sectionData]) => {
                 const sectionNode = this.createTreeNode(section, sectionData.total, 'section');
                 // Add click event to show details
                 sectionNode.querySelector('.tree-label').addEventListener('click', (e) => {
@@ -236,29 +242,29 @@ const Views = {
             return;
         }
 
-        // Create tree view: Department -> Section -> Machine
+        // Create tree view: Department -> Machine -> Section
         Object.entries(hierarchy).forEach(([dept, deptData]) => {
             const deptNode = this.createTreeNode(dept, deptData.total, 'department');
             const deptContent = document.createElement('div');
             deptContent.className = 'tree-content hidden';
             
-            Object.entries(deptData.sections).forEach(([section, sectionData]) => {
-                const sectionNode = this.createTreeNode(section, sectionData.total, 'section');
-                const sectionContent = document.createElement('div');
-                sectionContent.className = 'tree-content hidden';
+            Object.entries(deptData.machines).forEach(([machine, machineData]) => {
+                const machineNode = this.createTreeNode(machine, machineData.total, 'machine');
+                const machineContent = document.createElement('div');
+                machineContent.className = 'tree-content hidden';
                 
-                Object.entries(sectionData.machines).forEach(([machine, machineData]) => {
-                    const machineNode = this.createTreeNode(machine, machineData.total, 'machine');
-                    // Add click event to show details for this machine
-                    machineNode.querySelector('.tree-label').addEventListener('click', (e) => {
+                Object.entries(machineData.sections).forEach(([section, sectionData]) => {
+                    const sectionNode = this.createTreeNode(section, sectionData.total, 'section');
+                    // Add click event to show details for this section
+                    sectionNode.querySelector('.tree-label').addEventListener('click', (e) => {
                         e.stopPropagation();
-                        this.showMachineDetails(machine);
+                        console.log('Section details:', machine, section, sectionData);
                     });
-                    sectionContent.appendChild(machineNode);
+                    machineContent.appendChild(sectionNode);
                 });
                 
-                sectionNode.appendChild(sectionContent);
-                deptContent.appendChild(sectionNode);
+                machineNode.appendChild(machineContent);
+                deptContent.appendChild(machineNode);
             });
             
             deptNode.appendChild(deptContent);
@@ -278,9 +284,20 @@ const Views = {
             return;
         }
 
+        // If no configuration exists, auto-preselect machines with "imprenta" or "corrugadora" in their names
+        const isFirstTime = productionLines.length === 0;
+        
         // Sort machines alphabetically
         machines.sort().forEach(machine => {
-            const isChecked = productionLines.includes(machine);
+            let isChecked = productionLines.includes(machine);
+            
+            // Auto-preselect on first time if machine name contains "imprenta", "impresora", or "corrugadora"
+            if (isFirstTime) {
+                const machineLower = machine.toLowerCase();
+                if (machineLower.includes('imprenta') || machineLower.includes('impresora') || machineLower.includes('corrugadora')) {
+                    isChecked = true;
+                }
+            }
             
             const item = document.createElement('div');
             item.className = 'machine-config-item';
