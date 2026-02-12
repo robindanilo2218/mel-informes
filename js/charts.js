@@ -1,6 +1,6 @@
 // Chart management module using Chart.js
 
-const ChartManager = {
+const Charts = {
     charts: {},
     
     // Default colors
@@ -97,13 +97,13 @@ const ChartManager = {
     },
 
     // Create department distribution chart (Pie/Doughnut)
-    createDepartmentChart(canvasId) {
+    createDepartmentChart(canvasId, data) {
         this.destroyChart(canvasId);
         
         const ctx = document.getElementById(canvasId);
         if (!ctx) return;
 
-        const deptData = DataUtils.getDepartmentAggregation();
+        const deptData = data || DataUtils.getDepartmentAggregation();
         
         this.charts[canvasId] = new Chart(ctx, {
             type: 'doughnut',
@@ -201,13 +201,13 @@ const ChartManager = {
     },
 
     // Create top machines chart (Horizontal bar)
-    createTopMachinesChart(canvasId) {
+    createTopMachinesChart(canvasId, data) {
         this.destroyChart(canvasId);
         
         const ctx = document.getElementById(canvasId);
         if (!ctx) return;
 
-        const topMachines = DataUtils.getTopMachines(10);
+        const topMachines = data || DataUtils.getTopMachines(10);
         
         this.charts[canvasId] = new Chart(ctx, {
             type: 'bar',
@@ -434,9 +434,8 @@ const ChartManager = {
 
     // Update all dashboard charts
     updateDashboardCharts() {
-        this.createTrendChart('trendChart');
-        this.createDepartmentChart('deptChart');
-        this.createMaintenanceChart('maintChart');
+        this.createTrendChart('monthlyTrendChart');
+        this.createDepartmentChart('deptDistChart');
         this.createTopMachinesChart('topMachinesChart');
     },
 
@@ -445,5 +444,22 @@ const ChartManager = {
         Object.keys(this.charts).forEach(chartId => {
             this.destroyChart(chartId);
         });
+    },
+
+    // === ADAPTER METHODS for views.js ===
+    
+    // Render monthly trend chart (adapter for views.js)
+    renderMonthlyTrend(data) {
+        this.createTrendChart('monthlyTrendChart', data);
+    },
+
+    // Render department distribution chart (adapter for views.js)
+    renderDepartmentDistribution(data) {
+        this.createDepartmentChart('deptDistChart', data);
+    },
+
+    // Render top machines chart (adapter for views.js)
+    renderTopMachines(data) {
+        this.createTopMachinesChart('topMachinesChart', data);
     }
 };

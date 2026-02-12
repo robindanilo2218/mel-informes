@@ -1,291 +1,180 @@
-// Main application entry point
+// Main application initialization
 
 const App = {
-    // Initialize the application
     async init() {
-        this.showLoading();
+        console.log('Initializing application...');
         
         try {
             // Load data
             await DataUtils.loadData();
-            
-            // Initialize filters
-            this.initializeFilters();
+            console.log('Data loaded successfully');
             
             // Initialize views
-            ViewManager.init();
+            Views.init();
             
-            // Setup UI event listeners
-            this.setupEventListeners();
+            // Populate filters
+            Views.populateFilters();
             
-            // Render initial view
-            ViewManager.renderDashboard();
+            // Setup file import
+            this.setupFileImport();
             
-            this.hideLoading();
+            // Setup export handlers
+            this.setupExportHandlers();
+            
+            // Setup force update button
+            this.setupForceUpdate();
+            
+            console.log('Application initialized');
         } catch (error) {
             console.error('Error initializing app:', error);
-            alert('Error al cargar los datos. Por favor, recarga la página.');
-            this.hideLoading();
+            alert('Error al cargar los datos. Por favor, verifica el archivo CSV.');
         }
     },
 
-    // Initialize filter dropdowns
-    initializeFilters() {
-        // Populate year filter
-        const yearSelect = document.getElementById('filterYear');
-        const years = DataUtils.getUniqueYears();
-        years.forEach(year => {
-            const option = document.createElement('option');
-            option.value = year;
-            option.textContent = year;
-            yearSelect.appendChild(option);
-        });
-
-        // Populate department filter
-        const deptSelect = document.getElementById('filterDept');
-        const departments = DataUtils.getUniqueValues('departamento');
-        departments.forEach(dept => {
-            const option = document.createElement('option');
-            option.value = dept;
-            option.textContent = dept;
-            deptSelect.appendChild(option);
-        });
-
-        // Populate section filter
-        const sectionSelect = document.getElementById('filterSection');
-        const sections = DataUtils.getUniqueValues('seccion');
-        sections.forEach(section => {
-            const option = document.createElement('option');
-            option.value = section;
-            option.textContent = section;
-            sectionSelect.appendChild(option);
-        });
-
-        // Populate maintenance type filter
-        const maintSelect = document.getElementById('filterMaint');
-        const maintTypes = DataUtils.getUniqueValues('tipoMantenimiento');
-        maintTypes.forEach(type => {
-            const option = document.createElement('option');
-            option.value = type;
-            option.textContent = type;
-            maintSelect.appendChild(option);
-        });
-    },
-
-    // Setup event listeners
-    setupEventListeners() {
-        // Filter change listeners
-        const filterElements = [
-            'filterYear',
-            'filterMonth',
-            'filterDept',
-            'filterSection',
-            'filterMaint'
-        ];
-
-        filterElements.forEach(id => {
-            const element = document.getElementById(id);
-            element?.addEventListener('change', () => {
-                this.applyFilters();
+    // Setup force update functionality
+    setupForceUpdate() {
+        const updateBtn = document.getElementById('forceUpdateBtn');
+        if (updateBtn) {
+            updateBtn.addEventListener('click', async () => {
+                const confirmed = confirm(
+                    '¿Deseas actualizar la aplicación a la última versión?\n\n' +
+                    'Esto limpiará la caché y recargará todos los archivos.\n' +
+                    'Tu configuración de Líneas de Producción se mantendrá.'
+                );
+                
+                if (confirmed) {
+                    await this.forceUpdate();
+                }
             });
-        });
-
-        // Reset filters button
-        document.getElementById('resetFilters')?.addEventListener('click', () => {
-            this.resetFilters();
-        });
-
-        // Mobile menu toggle
-        document.getElementById('menuToggle')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
-        // Close modal
-        document.getElementById('closeModal')?.addEventListener('click', () => {
-            ViewManager.closeMachineModal();
-        });
-
-        // Close modal on backdrop click
-        document.getElementById('machineModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'machineModal') {
-                ViewManager.closeMachineModal();
-            }
-        });
-
-        // ESC key to close modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                ViewManager.closeMachineModal();
-            }
-        });
-
-        // Data Management event listeners
-        this.setupDataManagement();
-    },
-
-    // Setup Data Management event listeners
-    setupDataManagement() {
-        // Export buttons
-        document.getElementById('exportCSV')?.addEventListener('click', () => {
-            const exportType = document.getElementById('exportType').value;
-            DataUtils.exportToCSV(exportType);
-        });
-
-        document.getElementById('exportExcel')?.addEventListener('click', () => {
-            const exportType = document.getElementById('exportType').value;
-            DataUtils.exportToExcel(exportType);
-        });
-
-        // Update export count when selection changes
-        document.getElementById('exportType')?.addEventListener('change', () => {
-            ViewManager.renderDataManagement();
-        });
-
-        // Import file selection
-        const fileInput = document.getElementById('fileInput');
-        const selectFileBtn = document.getElementById('selectFileBtn');
-        const dropZone = document.getElementById('dropZone');
-
-        selectFileBtn?.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput?.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                this.handleFileImport(file);
-            }
-        });
-
-        // Drag and drop functionality
-        dropZone?.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone?.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-
-        dropZone?.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                this.handleFileImport(file);
-            }
-        });
-    },
-
-    // Handle file import
-    async handleFileImport(file) {
-        const statusEl = document.getElementById('importStatus');
-        const messageEl = statusEl.querySelector('.status-message');
-        const replaceData = document.getElementById('replaceData').checked;
-
-        // Show loading
-        this.showLoading();
-        statusEl.style.display = 'none';
-
-        try {
-            const result = await DataUtils.importFromFile(file, replaceData);
-            
-            // Hide loading
-            this.hideLoading();
-
-            // Show success message
-            statusEl.className = 'import-status success';
-            statusEl.style.display = 'block';
-            messageEl.textContent = result.message;
-
-            // Refresh the application
-            this.initializeFilters();
-            ViewManager.switchView(ViewManager.currentView);
-
-            // Clear file input
-            document.getElementById('fileInput').value = '';
-
-        } catch (error) {
-            // Hide loading
-            this.hideLoading();
-
-            // Show error message
-            statusEl.className = 'import-status error';
-            statusEl.style.display = 'block';
-            messageEl.textContent = error.message || 'Error al importar el archivo.';
-
-            // Clear file input
-            document.getElementById('fileInput').value = '';
         }
     },
 
-    // Apply filters
-    applyFilters() {
-        // Get filter values
-        DataUtils.filters.year = document.getElementById('filterYear').value;
-        DataUtils.filters.month = document.getElementById('filterMonth').value;
-        DataUtils.filters.dept = document.getElementById('filterDept').value;
-        DataUtils.filters.section = document.getElementById('filterSection').value;
-        DataUtils.filters.maint = document.getElementById('filterMaint').value;
-
-        // Apply filters
-        DataUtils.applyFilters();
-
-        // Update current view
-        ViewManager.switchView(ViewManager.currentView);
+    // Force update: clear cache and reload
+    async forceUpdate() {
+        try {
+            console.log('Starting forced update...');
+            
+            // Show loading indicator
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.classList.add('active');
+            }
+            
+            // Unregister all service workers
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                console.log(`Unregistering ${registrations.length} service workers...`);
+                
+                for (const registration of registrations) {
+                    await registration.unregister();
+                    console.log('Service worker unregistered');
+                }
+            }
+            
+            // Clear all caches
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                console.log(`Deleting ${cacheNames.length} caches...`);
+                
+                await Promise.all(
+                    cacheNames.map(cacheName => {
+                        console.log(`Deleting cache: ${cacheName}`);
+                        return caches.delete(cacheName);
+                    })
+                );
+            }
+            
+            console.log('Cache cleared, reloading page...');
+            
+            // Force reload from server (bypass cache)
+            window.location.reload(true);
+            
+        } catch (error) {
+            console.error('Error during force update:', error);
+            alert('Error al actualizar la aplicación. Por favor, intenta recargar manualmente (Ctrl+Shift+R).');
+            
+            // Hide loading indicator
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.classList.remove('active');
+            }
+        }
     },
 
-    // Reset filters
-    resetFilters() {
-        // Clear filter selects
-        document.getElementById('filterYear').value = '';
-        document.getElementById('filterMonth').value = '';
-        document.getElementById('filterDept').value = '';
-        document.getElementById('filterSection').value = '';
-        document.getElementById('filterMaint').value = '';
-
-        // Reset data filters
-        DataUtils.filters = {
-            year: '',
-            month: '',
-            dept: '',
-            section: '',
-            maint: ''
-        };
-
-        DataUtils.filteredData = [...DataUtils.rawData];
-
-        // Update current view
-        ViewManager.switchView(ViewManager.currentView);
+    // Setup file import functionality
+    setupFileImport() {
+        const fileInput = document.getElementById('fileInput');
+        
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const confirmReplace = confirm('¿Deseas reemplazar los datos existentes?\n\nOK = Reemplazar\nCancelar = Agregar a los datos existentes');
+            
+            try {
+                const result = await DataUtils.importFromFile(file, confirmReplace);
+                alert(result.message);
+                
+                // Refresh views and filters
+                Views.populateFilters();
+                const currentView = document.querySelector('.view-section.active').id;
+                Views.switchView(currentView);
+                
+                // Clear file input
+                fileInput.value = '';
+            } catch (error) {
+                alert(error.message || 'Error al importar el archivo.');
+                fileInput.value = '';
+            }
+        });
     },
 
-    // Show loading overlay
-    showLoading() {
-        document.getElementById('loadingOverlay').classList.add('active');
-    },
+    // Setup export handlers for both views
+    setupExportHandlers() {
+        // Analysis view export handlers
+        const exportCsvBtn = document.getElementById('exportCsv');
+        const exportExcelBtn = document.getElementById('exportExcel');
+        
+        if (exportCsvBtn) {
+            exportCsvBtn.addEventListener('click', () => {
+                DataUtils.exportToCSV('filtered');
+            });
+        }
+        
+        if (exportExcelBtn) {
+            exportExcelBtn.addEventListener('click', () => {
+                DataUtils.exportToExcel('filtered');
+            });
+        }
 
-    // Hide loading overlay
-    hideLoading() {
-        document.getElementById('loadingOverlay').classList.remove('active');
+        // Production lines export handlers
+        const exportProdCsvBtn = document.getElementById('exportProdCsv');
+        const exportProdExcelBtn = document.getElementById('exportProdExcel');
+        
+        if (exportProdCsvBtn) {
+            exportProdCsvBtn.addEventListener('click', () => {
+                DataUtils.exportToCSV('filtered');
+            });
+        }
+        
+        if (exportProdExcelBtn) {
+            exportProdExcelBtn.addEventListener('click', () => {
+                DataUtils.exportToExcel('filtered');
+            });
+        }
     }
 };
 
-// Initialize app when DOM is ready
+// Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
 });
 
-// Handle install prompt for PWA
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    console.log('PWA install prompt ready');
-});
-
-// Log PWA installation
-window.addEventListener('appinstalled', () => {
-    console.log('PWA installed successfully');
-    deferredPrompt = null;
-});
+// Register service worker for PWA functionality (optional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(registration => console.log('SW registered:', registration))
+            .catch(error => console.log('SW registration failed:', error));
+    });
+}

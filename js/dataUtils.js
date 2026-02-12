@@ -574,5 +574,101 @@ const DataUtils = {
             this.rawData = [...this.rawData, ...importedData];
         }
         this.filteredData = [...this.rawData];
+    },
+
+    // === PRODUCTION LINE CONFIGURATION ===
+    
+    // Get all unique machines
+    getUniqueMachines() {
+        const machines = new Set();
+        this.rawData.forEach(row => {
+            if (row.maquinaria) {
+                machines.add(row.maquinaria);
+            }
+        });
+        return Array.from(machines).sort();
+    },
+
+    // Save production lines configuration to localStorage
+    saveProductionLinesConfig(productionLines) {
+        try {
+            localStorage.setItem('productionLines', JSON.stringify(productionLines));
+            return true;
+        } catch (error) {
+            console.error('Error saving production lines config:', error);
+            return false;
+        }
+    },
+
+    // Load production lines configuration from localStorage
+    getProductionLinesConfig() {
+        try {
+            const stored = localStorage.getItem('productionLines');
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            console.error('Error loading production lines config:', error);
+            return [];
+        }
+    },
+
+    // Get hierarchical structure by Machine -> Section (for production lines)
+    getProductionLineHierarchy() {
+        const productionLines = this.getProductionLinesConfig();
+        const hierarchy = {};
+        
+        this.filteredData.forEach(row => {
+            const machine = row.maquinaria || 'Sin Máquina';
+            
+            // Only include if this machine is marked as a production line
+            if (!productionLines.includes(machine)) {
+                return;
+            }
+            
+            const section = row.seccion || 'Sin Sección';
+            
+            if (!hierarchy[machine]) {
+                hierarchy[machine] = { 
+                    sections: {}, 
+                    total: 0,
+                    department: row.departamento || 'Sin Departamento'
+                };
+            }
+            
+            if (!hierarchy[machine].sections[section]) {
+                hierarchy[machine].sections[section] = { 
+                    items: [], 
+                    total: 0 
+                };
+            }
+            
+            hierarchy[machine].sections[section].items.push(row);
+            hierarchy[machine].sections[section].total += row.valorSalida;
+            hierarchy[machine].total += row.valorSalida;
+        });
+
+        return hierarchy;
+    },
+
+    // Get aggregated data by production lines
+    getProductionLineAggregation() {
+        const productionLines = this.getProductionLinesConfig();
+        const machineData = this.groupBy('maquinaria');
+        
+        return Object.entries(machineData)
+            .filter(([machine]) => productionLines.includes(machine))
+            .map(([machine, items]) => ({
+                machine: machine,
+                total: items.reduce((sum, item) => sum + item.valorSalida, 0),
+                count: items.length,
+                dept: items[0].departamento,
+                sections: [...new Set(items.map(item => item.seccion))].length
+            }))
+            .sort((a, b) => b.total - a.total);
+    },
+
+    // Check if a machine is configured as a production line
+    isProductionLine(machineName) {
+        const productionLines = this.getProductionLinesConfig();
+        return productionLines.includes(machineName);
     }
 };

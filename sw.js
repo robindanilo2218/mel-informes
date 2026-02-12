@@ -2,16 +2,14 @@
 
 const CACHE_NAME = 'presupuesto-mto-v1';
 const urlsToCache = [
-    '/presupuesto-app/',
-    '/presupuesto-app/index.html',
-    '/presupuesto-app/css/styles.css',
-    '/presupuesto-app/js/app.js',
-    '/presupuesto-app/js/dataUtils.js',
-    '/presupuesto-app/js/charts.js',
-    '/presupuesto-app/js/views.js',
-    '/presupuesto-app/assets/informe_salidas_bodega.csv',
-    'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js',
-    'https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js'
+    './',
+    './index.html',
+    './css/styles.css',
+    './js/app.js',
+    './js/dataUtils.js',
+    './js/charts.js',
+    './js/views.js',
+    './assets/informe_salidas_bodega.csv'
 ];
 
 // Install event - cache resources
@@ -21,7 +19,7 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('Caching app resources');
-                return cache.addAll(urlsToCache.map(url => new Request(url, { cache: 'reload' })))
+                return cache.addAll(urlsToCache)
                     .catch(err => {
                         console.error('Error caching resources:', err);
                         // Continue even if some resources fail to cache

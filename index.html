@@ -3,133 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de Gestión de Presupuestos - Mantenimiento Eléctrico">
-    <meta name="theme-color" content="#1e40af">
-    <title>Presupuestos Mantenimiento Eléctrico</title>
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
-    
-    <!-- Styles -->
+    <title>Control de Presupuesto - Mantenimiento</title>
     <link rel="stylesheet" href="css/styles.css">
-    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
-    
-    <!-- Papa Parse for CSV -->
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- PapaParse for CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <!-- SheetJS for Excel -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Top Navigation Bar -->
     <nav class="navbar">
         <div class="nav-brand">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
-            <span class="nav-title">Presupuestos MTO</span>
+            <span class="nav-title">Control de Presupuesto</span>
         </div>
         <button class="menu-toggle" id="menuToggle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="12" x2="21" y2="12"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <line x1="3" y1="18" x2="21" y2="18"/>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
+        </button>
+        <button class="btn-update" id="forceUpdateBtn" title="Actualizar aplicación a la última versión">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span class="btn-update-text">Actualizar</span>
         </button>
     </nav>
 
     <div class="app-container">
-        <!-- Sidebar -->
+        <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-menu">
                 <button class="menu-item active" data-view="dashboard">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7"/>
-                        <rect x="14" y="3" width="7" height="7"/>
-                        <rect x="14" y="14" width="7" height="7"/>
-                        <rect x="3" y="14" width="7" height="7"/>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
-                    <span>Dashboard</span>
+                    Dashboard
                 </button>
-                <button class="menu-item" data-view="timeline">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
+                <button class="menu-item" data-view="production-lines">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
-                    <span>Cronología</span>
+                    Líneas de Producción
                 </button>
-                <button class="menu-item" data-view="organigram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                        <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
-                        <polyline points="7.5 19.79 7.5 14.6 3 12"/>
-                        <polyline points="21 12 16.5 14.6 16.5 19.79"/>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                <button class="menu-item" data-view="analysis">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
-                    <span>Organigrama</span>
+                    Análisis General
                 </button>
-                <button class="menu-item" data-view="data">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
+                <button class="menu-item" data-view="config">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
-                    <span>Gestión de Datos</span>
+                    Configuración
+                </button>
+                <button class="menu-item" data-view="details">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Detalles
                 </button>
             </div>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Filter Header -->
-            <div class="filter-header" id="filterHeader">
-                <h2 class="filter-title">Filtros Globales</h2>
+            <!-- Filter Section -->
+            <div class="filter-header">
+                <h3 class="filter-title">Filtros</h3>
                 <div class="filter-grid">
                     <div class="filter-group">
-                        <label>Año</label>
-                        <select id="filterYear" class="filter-select">
+                        <label for="yearFilter">Año</label>
+                        <select id="yearFilter" class="filter-select">
                             <option value="">Todos</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label>Mes</label>
-                        <select id="filterMonth" class="filter-select">
-                            <option value="">Todos</option>
-                            <option value="1">Enero</option>
-                            <option value="2">Febrero</option>
-                            <option value="3">Marzo</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Mayo</option>
-                            <option value="6">Junio</option>
-                            <option value="7">Julio</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Departamento</label>
-                        <select id="filterDept" class="filter-select">
+                        <label for="monthFilter">Mes</label>
+                        <select id="monthFilter" class="filter-select">
                             <option value="">Todos</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label>Sección</label>
-                        <select id="filterSection" class="filter-select">
+                        <label for="deptFilter">Departamento</label>
+                        <select id="deptFilter" class="filter-select">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sectionFilter">Sección</label>
+                        <select id="sectionFilter" class="filter-select">
                             <option value="">Todas</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label>Tipo Mantenimiento</label>
-                        <select id="filterMaint" class="filter-select">
+                        <label for="maintFilter">Tipo Mantenimiento</label>
+                        <select id="maintFilter" class="filter-select">
                             <option value="">Todos</option>
                         </select>
                     </div>
@@ -137,57 +114,64 @@
                         <button id="resetFilters" class="btn-reset">Limpiar Filtros</button>
                     </div>
                 </div>
+                <div class="filter-grid" style="margin-top: 1rem;">
+                    <div class="filter-group">
+                        <label for="fileInput" class="btn-primary" style="cursor: pointer; text-align: center;">Importar Datos</label>
+                        <input type="file" id="fileInput" accept=".csv, .xlsx, .xls" style="display: none;">
+                    </div>
+                </div>
             </div>
 
             <!-- Dashboard View -->
-            <div class="view-container active" id="dashboardView">
-                <!-- KPIs -->
+            <div id="dashboard" class="view-container active">
+                <!-- KPI Cards -->
                 <div class="kpi-grid">
                     <div class="kpi-card">
                         <div class="kpi-icon blue">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="1" x2="12" y2="23"/>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                         <div class="kpi-content">
                             <div class="kpi-label">Gasto Total</div>
-                            <div class="kpi-value" id="kpiTotal">Q 0.00</div>
+                            <div class="kpi-value" id="totalSpending">Q 0.00</div>
                         </div>
                     </div>
+
                     <div class="kpi-card">
                         <div class="kpi-icon green">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                             </svg>
                         </div>
                         <div class="kpi-content">
-                            <div class="kpi-label">Costo Promedio</div>
-                            <div class="kpi-value" id="kpiAvg">Q 0.00</div>
+                            <div class="kpi-label">Promedio por Salida</div>
+                            <div class="kpi-value" id="avgSpending">Q 0.00</div>
                         </div>
                     </div>
+
                     <div class="kpi-card">
                         <div class="kpi-icon purple">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
                             </svg>
                         </div>
                         <div class="kpi-content">
-                            <div class="kpi-label">Total Salidas</div>
-                            <div class="kpi-value" id="kpiCount">0</div>
+                            <div class="kpi-label">Total Registros</div>
+                            <div class="kpi-value" id="totalRecords">0</div>
                         </div>
                     </div>
+
                     <div class="kpi-card">
                         <div class="kpi-icon orange">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="8" x2="12" y2="12"/>
-                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
                         <div class="kpi-content">
-                            <div class="kpi-label">Máquina Top</div>
-                            <div class="kpi-value-sm" id="kpiTopMachine">-</div>
+                            <div class="kpi-label">Máquina Mayor Gasto</div>
+                            <div class="kpi-value-sm" id="topMachine">-</div>
+                            <small id="topMachineValue" style="color: #6b7280;">Q 0.00</small>
                         </div>
                     </div>
                 </div>
@@ -195,25 +179,21 @@
                 <!-- Charts -->
                 <div class="charts-grid">
                     <div class="chart-card">
-                        <h3 class="chart-title">Tendencia de Gastos Mensual</h3>
+                        <h3 class="chart-title">Tendencia Mensual</h3>
                         <div class="chart-container">
-                            <canvas id="trendChart"></canvas>
+                            <canvas id="monthlyTrendChart"></canvas>
                         </div>
                     </div>
+
                     <div class="chart-card">
-                        <h3 class="chart-title">Distribución por Departamento</h3>
+                        <h3 class="chart-title">Gasto por Departamento</h3>
                         <div class="chart-container">
-                            <canvas id="deptChart"></canvas>
+                            <canvas id="deptDistChart"></canvas>
                         </div>
                     </div>
-                    <div class="chart-card">
-                        <h3 class="chart-title">Gasto por Tipo de Mantenimiento</h3>
-                        <div class="chart-container">
-                            <canvas id="maintChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h3 class="chart-title">Top 10 Máquinas por Gasto</h3>
+
+                    <div class="chart-card" style="grid-column: 1 / -1;">
+                        <h3 class="chart-title">Top 10 Máquinas</h3>
                         <div class="chart-container">
                             <canvas id="topMachinesChart"></canvas>
                         </div>
@@ -221,196 +201,80 @@
                 </div>
             </div>
 
-            <!-- Timeline View -->
-            <div class="view-container" id="timelineView">
-                <div class="timeline-header">
-                    <h2>Navegación Cronológica</h2>
-                    <div class="timeline-controls">
-                        <button id="prevPeriod" class="btn-control">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"/>
-                            </svg>
-                        </button>
-                        <div class="period-display" id="periodDisplay">Enero 2025</div>
-                        <button id="nextPeriod" class="btn-control">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </button>
+            <!-- Production Lines View -->
+            <div id="production-lines" class="view-container">
+                <div class="analysis-controls">
+                    <div>
+                        <h2 class="view-title">Líneas de Producción</h2>
+                        <p class="view-description">Vista jerárquica: Línea de Producción → Sección</p>
                     </div>
-                    <div class="view-toggle">
-                        <button class="toggle-btn active" data-mode="monthly">Mensual</button>
-                        <button class="toggle-btn" data-mode="weekly">Semanal</button>
+                    <div class="export-buttons">
+                        <button id="exportProdCsv" class="btn-small">Exportar CSV</button>
+                        <button id="exportProdExcel" class="btn-small">Exportar Excel</button>
                     </div>
                 </div>
-                <div class="timeline-kpi">
-                    <div class="timeline-stat">
-                        <span class="stat-label">Gasto del Período</span>
-                        <span class="stat-value" id="periodTotal">Q 0.00</span>
-                    </div>
-                    <div class="timeline-stat">
-                        <span class="stat-label">Acumulado</span>
-                        <span class="stat-value" id="accumulatedTotal">Q 0.00</span>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-container">
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <h3 class="chart-title">Desglose del Período</h3>
-                    <div id="periodBreakdown" class="breakdown-grid"></div>
+                <div id="productionLinesTree" class="hierarchy-tree">
+                    <!-- Tree content generated by JS -->
                 </div>
             </div>
 
-            <!-- Organigram View -->
-            <div class="view-container" id="organigramView">
-                <h2 class="view-title">Organigrama de Líneas de Producción</h2>
-                <div id="organigramContainer" class="organigram-container"></div>
-            </div>
-
-            <!-- Data Management View -->
-            <div class="view-container" id="dataView">
-                <h2 class="view-title">Gestión de Datos</h2>
-                
-                <div class="data-management-grid">
-                    <!-- Export Section -->
-                    <div class="data-card">
-                        <div class="data-card-header">
-                            <svg class="data-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="17 8 12 3 7 8"/>
-                                <line x1="12" y1="3" x2="12" y2="15"/>
-                            </svg>
-                            <h3>Exportar Datos</h3>
-                        </div>
-                        <p class="data-description">Descarga los datos en formato CSV o Excel para análisis externo o respaldo.</p>
-                        
-                        <div class="export-options">
-                            <div class="option-group">
-                                <label class="option-label">Seleccionar datos:</label>
-                                <select id="exportType" class="data-select">
-                                    <option value="filtered">Vista Actual (Filtrada)</option>
-                                    <option value="all">Base de Datos Completa</option>
-                                </select>
-                            </div>
-                            
-                            <div class="button-group">
-                                <button id="exportCSV" class="btn-export csv">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                        <polyline points="14 2 14 8 20 8"/>
-                                        <line x1="16" y1="13" x2="8" y2="13"/>
-                                        <line x1="16" y1="17" x2="8" y2="17"/>
-                                        <polyline points="10 9 9 9 8 9"/>
-                                    </svg>
-                                    Exportar CSV
-                                </button>
-                                <button id="exportExcel" class="btn-export excel">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                        <polyline points="14 2 14 8 20 8"/>
-                                        <line x1="9" y1="15" x2="15" y2="15"/>
-                                    </svg>
-                                    Exportar Excel
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="export-info">
-                            <small><strong>Registros:</strong> <span id="exportCount">0</span></small>
-                        </div>
+            <!-- Analysis View -->
+            <div id="analysis" class="view-container">
+                <div class="analysis-controls">
+                    <div>
+                        <h2 class="view-title">Análisis General</h2>
+                        <p class="view-description">Vista completa: Departamento → Sección → Máquina</p>
                     </div>
-
-                    <!-- Import Section -->
-                    <div class="data-card">
-                        <div class="data-card-header">
-                            <svg class="data-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            <h3>Importar Datos</h3>
-                        </div>
-                        <p class="data-description">Carga un archivo CSV o Excel para actualizar o reemplazar la base de datos.</p>
-                        
-                        <div class="import-area" id="importArea">
-                            <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display:none">
-                            <div class="drop-zone" id="dropZone">
-                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                                </svg>
-                                <p class="drop-text">Arrastra un archivo aquí o</p>
-                                <button id="selectFileBtn" class="btn-select-file">Seleccionar Archivo</button>
-                                <small class="drop-hint">Formatos: CSV, XLS, XLSX</small>
-                            </div>
-                        </div>
-                        
-                        <div class="import-options">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="replaceData" checked>
-                                <span>Reemplazar datos existentes (desmarcar para agregar)</span>
-                            </label>
-                        </div>
-                        
-                        <div class="import-status" id="importStatus" style="display:none;">
-                            <div class="status-message"></div>
-                        </div>
+                    <div class="export-buttons">
+                        <button id="exportCsv" class="btn-small">Exportar CSV</button>
+                        <button id="exportExcel" class="btn-small">Exportar Excel</button>
                     </div>
+                </div>
+                <div id="hierarchyTree" class="hierarchy-tree">
+                    <!-- Tree content generated by JS -->
                 </div>
             </div>
 
-            <!-- Machine Detail Modal -->
-            <div class="modal" id="machineModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 id="machineName">Detalle de Máquina</h2>
-                        <button class="modal-close" id="closeModal">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="machine-info">
-                            <div class="info-item">
-                                <span class="info-label">Departamento:</span>
-                                <span id="machineDept">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Sección:</span>
-                                <span id="machineSection">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Gasto Total:</span>
-                                <span id="machineTotal" class="highlight">Q 0.00</span>
-                            </div>
-                        </div>
-                        <div class="chart-card">
-                            <h3 class="chart-title">Historial de Gastos</h3>
-                            <div class="chart-container">
-                                <canvas id="machineChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="table-container">
-                            <h3 class="chart-title">Detalle de Salidas</h3>
-                            <table class="data-table" id="machineTable">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Artículo</th>
-                                        <th>Descripción</th>
-                                        <th>Cantidad</th>
-                                        <th>Valor</th>
-                                        <th>Tipo Mant.</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
+            <!-- Configuration View -->
+            <div id="config" class="view-container">
+                <div class="config-header">
+                    <h2 class="view-title">Configuración de Líneas de Producción</h2>
+                    <p class="view-description">Selecciona cuáles máquinas son líneas de producción (no equipos auxiliares)</p>
+                </div>
+                <div class="config-actions">
+                    <button id="selectAllMachines" class="btn-secondary">Seleccionar Todas</button>
+                    <button id="deselectAllMachines" class="btn-secondary">Deseleccionar Todas</button>
+                    <button id="saveProductionLines" class="btn-primary">Guardar Configuración</button>
+                </div>
+                <div class="machine-list" id="machineConfigList">
+                    <!-- Machine checkboxes generated by JS -->
+                </div>
+            </div>
+
+            <!-- Details View -->
+            <div id="details" class="view-container">
+                <div class="details-header">
+                    <h2 class="view-title">Registro Detallado</h2>
+                    <span id="detailsCount">Mostrando 0 registros</span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No. Salida</th>
+                                <th>Fecha</th>
+                                <th>Departamento</th>
+                                <th>Sección</th>
+                                <th>Maquinaria</th>
+                                <th>Artículo/Descripción</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailsTableBody">
+                            <!-- Table rows generated by JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
@@ -422,21 +286,9 @@
         <p>Cargando datos...</p>
     </div>
 
-    <!-- Scripts -->
     <script src="js/dataUtils.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/views.js"></script>
     <script src="js/app.js"></script>
-    
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registered'))
-                    .catch(err => console.log('Service Worker registration failed'));
-            });
-        }
-    </script>
 </body>
 </html>

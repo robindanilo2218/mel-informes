@@ -1,309 +1,420 @@
-// View management module
+// View handling and UI updates
 
-const ViewManager = {
-    currentView: 'dashboard',
-    currentPeriod: { year: new Date().getFullYear(), month: new Date().getMonth() + 1 },
-    timelineMode: 'monthly',
-
+const Views = {
     // Initialize views
     init() {
-        this.setupViewSwitching();
-        this.setupTimeline();
+        this.setupEventListeners();
+        this.renderDashboard();
     },
 
-    // Setup view switching
-    setupViewSwitching() {
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const view = item.getAttribute('data-view');
-                this.switchView(view);
-                
-                // Update active menu item
-                menuItems.forEach(m => m.classList.remove('active'));
-                item.classList.add('active');
-                
-                // Close mobile menu if open
-                document.getElementById('sidebar').classList.remove('active');
+    // Setup event listeners for navigation and filters
+    setupEventListeners() {
+        // Navigation - Sidebar menu items
+        document.querySelectorAll('.menu-item').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = button.getAttribute('data-view');
+                this.switchView(targetId);
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('active');
+                }
             });
         });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+        }
+
+        // Filters
+        const filterIds = ['yearFilter', 'monthFilter', 'deptFilter', 'sectionFilter', 'maintFilter'];
+        filterIds.forEach(id => {
+            document.getElementById(id).addEventListener('change', () => {
+                this.updateFilters();
+            });
+        });
+
+        // Reset filters
+        document.getElementById('resetFilters').addEventListener('click', () => {
+            this.resetFilters();
+        });
+
+        // Configuration view event listeners
+        document.getElementById('selectAllMachines').addEventListener('click', () => {
+            this.selectAllMachines(true);
+        });
+
+        document.getElementById('deselectAllMachines').addEventListener('click', () => {
+            this.selectAllMachines(false);
+        });
+
+        document.getElementById('saveProductionLines').addEventListener('click', () => {
+            this.saveProductionLinesConfig();
+        });
     },
 
-    // Switch between views
-    switchView(viewName) {
-        this.currentView = viewName;
-        
-        // Hide all views
-        document.querySelectorAll('.view-container').forEach(view => {
-            view.classList.remove('active');
+    // Switch between views (Dashboard, Production Lines, Analysis, Config, Details)
+    switchView(viewId) {
+        // Update sidebar navigation
+        document.querySelectorAll('.menu-item').forEach(button => {
+            button.classList.remove('active');
+            if (button.getAttribute('data-view') === viewId) {
+                button.classList.add('active');
+            }
         });
-        
-        // Show selected view
-        const targetView = document.getElementById(`${viewName}View`);
-        if (targetView) {
-            targetView.classList.add('active');
+
+        // Update view visibility
+        document.querySelectorAll('.view-container').forEach(container => {
+            container.classList.remove('active');
+            if (container.id === viewId) {
+                container.classList.add('active');
+            }
+        });
+
+        // Render specific view content
+        if (viewId === 'dashboard') {
+            this.renderDashboard();
+        } else if (viewId === 'production-lines') {
+            this.renderProductionLines();
+        } else if (viewId === 'analysis') {
+            this.renderAnalysis();
+        } else if (viewId === 'config') {
+            this.renderConfiguration();
+        } else if (viewId === 'details') {
+            this.renderDetails();
         }
+    },
+
+    // Update filters based on selection
+    updateFilters() {
+        DataUtils.filters = {
+            year: document.getElementById('yearFilter').value,
+            month: document.getElementById('monthFilter').value,
+            dept: document.getElementById('deptFilter').value,
+            section: document.getElementById('sectionFilter').value,
+            maint: document.getElementById('maintFilter').value
+        };
         
-        // Render the view
-        switch(viewName) {
-            case 'dashboard':
-                this.renderDashboard();
-                break;
-            case 'timeline':
-                this.renderTimeline();
-                break;
-            case 'organigram':
-                this.renderOrganigram();
-                break;
-            case 'data':
-                this.renderDataManagement();
-                break;
+        DataUtils.applyFilters();
+        
+        // Re-render current view
+        const currentView = document.querySelector('.view-container.active');
+        if (currentView) {
+            this.switchView(currentView.id);
         }
+    },
+
+    // Reset all filters
+    resetFilters() {
+        document.getElementById('yearFilter').value = '';
+        document.getElementById('monthFilter').value = '';
+        document.getElementById('deptFilter').value = '';
+        document.getElementById('sectionFilter').value = '';
+        document.getElementById('maintFilter').value = '';
+        
+        this.updateFilters();
+    },
+
+    // Populate filter dropdowns
+    populateFilters() {
+        const populateSelect = (id, values) => {
+            const select = document.getElementById(id);
+            const currentValue = select.value;
+            
+            // Keep the first option (placeholder)
+            select.innerHTML = select.options[0].outerHTML;
+            
+            values.forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+            });
+
+            // Restore selection if valid
+            if (values.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        };
+
+        populateSelect('yearFilter', DataUtils.getUniqueYears());
+        
+        // For months, we might want to show names instead of numbers
+        const months = [
+            { val: '1', name: 'Enero' }, { val: '2', name: 'Febrero' }, 
+            { val: '3', name: 'Marzo' }, { val: '4', name: 'Abril' },
+            { val: '5', name: 'Mayo' }, { val: '6', name: 'Junio' },
+            { val: '7', name: 'Julio' }, { val: '8', name: 'Agosto' },
+            { val: '9', name: 'Septiembre' }, { val: '10', name: 'Octubre' },
+            { val: '11', name: 'Noviembre' }, { val: '12', name: 'Diciembre' }
+        ];
+        
+        const monthSelect = document.getElementById('monthFilter');
+        const currentMonth = monthSelect.value;
+        monthSelect.innerHTML = monthSelect.options[0].outerHTML;
+        
+        months.forEach(m => {
+            const option = document.createElement('option');
+            option.value = m.val;
+            option.textContent = m.name;
+            monthSelect.appendChild(option);
+        });
+        monthSelect.value = currentMonth;
+
+        populateSelect('deptFilter', DataUtils.getUniqueValues('departamento'));
+        populateSelect('sectionFilter', DataUtils.getUniqueValues('seccion'));
+        populateSelect('maintFilter', DataUtils.getUniqueValues('tipoMantenimiento'));
     },
 
     // Render Dashboard View
     renderDashboard() {
-        // Update KPIs
         const kpis = DataUtils.calculateKPIs();
-        document.getElementById('kpiTotal').textContent = DataUtils.formatCurrency(kpis.total);
-        document.getElementById('kpiAvg').textContent = DataUtils.formatCurrency(kpis.average);
-        document.getElementById('kpiCount').textContent = kpis.count.toLocaleString();
-        document.getElementById('kpiTopMachine').textContent = kpis.topMachine;
         
-        // Update charts
-        ChartManager.updateDashboardCharts();
+        // Update KPI cards
+        document.getElementById('totalSpending').textContent = DataUtils.formatCurrency(kpis.total);
+        document.getElementById('avgSpending').textContent = DataUtils.formatCurrency(kpis.average);
+        document.getElementById('totalRecords').textContent = kpis.count;
+        document.getElementById('topMachine').textContent = kpis.topMachine;
+        document.getElementById('topMachineValue').textContent = DataUtils.formatCurrency(kpis.topMachineValue);
+
+        // Render Charts
+        Charts.renderMonthlyTrend(DataUtils.getMonthlyTimeSeries());
+        Charts.renderDepartmentDistribution(DataUtils.getDepartmentAggregation());
+        Charts.renderTopMachines(DataUtils.getTopMachines(10));
     },
 
-    // Setup timeline navigation
-    setupTimeline() {
-        const prevBtn = document.getElementById('prevPeriod');
-        const nextBtn = document.getElementById('nextPeriod');
-        const toggleBtns = document.querySelectorAll('.toggle-btn');
-        
-        prevBtn?.addEventListener('click', () => {
-            this.navigatePeriod(-1);
-        });
-        
-        nextBtn?.addEventListener('click', () => {
-            this.navigatePeriod(1);
-        });
-        
-        toggleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const mode = btn.getAttribute('data-mode');
-                this.timelineMode = mode;
-                
-                toggleBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                this.renderTimeline();
-            });
-        });
-    },
-
-    // Navigate timeline period
-    navigatePeriod(direction) {
-        if (this.timelineMode === 'monthly') {
-            this.currentPeriod.month += direction;
-            if (this.currentPeriod.month > 12) {
-                this.currentPeriod.month = 1;
-                this.currentPeriod.year++;
-            } else if (this.currentPeriod.month < 1) {
-                this.currentPeriod.month = 12;
-                this.currentPeriod.year--;
-            }
-        } else {
-            // Weekly navigation (simplified - just move by month for now)
-            this.currentPeriod.month += direction;
-            if (this.currentPeriod.month > 12) {
-                this.currentPeriod.month = 1;
-                this.currentPeriod.year++;
-            } else if (this.currentPeriod.month < 1) {
-                this.currentPeriod.month = 12;
-                this.currentPeriod.year--;
-            }
-        }
-        
-        this.renderTimeline();
-    },
-
-    // Render Timeline View
-    renderTimeline() {
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                           'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        
-        // Update period display
-        const periodDisplay = document.getElementById('periodDisplay');
-        periodDisplay.textContent = `${monthNames[this.currentPeriod.month - 1]} ${this.currentPeriod.year}`;
-        
-        // Get period data
-        const breakdown = DataUtils.getPeriodBreakdown(this.currentPeriod.year, this.currentPeriod.month);
-        
-        // Update period KPIs
-        document.getElementById('periodTotal').textContent = DataUtils.formatCurrency(breakdown.total);
-        
-        // Calculate accumulated (all data up to this period)
-        const accumulated = DataUtils.rawData
-            .filter(row => {
-                const rowDate = new Date(row.fecha.getFullYear(), row.fecha.getMonth());
-                const currentDate = new Date(this.currentPeriod.year, this.currentPeriod.month - 1);
-                return rowDate <= currentDate;
-            })
-            .reduce((sum, row) => sum + row.valorSalida, 0);
-        
-        document.getElementById('accumulatedTotal').textContent = DataUtils.formatCurrency(accumulated);
-        
-        // Render timeline chart
-        ChartManager.createTimelineChart('timelineChart', this.timelineMode);
-        
-        // Render breakdown
-        this.renderPeriodBreakdown(breakdown);
-    },
-
-    // Render period breakdown
-    renderPeriodBreakdown(breakdown) {
-        const container = document.getElementById('periodBreakdown');
+    // Render Production Lines View (NEW)
+    renderProductionLines() {
+        const hierarchy = DataUtils.getProductionLineHierarchy();
+        const container = document.getElementById('productionLinesTree');
         container.innerHTML = '';
-        
-        // Add department breakdown
-        Object.entries(breakdown.byDepartment).forEach(([dept, value]) => {
+
+        const productionLines = DataUtils.getProductionLinesConfig();
+
+        if (productionLines.length === 0) {
+            container.innerHTML = '<div class="alert alert-info">No hay líneas de producción configuradas. Por favor ve a la sección de <a href="#config" class="nav-link">Configuración</a> para seleccionar las líneas de producción.</div>';
+            return;
+        }
+
+        if (Object.keys(hierarchy).length === 0) {
+            container.innerHTML = '<div class="alert alert-info">No hay datos para mostrar con los filtros actuales.</div>';
+            return;
+        }
+
+        // Create tree view: Machine -> Section
+        Object.entries(hierarchy).forEach(([machine, machineData]) => {
+            const machineNode = this.createTreeNode(machine, machineData.total, 'machine', machineData.department);
+            const machineContent = document.createElement('div');
+            machineContent.className = 'tree-content hidden';
+            
+            Object.entries(machineData.sections).forEach(([section, sectionData]) => {
+                const sectionNode = this.createTreeNode(section, sectionData.total, 'section');
+                // Add click event to show details
+                sectionNode.querySelector('.tree-label').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    console.log('Section details:', machine, section, sectionData);
+                });
+                machineContent.appendChild(sectionNode);
+            });
+            
+            machineNode.appendChild(machineContent);
+            container.appendChild(machineNode);
+        });
+    },
+
+    // Render Analysis View (General)
+    renderAnalysis() {
+        const hierarchy = DataUtils.getHierarchy();
+        const container = document.getElementById('hierarchyTree');
+        container.innerHTML = '';
+
+        if (Object.keys(hierarchy).length === 0) {
+            container.innerHTML = '<div class="alert alert-info">No hay datos para mostrar con los filtros actuales.</div>';
+            return;
+        }
+
+        // Create tree view: Department -> Section -> Machine
+        Object.entries(hierarchy).forEach(([dept, deptData]) => {
+            const deptNode = this.createTreeNode(dept, deptData.total, 'department');
+            const deptContent = document.createElement('div');
+            deptContent.className = 'tree-content hidden';
+            
+            Object.entries(deptData.sections).forEach(([section, sectionData]) => {
+                const sectionNode = this.createTreeNode(section, sectionData.total, 'section');
+                const sectionContent = document.createElement('div');
+                sectionContent.className = 'tree-content hidden';
+                
+                Object.entries(sectionData.machines).forEach(([machine, machineData]) => {
+                    const machineNode = this.createTreeNode(machine, machineData.total, 'machine');
+                    // Add click event to show details for this machine
+                    machineNode.querySelector('.tree-label').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.showMachineDetails(machine);
+                    });
+                    sectionContent.appendChild(machineNode);
+                });
+                
+                sectionNode.appendChild(sectionContent);
+                deptContent.appendChild(sectionNode);
+            });
+            
+            deptNode.appendChild(deptContent);
+            container.appendChild(deptNode);
+        });
+    },
+
+    // Render Configuration View (NEW)
+    renderConfiguration() {
+        const machines = DataUtils.getUniqueMachines();
+        const productionLines = DataUtils.getProductionLinesConfig();
+        const container = document.getElementById('machineConfigList');
+        container.innerHTML = '';
+
+        if (machines.length === 0) {
+            container.innerHTML = '<div class="alert alert-info">No hay máquinas en los datos cargados.</div>';
+            return;
+        }
+
+        // Sort machines alphabetically
+        machines.sort().forEach(machine => {
+            const isChecked = productionLines.includes(machine);
+            
             const item = document.createElement('div');
-            item.className = 'breakdown-item';
-            item.innerHTML = `
-                <div class="breakdown-label">${dept}</div>
-                <div class="breakdown-value">${DataUtils.formatCurrency(value)}</div>
-            `;
+            item.className = 'machine-config-item';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `machine_${machine.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            checkbox.value = machine;
+            checkbox.checked = isChecked;
+            checkbox.className = 'machine-checkbox';
+            
+            const label = document.createElement('label');
+            label.htmlFor = checkbox.id;
+            label.textContent = machine;
+            label.className = 'machine-label';
+            
+            item.appendChild(checkbox);
+            item.appendChild(label);
             container.appendChild(item);
         });
     },
 
-    // Render Organigram View
-    renderOrganigram() {
-        const container = document.getElementById('organigramContainer');
-        container.innerHTML = '';
-        
-        const hierarchy = DataUtils.getHierarchy();
-        
-        // Render each department
-        Object.entries(hierarchy).forEach(([deptName, deptData]) => {
-            const deptSection = document.createElement('div');
-            deptSection.className = 'dept-section';
-            
-            const deptHeader = document.createElement('div');
-            deptHeader.className = 'dept-header';
-            deptHeader.innerHTML = `
-                <span>${deptName}</span>
-                <span class="dept-total">${DataUtils.formatCurrency(deptData.total)}</span>
-            `;
-            deptSection.appendChild(deptHeader);
-            
-            // Create sections grid
-            const sectionsGrid = document.createElement('div');
-            sectionsGrid.className = 'sections-grid';
-            
-            // Render each section
-            Object.entries(deptData.sections).forEach(([sectionName, sectionData]) => {
-                const sectionCard = this.createSectionCard(sectionName, sectionData);
-                sectionsGrid.appendChild(sectionCard);
-            });
-            
-            deptSection.appendChild(sectionsGrid);
-            container.appendChild(deptSection);
-        });
-    },
-
-    // Create section card with machines
-    createSectionCard(sectionName, sectionData) {
-        const card = document.createElement('div');
-        card.className = 'section-card';
+    // Helper to create tree nodes
+    createTreeNode(label, value, type, subtitle = '') {
+        const node = document.createElement('div');
+        node.className = `tree-node ${type}`;
         
         const header = document.createElement('div');
-        header.innerHTML = `
-            <div class="section-name">${sectionName}</div>
-            <div class="section-total">${DataUtils.formatCurrency(sectionData.total)}</div>
-        `;
-        card.appendChild(header);
+        header.className = 'tree-header';
         
-        const machinesList = document.createElement('div');
-        machinesList.className = 'machines-list';
+        const toggle = document.createElement('span');
+        toggle.className = 'tree-toggle';
+        toggle.textContent = '▶';
         
-        // Sort machines by total cost
-        const sortedMachines = Object.entries(sectionData.machines)
-            .sort((a, b) => b[1].total - a[1].total);
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'tree-label';
+        labelSpan.textContent = label;
         
-        sortedMachines.forEach(([machineName, machineData]) => {
-            const machineItem = document.createElement('div');
-            machineItem.className = 'machine-item';
-            machineItem.innerHTML = `
-                <span class="machine-name">${machineName}</span>
-                <span class="machine-cost">${DataUtils.formatCurrency(machineData.total)}</span>
-            `;
-            
-            // Add click handler to show machine detail
-            machineItem.addEventListener('click', () => {
-                this.showMachineDetail(machineName);
-            });
-            
-            machinesList.appendChild(machineItem);
+        if (subtitle) {
+            const subtitleSpan = document.createElement('span');
+            subtitleSpan.className = 'tree-subtitle';
+            subtitleSpan.textContent = ` (${subtitle})`;
+            labelSpan.appendChild(subtitleSpan);
+        }
+        
+        const valueSpan = document.createElement('span');
+        valueSpan.className = 'tree-value';
+        valueSpan.textContent = DataUtils.formatCurrency(value);
+        
+        header.appendChild(toggle);
+        header.appendChild(labelSpan);
+        header.appendChild(valueSpan);
+        node.appendChild(header);
+        
+        // Toggle functionality
+        header.addEventListener('click', () => {
+            const content = node.querySelector('.tree-content');
+            if (content) {
+                content.classList.toggle('hidden');
+                toggle.textContent = content.classList.contains('hidden') ? '▶' : '▼';
+            }
         });
         
-        card.appendChild(machinesList);
-        return card;
+        return node;
     },
 
-    // Show machine detail modal
-    showMachineDetail(machineName) {
-        const machineData = DataUtils.getMachineData(machineName);
-        if (!machineData) return;
-        
-        // Update modal header
-        document.getElementById('machineName').textContent = machineName;
-        document.getElementById('machineDept').textContent = machineData.department;
-        document.getElementById('machineSection').textContent = machineData.section;
-        document.getElementById('machineTotal').textContent = DataUtils.formatCurrency(machineData.total);
-        
-        // Render machine chart
-        ChartManager.createMachineChart('machineChart', machineData);
-        
-        // Render machine table
-        this.renderMachineTable(machineData.records);
-        
-        // Show modal
-        document.getElementById('machineModal').classList.add('active');
+    // Select/Deselect all machines (NEW)
+    selectAllMachines(select) {
+        const checkboxes = document.querySelectorAll('.machine-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = select;
+        });
     },
 
-    // Render machine records table
-    renderMachineTable(records) {
-        const tbody = document.querySelector('#machineTable tbody');
+    // Save production lines configuration (NEW)
+    saveProductionLinesConfig() {
+        const checkboxes = document.querySelectorAll('.machine-checkbox:checked');
+        const selectedMachines = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (DataUtils.saveProductionLinesConfig(selectedMachines)) {
+            alert(`Configuración guardada exitosamente. ${selectedMachines.length} líneas de producción seleccionadas.`);
+            
+            // Refresh production lines view if it's open
+            const currentView = document.querySelector('.view-container.active');
+            if (currentView && currentView.id === 'production-lines') {
+                this.renderProductionLines();
+            }
+        } else {
+            alert('Error al guardar la configuración.');
+        }
+    },
+
+    // Show details for a specific machine
+    showMachineDetails(machineName) {
+        const data = DataUtils.getMachineData(machineName);
+        if (!data) return;
+
+        console.log('Machine Details:', data);
+        alert(`Máquina: ${machineName}\nDepartamento: ${data.department}\nSección: ${data.section}\nTotal: ${DataUtils.formatCurrency(data.total)}\nRegistros: ${data.count}`);
+    },
+
+    // Render Details View (Data Grid)
+    renderDetails() {
+        const data = DataUtils.filteredData;
+        const tbody = document.getElementById('detailsTableBody');
         tbody.innerHTML = '';
+
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center">No hay datos disponibles</td></tr>';
+            return;
+        }
+
+        // Limit to first 100 rows for performance
+        const displayData = data.slice(0, 100);
         
-        records.forEach(record => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${DataUtils.formatDate(record.fecha)}</td>
-                <td>${record.articulo}</td>
-                <td>${record.descripcion}</td>
-                <td>${record.cantidad.toFixed(2)}</td>
-                <td>${DataUtils.formatCurrency(record.valorSalida)}</td>
-                <td>${record.tipoMantenimiento}</td>
+        displayData.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.salida}</td>
+                <td>${DataUtils.formatDate(row.fecha)}</td>
+                <td>${row.departamento}</td>
+                <td>${row.seccion}</td>
+                <td>${row.maquinaria}</td>
+                <td>${row.articulo} - ${row.descripcion}</td>
+                <td>${row.tipoMantenimiento}</td>
+                <td class="text-right">${DataUtils.formatCurrency(row.valorSalida)}</td>
             `;
-            tbody.appendChild(row);
+            tbody.appendChild(tr);
         });
-    },
 
-    // Close machine modal
-    closeMachineModal() {
-        document.getElementById('machineModal').classList.remove('active');
-    },
-
-    // Render Data Management View
-    renderDataManagement() {
-        // Update export count
-        const exportType = document.getElementById('exportType')?.value || 'filtered';
-        const count = exportType === 'all' ? DataUtils.rawData.length : DataUtils.filteredData.length;
-        const exportCountEl = document.getElementById('exportCount');
-        if (exportCountEl) {
-            exportCountEl.textContent = count.toLocaleString();
+        // Update count message
+        const countMsg = document.getElementById('detailsCount');
+        if (countMsg) {
+            countMsg.textContent = `Mostrando ${displayData.length} de ${data.length} registros`;
         }
     }
 };
