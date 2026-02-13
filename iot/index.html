@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMC - Red IoT Industrial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .canvas-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .canvas-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Custom scrollbar for inner content if needed */
+        .scroller::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroller::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .scroller::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 3px;
+        }
+        .scroller::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-7xl mx-auto mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-900">Business Model Canvas</h1>
+            <p class="text-slate-600 mt-1">Proyecto: <span class="font-semibold text-blue-600">Red IoT Industrial & Gestión Mantenimiento Eléctrico</span></p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Imprimir / PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- Canvas Grid -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-10 gap-4 auto-rows-fr">
+
+        <!-- 1. Key Partners (Socios Clave) - Tall Left -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2 lg:row-span-2 flex flex-col">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                <h2 class="font-bold text-lg">Socios Clave</h2>
+            </div>
+            <ul class="space-y-3 text-sm text-slate-600 flex-grow">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-indigo-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Proveedores de Nube:</strong> AWS IoT Core / Azure (Infraestructura backend).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-indigo-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Fabricantes de Componentes:</strong> Sensores de precisión y microcontroladores.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-indigo-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Instaladores Certificados:</strong> Partners para despliegue físico regional.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-indigo-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Consultores de Mantenimiento:</strong> Expertos externos que usan la plataforma.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 2. Key Activities (Actividades Clave) - Top Mid-Left -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <h2 class="font-bold text-lg">Actividades Clave</h2>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>I+D Hardware:</strong> Diseño de PCBs y firmware.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Desarrollo Software:</strong> Dashboard y algoritmos predictivos.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Despliegue:</strong> Configuración de redes (LoRaWAN/WiFi).</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 3. Value Propositions (Propuesta de Valor) - Center Tall -->
+        <div class="canvas-card bg-white p-5 rounded-xl border-l-4 border-l-rose-500 border-y border-r border-slate-200 shadow-md lg:col-span-2 lg:row-span-2 flex flex-col transform hover:scale-[1.01] transition-transform">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                </svg>
+                <h2 class="font-bold text-lg">Propuesta de Valor</h2>
+            </div>
+            <ul class="space-y-4 text-sm text-slate-600 flex-grow">
+                <li class="p-2 bg-rose-50 rounded border border-rose-100">
+                    <strong class="block text-rose-700">Mantenimiento Predictivo</strong>
+                    Detección anticipada de fallos en motores y transformadores antes de la parálisis.
+                </li>
+                <li class="p-2 bg-rose-50 rounded border border-rose-100">
+                    <strong class="block text-rose-700">Visibilidad 24/7</strong>
+                    Dashboard centralizado de voltaje, amperaje, FP y temperatura.
+                </li>
+                <li class="p-2 bg-rose-50 rounded border border-rose-100">
+                    <strong class="block text-rose-700">Integración No Intrusiva</strong>
+                    Tecnología "Retrofit" aplicable a máquinas antiguas sin detener producción.
+                </li>
+                <li class="p-2 bg-rose-50 rounded border border-rose-100">
+                    <strong class="block text-rose-700">Eficiencia Energética</strong>
+                    Identificación de "vampiros energéticos" y reducción de factura.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 4. Customer Relationships (Relación con Clientes) - Top Mid-Right -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <h2 class="font-bold text-lg">Relación Clientes</h2>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Soporte Especializado:</strong> Asistencia en interpretación de datos.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Self-service (SaaS):</strong> Configuración autónoma de alertas.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-pink-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Co-creación:</strong> Feedback para refinar algoritmos.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. Customer Segments (Segmentos de Clientes) - Tall Right -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2 lg:row-span-2 flex flex-col">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <h2 class="font-bold text-lg">Segmentos</h2>
+            </div>
+            <ul class="space-y-3 text-sm text-slate-600 flex-grow">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Plantas de Manufactura:</strong> Automotriz, F&B, Plásticos (procesos continuos).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Gestores de Mantenimiento:</strong> Facility Managers buscando ROI.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Integradores de Sistemas:</strong> Revendedores de valor agregado.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Utilities:</strong> Monitoreo de subestaciones.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 6. Key Resources (Recursos Clave) - Bottom Mid-Left -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                <h2 class="font-bold text-lg">Recursos Clave</h2>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Propiedad Intelectual:</strong> Algoritmos AI & Firmware.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Talento Humano:</strong> Ing. Electrónicos y Data Scientists.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Infraestructura Cloud:</strong> Servidores robustos.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 7. Channels (Canales) - Bottom Mid-Right -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-2">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <h2 class="font-bold text-lg">Canales</h2>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Venta Consultiva B2B:</strong> Demostraciones in situ.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Pilotos (PoC):</strong> Pruebas de bajo costo inicial.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="mt-1 w-1.5 h-1.5 bg-cyan-500 rounded-full flex-shrink-0"></span>
+                    <span><strong>Alianzas OEMs:</strong> Pre-instalación en máquinas.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 8. Cost Structure (Estructura de Costos) - Bottom Bar Left -->
+        <div class="canvas-card bg-white p-5 rounded-xl border border-slate-200 shadow-sm lg:col-span-5">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <h2 class="font-bold text-lg">Estructura de Costos</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600">
+                <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                        <strong>Desarrollo (Nómina):</strong> Ing. y Devs.
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                        <strong>Hardware (COGS):</strong> Fabricación sensores.
+                    </li>
+                </ul>
+                <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                        <strong>Infraestructura:</strong> Cloud scaling.
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                        <strong>Marketing:</strong> Adquisición de clientes.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 9. Revenue Streams (Fuentes de Ingresos) - Bottom Bar Right -->
+        <div class="canvas-card bg-emerald-50 p-5 rounded-xl border border-emerald-200 shadow-sm lg:col-span-5">
+            <div class="flex items-center gap-2 mb-4 text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h2 class="font-bold text-lg text-emerald-800">Fuentes de Ingresos</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-emerald-800">
+                <ul class="space-y-2">
+                    <li class="flex items-center gap-2 font-medium">
+                        <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
+                        Venta de Hardware (CAPEX)
+                    </li>
+                    <li class="flex items-center gap-2 font-medium">
+                        <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
+                        Suscripción SaaS (Mensual/Anual)
+                    </li>
+                </ul>
+                <ul class="space-y-2">
+                    <li class="flex items-center gap-2 font-medium">
+                        <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
+                        Servicios de Consultoría
+                    </li>
+                    <li class="flex items-center gap-2 font-medium">
+                        <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full"></span>
+                        Contratos de Mantenimiento
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-8 text-center text-slate-400 text-xs">
+        &copy; 2023 Proyecto IoT Industrial. Generado para análisis de modelo de negocio.
+    </footer>
+</body>
+</html>
+
