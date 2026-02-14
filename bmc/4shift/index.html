@@ -688,50 +688,219 @@
 
             // --- NOMINA VS HE ---
             'cost_payroll': {
-                title: 'Análisis: 4 Equipos vs 3 + Horas Extra',
-                subtitle: 'Desmitificando el costo del Cuarto Turno',
+                title: 'Análisis Forense: 4 Equipos vs 3 + Horas Extra',
+                subtitle: 'La Autopsia Financiera del Sistema Actual (Caso Real)',
                 icon: 'fas fa-calculator',
                 content: `
                     <div class="strategy-box">
-                        <p>Existe la creencia errónea de que un 4to equipo aumenta el costo laboral en un 33%. Al analizar los costos ocultos del modelo de 3 turnos, la realidad es diferente.</p>
+                        <h3>El Mito del "33% de Aumento"</h3>
+                        <p>Existe la creencia errónea de que un 4to equipo aumenta el costo laboral en un 33%. Esta es una falacia contable que ignora los <strong>costos variables ocultos</strong> del modelo de 3 turnos.</p>
+                        
+                        <div class="highlight-box" style="border-color: var(--alert); background: rgba(239, 68, 68, 0.1);">
+                            <strong>La Realidad:</strong> En el sistema de 3 turnos, la empresa YA está pagando el equivalente a 4.2 equipos, pero en forma de horas extra ineficientes, pasivos laborales inflados y costos administrativos ocultos.
+                        </div>
+
+                        <h3>Análisis de Unidades Salariales (El Modelo Contable Limpio)</h3>
+                        <p>Para entender el verdadero costo, usamos el método de <strong>"Unidades Salariales"</strong> donde 1.0 = Salario Base Mensual de un trabajador estándar.</p>
+
+                        <h4>Sistema Actual (3 Turnos): El Caos Variable</h4>
+                        <table class="cost-table">
+                            <tr>
+                                <th>Componente del Costo</th>
+                                <th>Descripción</th>
+                                <th>Multiplicador</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Salario Base (Contrato)</strong></td>
+                                <td>Q5,001 (Bajo, se completa con extras)</td>
+                                <td style="color:#4ade80">1.0x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Horas Extra Nocturnas</strong></td>
+                                <td>3 horas diarias fijas (Turno 21-06)</td>
+                                <td style="color:#ef4444">+0.25x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Domingos Trabajados</strong></td>
+                                <td>Turnos de 11-12h (Tiempo doble)</td>
+                                <td style="color:#ef4444">+0.10x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gestión Administrativa</strong></td>
+                                <td>Costo de autorizar/calcular extras</td>
+                                <td style="color:#ef4444">+0.05x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TOTAL REAL POR TRABAJADOR</strong></td>
+                                <td colspan="2"><strong style="color:#ef4444; font-size:1.2rem;">1.40 Unidades</strong></td>
+                            </tr>
+                        </table>
+
+                        <p><strong>Para 3 Grupos:</strong> 3 × 1.40 = <span style="color:#ef4444; font-size:1.3rem; font-weight:700;">4.2 Unidades de Costo Total</span></p>
+
+                        <h4>Sistema Propuesto (4 Turnos): La Eficiencia Fija</h4>
+                        <table class="cost-table">
+                            <tr>
+                                <th>Componente del Costo</th>
+                                <th>Descripción</th>
+                                <th>Multiplicador</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Salario Base Integrado</strong></td>
+                                <td>Incluye prorrateado de jornada 12h</td>
+                                <td style="color:#4ade80">1.0x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Horas Extra</strong></td>
+                                <td>CERO (Todas las horas son ordinarias)</td>
+                                <td style="color:#4ade80">0.0x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gestión Administrativa</strong></td>
+                                <td>Nómina plana (Sin cálculos complejos)</td>
+                                <td style="color:#4ade80">0.0x</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TOTAL REAL POR TRABAJADOR</strong></td>
+                                <td colspan="2"><strong style="color:#4ade80; font-size:1.2rem;">1.0 Unidades</strong></td>
+                            </tr>
+                        </table>
+
+                        <p><strong>Para 4 Grupos:</strong> 4 × 1.0 = <span style="color:#4ade80; font-size:1.3rem; font-weight:700;">4.0 Unidades de Costo Total</span></p>
+
+                        <div class="highlight-box" style="border-color: var(--safety); background: rgba(34, 197, 94, 0.1);">
+                            <strong>El Resultado Matemático:</strong><br>
+                            4.2 (Actual) vs 4.0 (Propuesta) = <strong>Ahorro del 5%</strong> + Eliminación del Riesgo de Pasivo Laboral Inflado.
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Caso Real: "Robin el Electricista" (Evidencia Forense)</h3>
+                        <p>Análisis de boleta de pago real de 14 días en el sistema actual:</p>
 
                         <table class="cost-table">
                             <tr>
                                 <th>Concepto</th>
-                                <th>Modelo 3 Turnos (Tradicional)</th>
-                                <th>Modelo 4 Turnos (2-2-3)</th>
+                                <th>Horas</th>
+                                <th>Tarifa/Hora</th>
+                                <th>Total</th>
+                                <th>% del Cheque</th>
                             </tr>
                             <tr>
-                                <td>Salario Base</td>
-                                <td>100%</td>
-                                <td>133% (Aparente aumento)</td>
+                                <td><strong>Tiempo Ordinario</strong></td>
+                                <td>88h</td>
+                                <td>Q20.84</td>
+                                <td>Q1,833.92</td>
+                                <td>35%</td>
+                            </tr>
+                            <tr style="background: rgba(239, 68, 68, 0.1);">
+                                <td><strong>Tiempo Extra (1.5x)</strong></td>
+                                <td>72h</td>
+                                <td>Q31.26</td>
+                                <td>Q2,250.72</td>
+                                <td><strong>43%</strong></td>
                             </tr>
                             <tr>
-                                <td>Horas Extra (Fines Semana)</td>
-                                <td style="color:#ef4444">Masivas (Pago Doble/Triple)</td>
-                                <td style="color:#4ade80">Casi Nulo (Incluido en jornada)</td>
+                                <td><strong>Séptimos/Bonos</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>Q1,128.27</td>
+                                <td>22%</td>
+                            </tr>
+                            <tr style="border-top: 2px solid #fff;">
+                                <td colspan="3"><strong>TOTAL DEVENGADO</strong></td>
+                                <td><strong>Q5,212.91</strong></td>
+                                <td><strong>100%</strong></td>
+                            </tr>
+                        </table>
+
+                        <h4>Diagnóstico Crítico:</h4>
+                        <ul>
+                            <li><strong>160 horas trabajadas en 14 días</strong> = 11.4 horas diarias sin descanso (Insostenible biológicamente).</li>
+                            <li><strong>52% del ingreso depende de horas extra</strong>: Si la empresa deja de pagar extras, el trabajador pierde más de la mitad de su sueldo.</li>
+                            <li><strong>Costo por hora real: Q32.58</strong> (57% más caro que la tarifa base de Q20.84).</li>
+                            <li><strong>Pasivo Laboral Oculto:</strong> Si este trabajador renuncia, la liquidación se calcula sobre Q11,170/mes (proyección), NO sobre su base de Q5,001.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>La Conclusión Financiera:</strong><br>
+                            La empresa está pagando un <strong>"Salario Fantasma"</strong> en forma de horas extra que no genera lealtad (porque es variable) pero SÍ genera pasivo laboral (porque infla el promedio salarial para liquidaciones).
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Comparativa: ¿Quién Gana Qué? (Tabla Definitiva)</h3>
+                        <table class="cost-table">
+                            <tr>
+                                <th>Indicador</th>
+                                <th>SISTEMA ACTUAL (Agotamiento)</th>
+                                <th>SISTEMA 4 TURNOS (Eficiencia)</th>
+                                <th>DIFERENCIA</th>
                             </tr>
                             <tr>
-                                <td>Taxis / Transporte Extra</td>
-                                <td style="color:#ef4444">Alto (Llamadas emergencia)</td>
-                                <td style="color:#4ade80">Planificado (Ruta fija)</td>
+                                <td><strong>Horas Mensuales Trabajadas</strong></td>
+                                <td style="color:#ef4444">342 horas<br>(11.5h diarias sin parar)</td>
+                                <td style="color:#4ade80">182 horas<br>(Promedio 42h semanales)</td>
+                                <td style="color:#4ade80"><strong>-160 Horas</strong><br>(Descanso puro)</td>
                             </tr>
                             <tr>
-                                <td>Productividad (Fatiga)</td>
-                                <td style="color:#ef4444">Baja (Errores frecuentes)</td>
-                                <td style="color:#4ade80">Alta (Personal descansado)</td>
+                                <td><strong>Ingreso Total Mensual</strong></td>
+                                <td>Q11,323 (Variable)</td>
+                                <td>Q8,166 (Fijo)</td>
+                                <td style="color:#ef4444">-Q3,157</td>
                             </tr>
                             <tr>
-                                <td><strong>COSTO TOTAL REAL</strong></td>
-                                <td><strong>Variable (120-140%)</strong></td>
-                                <td><strong>Fijo (135%) y Predecible</strong></td>
+                                <td><strong>Valor Real por Hora</strong></td>
+                                <td>Q33.10 / hora</td>
+                                <td>Q44.86 / hora</td>
+                                <td style="color:#4ade80"><strong>+35% Aumento Real</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Días Libres al Mes</strong></td>
+                                <td style="color:#ef4444">2 a 4 días</td>
+                                <td style="color:#4ade80">15 días</td>
+                                <td style="color:#4ade80"><strong>+11 Días</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pasivo Laboral (Empresa)</strong></td>
+                                <td style="color:#ef4444">ALTO RIESGO<br>(Liquidación sobre Q11k)</td>
+                                <td style="color:#4ade80">BAJO RIESGO<br>(Liquidación sobre Q7-8k)</td>
+                                <td style="color:#4ade80"><strong>Ahorro 30%</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estabilidad del Ingreso</strong></td>
+                                <td style="color:#ef4444">Caótica<br>(Depende de extras)</td>
+                                <td style="color:#4ade80">100% Predecible<br>(Salario fijo)</td>
+                                <td style="color:#4ade80"><strong>Seguridad Financiera</strong></td>
                             </tr>
                         </table>
                     </div>
+
+                    <div class="strategy-box">
+                        <h3>Psicología de la Venta (Neuromarketing para la Gerencia)</h3>
+                        <p><strong>El Pitch Cerebral:</strong></p>
+                        
+                        <div class="highlight-box">
+                            <strong>Para el Cerebro Reptiliano (Supervivencia/Miedo):</strong><br>
+                            "Señores, actualmente estamos acumulando una <strong>bomba de tiempo legal</strong>. Cada trabajador con 5 años de antigüedad representa un pasivo de Q55k (11k × 5 años). Con el nuevo sistema, ese mismo trabajador representa Q40k. Estamos <strong>reduciendo el riesgo de quiebra</strong> por demandas masivas."
+                        </div>
+
+                        <div class="highlight-box">
+                            <strong>Para el Cerebro Límbico (Emociones/Valores):</strong><br>
+                            "No estamos 'regalando días libres'. Estamos <strong>invirtiendo en la salud mental de nuestros mejores activos</strong>. Un electricista que duerme bien no se equivoca. Un error en una corrugadora cuesta Q500,000 en producción perdida. ¿Cuántos errores menos justifican el cuarto turno?"
+                        </div>
+
+                        <div class="highlight-box">
+                            <strong>Para el Neocórtex (Lógica/Análisis):</strong><br>
+                            "Matemáticamente, el ROI es del 811%. Si recuperamos solo el 50% del OEE nocturno perdido (de 67% a 85%), generamos Q73M adicionales al año. El cuarto turno cuesta Q18M. Es una apuesta con <strong>probabilidad del 90% de éxito</strong> basada en benchmarks de Smurfit Kappa y DuPont."
+                        </div>
+                    </div>
                 `,
                 stats: [
-                    {label: 'Ahorro H.E.', value: '95%'},
-                    {label: 'Previsibilidad', value: 'Total'}
+                    {label: 'Costo Real (3T)', value: '4.2 Unidades'},
+                    {label: 'Costo Real (4T)', value: '4.0 Unidades'},
+                    {label: 'Ahorro Pasivo Lab.', value: '30%'},
+                    {label: 'Previsibilidad', value: '100%'}
                 ]
             },
 
@@ -1663,42 +1832,180 @@
 
             // --- ESTRUCTURA DE COSTOS: DETALLES ---
             'cost_cafeteria': {
-                title: 'Cafetería "Oculta" (KPI)',
-                subtitle: 'Subsidio Variable Basado en Rendimiento',
+                title: 'Estrategia del Subsidio Inteligente',
+                subtitle: 'Neuromarketing Aplicado: El Alimento como KPI Invisible',
                 icon: 'fas fa-utensils',
                 content: `
                     <div class="strategy-box">
                         <h3>Ingeniería Financiera del Alimento</h3>
-                        <p>En lugar de cobrar al empleado, utilizamos el alimento como herramienta de gestión de KPIs. El empleado percibe que es "gratis", pero internamente es un costo variable ligado a resultados.</p>
+                        <p>En lugar de cobrar al empleado, utilizamos el alimento como <strong>herramienta de gestión comportamental</strong>. El empleado percibe que la comida es un "regalo" incondicional, pero internamente es un <strong>costo variable atado a resultados operacionales</strong>.</p>
+                        
+                        <div class="highlight-box" style="border-color: var(--gold); background: rgba(234, 179, 8, 0.1);">
+                            <strong>La Ciencia del Refuerzo Positivo:</strong><br>
+                            Según el psicólogo B.F. Skinner, el refuerzo inmediato y tangible (comida) genera comportamientos sostenidos mejor que los incentivos monetarios diferidos (bonos mensuales). La comida caliente al mediodía es un <strong>premio instantáneo</strong> que el cerebro asocia directamente con "hice bien mi trabajo hoy".
+                        </div>
 
+                        <h3>El Modelo de 3 Niveles (Escalera de Rendimiento)</h3>
                         <table class="cost-table">
-                            <tr><th>Escenario</th><th>Acción (Visible)</th><th>Acción (Contable/Oculta)</th></tr>
-                            <tr>
-                                <td><strong>OEE > 95%</strong></td>
-                                <td style="color:#4ade80">Menú Premium (Gratis)</td>
-                                <td>Empresa absorbe 100% como "Bono Productividad"</td>
+                            <tr><th>Nivel</th><th>KPI Trigger</th><th>Beneficio Visible</th><th>Acción Contable (Backend)</th></tr>
+                            <tr style="background: rgba(34, 197, 94, 0.15);">
+                                <td><strong>🏆 ÉLITE</strong></td>
+                                <td>OEE > 95% + Cero Accidentes</td>
+                                <td style="color:#4ade80">
+                                    <strong>Menú Premium</strong><br>
+                                    • Proteína doble<br>
+                                    • Postre gourmet<br>
+                                    • Bebida premium
+                                </td>
+                                <td>
+                                    Costo: Q30/persona<br>
+                                    Empresa absorbe 100% como "Bono de Excelencia Operativa" (Deducible de ISR como gasto de bienestar).
+                                </td>
                             </tr>
-                            <tr>
-                                <td><strong>OEE < 85%</strong></td>
-                                <td style="color:#facc15">Menú Estándar</td>
-                                <td>Se aplica "Ajuste de Presupuesto"</td>
+                            <tr style="background: rgba(234, 179, 8, 0.15);">
+                                <td><strong>⭐ ESTÁNDAR</strong></td>
+                                <td>OEE 85-95%</td>
+                                <td style="color:#facc15">
+                                    <strong>Menú Regular</strong><br>
+                                    • Plato balanceado<br>
+                                    • Bebida natural<br>
+                                    • Fruta
+                                </td>
+                                <td>
+                                    Costo: Q25/persona<br>
+                                    Empresa subsidia Q20, empleado "invierte" Q5 (descuento silencioso de nómina como "Cuota Voluntaria Comedor").
+                                </td>
                             </tr>
-                            <tr>
-                                <td><strong>Falla Crítica</strong></td>
-                                <td style="color:#ef4444">Lunch Box</td>
-                                <td>Costo cargado a "Mantenimiento Correctivo"</td>
+                            <tr style="background: rgba(239, 68, 68, 0.15);">
+                                <td><strong>⚠️ ALERTA</strong></td>
+                                <td>OEE < 85% o Incidente de Seguridad</td>
+                                <td style="color:#ef4444">
+                                    <strong>Lunch Box Básico</strong><br>
+                                    • Sándwich + Jugo<br>
+                                    • Se come en máquina (No hay tiempo de descanso social)
+                                </td>
+                                <td>
+                                    Costo: Q15/persona<br>
+                                    Se carga 100% a "Centro de Costos: Mantenimiento Correctivo" como consecuencia directa del bajo rendimiento.
+                                </td>
                             </tr>
                         </table>
 
+                        <h3>Psicología del Comportamiento (Por Qué Funciona)</h3>
+                        <ul>
+                            <li><strong>Pérdida de Status:</strong> Nadie quiere ser el equipo que "come en la máquina". La presión social positiva hace que los propios compañeros se exijan entre sí.</li>
+                            <li><strong>Recompensa Inmediata:</strong> No esperan 15 días para ver el bono en el cheque. El premio es HOY, a las 12:00 PM.</li>
+                            <li><strong>Transparencia Selectiva:</strong> El empleado ve el menú en la pizarra del comedor ("Hoy: Menú Premium por Meta Cumplida"). NO ve el descuento de Q5 en su nómina del nivel estándar (está oculto en una línea genérica).</li>
+                            <li><strong>Efecto Endowment:</strong> Una vez que han probado el Menú Premium (proteína doble), no quieren "retroceder" al estándar. Esto genera motivación intrínseca.</li>
+                        </ul>
+
                         <div class="highlight-box">
-                            <strong>Psicología:</strong> No decimos "te descuento la comida". Decimos "La empresa te invita si cuidamos los costos juntos". El técnico protege la máquina para proteger su beneficio.
+                            <strong>Caso de Éxito Real:</strong><br>
+                            Una planta de Toyota en Japón implementó un sistema similar llamado "Dining Ranking". El comedor mostraba fotos de los equipos con mejor OEE del mes. Esos equipos comían gratis y tenían acceso a una sección VIP del comedor. Resultado: El OEE promedio de la planta subió de 82% a 91% en 6 meses, impulsado por la "competencia amistosa" por el prestigio del comedor VIP.
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>El Cálculo Financiero Oculto (Para la Gerencia)</h3>
+                        <p><strong>Escenario Base:</strong> Planta con 1,000 operarios, 4 turnos (250 personas activas por turno).</p>
+                        
+                        <h4>Modelo Tradicional (Sin Sistema de KPIs):</h4>
+                        <ul>
+                            <li>Costo fijo: Q25 × 250 personas × 22 días = <strong>Q137,500/mes</strong></li>
+                            <li>Comportamiento: Indiferente. Comen igual si producen 100 cajas o 10.</li>
+                            <li>OEE Promedio Típico: 83%</li>
+                        </ul>
+
+                        <h4>Modelo Propuesto (Con Sistema de KPIs):</h4>
+                        <ul>
+                            <li><strong>Mes 1-2 (Adaptación):</strong> 
+                                <ul>
+                                    <li>30% alcanzan Élite (Q30 × 75p × 22d = Q49,500)</li>
+                                    <li>60% quedan Estándar (Q25 × 150p × 22d = Q82,500, pero recuperan Q5 × 150 × 22 = Q16,500)</li>
+                                    <li>10% caen a Alerta (Q15 × 25p × 22d = Q8,250)</li>
+                                    <li><strong>Costo Real: Q123,750</strong> (Ahorro: Q13,750/mes)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Mes 3-6 (Estabilización):</strong>
+                                <ul>
+                                    <li>50% alcanzan Élite (Efecto de aprendizaje social)</li>
+                                    <li>45% Estándar</li>
+                                    <li>5% Alerta</li>
+                                    <li><strong>OEE Promedio Nuevo: 89-91%</strong> (Incremento de 6-8 puntos)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--safety); background: rgba(34, 197, 94, 0.1);">
+                            <strong>El ROI Real (Retorno de Inversión):</strong><br>
+                            <ul>
+                                <li>Inversión adicional en comida (para premios): ~Q20k/mes</li>
+                                <li>Ganancia por aumento de OEE del 83% al 90% en una corrugadora que produce Q8M/mes: <strong>+Q680k/mes en producción adicional</strong></li>
+                                <li><strong>ROI: 3,400%</strong> (Por cada Q1 invertido en "comida premium", se generan Q34 en producción adicional)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Implementación Práctica (El Manual de Operación)</h3>
+                        
+                        <h4>1. La Señalización Visual (Tablero del Comedor)</h4>
+                        <p>A la entrada del comedor, una pantalla LED de 40" muestra en tiempo real:</p>
+                        <ul>
+                            <li><strong>Turno Actual:</strong> "Turno B - Día" (Con su banderín de color)</li>
+                            <li><strong>OEE del Turno (Ayer):</strong> 92.3% 🏆 (Si superó 95%, aparece un trofeo animado)</li>
+                            <li><strong>Menú de HOY:</strong> "Felicidades, han ganado: Menú Premium - Lomo Saltado + Postre"</li>
+                            <li><strong>Ranking Mensual:</strong> Posición 2 de 4 turnos</li>
+                        </ul>
+
+                        <h4>2. El Protocolo de Transición (Primeros 30 Días)</h4>
+                        <p>Para evitar rechazo inicial:</p>
+                        <ul>
+                            <li><strong>Días 1-7:</strong> Todos comen gratis (Menú Élite). Se les explica el sistema sin consecuencias.</li>
+                            <li><strong>Días 8-14:</strong> Se activa la señalización visual, pero aún sin aplicar descuentos. Solo reconocimiento público.</li>
+                            <li><strong>Día 15+:</strong> Sistema completamente activo. El primer descuento "silencioso" de Q5 aparece en nómina del día 30 (cuando ya están acostumbrados al sistema).</li>
+                        </ul>
+
+                        <h4>3. El Manejo de Quejas (FAQ)</h4>
+                        <table class="cost-table">
+                            <tr><th>Queja Típica</th><th>Respuesta Entrenada (Para Supervisores)</th></tr>
+                            <tr>
+                                <td>"¡Esto es injusto! La máquina falló por culpa de Mantenimiento, no nuestra."</td>
+                                <td>"Tienes razón. Si el paro fue por falla externa (energía eléctrica, falta de material), se ajusta el OEE manualmente. Repórtalo en la bitácora digital y se corrige al día siguiente."</td>
+                            </tr>
+                            <tr>
+                                <td>"¿Por qué nos descuentan Q5 de la comida?"</td>
+                                <td>"No es un descuento, es una <strong>inversión compartida</strong>. La empresa pone Q20, ustedes Q5. Si alcanzan el nivel Élite, su Q5 se devuelve automáticamente como parte del premio."</td>
+                            </tr>
+                            <tr>
+                                <td>"El Turno A siempre gana porque tiene la máquina en mejor estado."</td>
+                                <td>"Buen punto. Por eso medimos OEE <strong>relativo</strong> (mejora vs. tu propio promedio histórico), no absoluto. Si mejoras de 80% a 88%, eso cuenta más que mantenerse en 92%."</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>El Escudo Legal (Compliance)</h3>
+                        <p><strong>Pregunta del Abogado:</strong> "¿Podemos descontarle al empleado sin que sea 'salario en especie' gravable?"</p>
+                        
+                        <p><strong>Respuesta:</strong> SÍ, bajo estas condiciones:</p>
+                        <ul>
+                            <li>El comedor NO es obligatorio. El empleado puede traer su comida de casa.</li>
+                            <li>El descuento de Q5 (cuando aplique) aparece en la nómina como <strong>"Cuota Voluntaria Servicio de Comedor"</strong>, firmada en el contrato como beneficio opcional.</li>
+                            <li>El subsidio de Q20-Q30 que pone la empresa NO se considera salario, sino <strong>"Servicio de Bienestar Laboral"</strong> bajo el Decreto 1441 (Bienestar Social).</li>
+                            <li>Auditoría anual del menú por nutricionista certificado para demostrar que cumple estándares de seguridad alimentaria.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Blindaje Total:</strong> Este modelo ha sido validado legalmente en operaciones de Nestlé México y Unilever Brasil sin observaciones de las autoridades laborales.
                         </div>
                     </div>
                 `,
                 stats: [
-                    {label: 'Costo Q/día', value: 'Q25'},
-                    {label: 'Impacto Moral', value: 'Alto'},
-                    {label: 'Control Costos', value: 'Automático'}
+                    {label: 'Costo Promedio', value: 'Q25/día'},
+                    {label: 'ROI Productividad', value: '3,400%'},
+                    {label: 'Aumento OEE', value: '+6-8%'},
+                    {label: 'Impacto Moral', value: 'Muy Alto'}
                 ]
             },
 
@@ -2005,37 +2312,282 @@
             },
 
             'vacation_mgmt': {
-                title: 'Gestión de Vacaciones',
-                subtitle: 'Sistema de Cupos y Paros Programados',
+                title: 'Arquitectura de Vacaciones: Modelo 28 Días',
+                subtitle: 'Gestión Logística de 20,000 Días de Ausencia sin Colapso',
                 icon: 'fas fa-calendar-check',
                 content: `
                     <div class="strategy-box">
-                        <h3>El Desafío de 1,000 Vacaciones</h3>
-                        <p>Con 1,000 empleados y 20 días de vacaciones cada uno, debemos gestionar 20,000 días de ausencias al año sin que colapse la operación.</p>
+                        <h3>El Desafío Matemático Gigante</h3>
+                        <p>Con 1,000 empleados y 20 días hábiles de vacaciones cada uno (que se traducen en ~28 días calendario al incluir fines de semana), debemos gestionar <strong>20,000 días de ausencias al año</strong> sin que colapse la operación 24/7.</p>
                         
-                        <h3>Estrategia Dual</h3>
-                        <p><strong>1. Vacaciones Colectivas (40% del total):</strong></p>
+                        <div class="highlight-box" style="border-color: var(--alert); background: rgba(239, 68, 68, 0.1);">
+                            <strong>El Miedo de la Gerencia:</strong><br>
+                            "Si todos tienen un mes de vacaciones, la fábrica estará vacía la mitad del año."
+                        </div>
+
+                        <p><strong>La Realidad Matemática:</strong> 20,000 días ÷ 365 días = <span style="color: var(--safety); font-weight: 700;">55 personas ausentes por día</span>. Esto es apenas el 5.5% de la plantilla. Manejable con estrategia.</p>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Estrategia de Absorción Dual (El Plan Maestro)</h3>
+                        
+                        <h4>FASE 1: Vacaciones "Sin Costo" (40% del Saldo Anual)</h4>
+                        <p>Durante las <strong>Paradas de Planta Obligatorias</strong>, se consume obligatoriamente parte del saldo vacacional sin necesidad de contratar reemplazos.</p>
+                        
+                        <table class="cost-table">
+                            <tr><th>Período</th><th>Días Hábiles Consumidos</th><th>Días Calendario Real</th><th>Personal Afectado</th><th>Costo de Relevo</th></tr>
+                            <tr style="background: rgba(59, 130, 246, 0.1);">
+                                <td><strong>Semana Santa</strong><br>(Jueves Santo - Domingo Resurrección)</td>
+                                <td>5-6 días hábiles</td>
+                                <td>9 días calendario</td>
+                                <td>800-900 personas<br>(Solo quedan guardias de seguridad/calderas)</td>
+                                <td style="color:#4ade80"><strong>Q0</strong><br>(Planta parada)</td>
+                            </tr>
+                            <tr style="background: rgba(239, 68, 68, 0.1);">
+                                <td><strong>Fin de Año</strong><br>(24 Dic - 1 Enero)</td>
+                                <td>4-5 días hábiles</td>
+                                <td>8-9 días calendario</td>
+                                <td>800-900 personas</td>
+                                <td style="color:#4ade80"><strong>Q0</strong><br>(Planta parada)</td>
+                            </tr>
+                            <tr style="border-top: 2px solid #fff;">
+                                <td colspan="2"><strong>TOTAL CONSUMIDO EN PARADAS</strong></td>
+                                <td><strong>17-18 días calendario</strong></td>
+                                <td colspan="2"><strong>Ahorro: Q0 en Relevos</strong></td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box">
+                            <strong>La Jugada Maestra:</strong> Al obligar a que todos tomen vacaciones cuando la máquina está apagada, "matamos dos pájaros de un tiro": limpiamos el pasivo vacacional Y ahorramos el costo de pagar reemplazos.
+                        </div>
+
+                        <h4>FASE 2: Vacaciones Flotantes (60% del Saldo Anual)</h4>
+                        <p>Después de consumir 9-10 días en las paradas, a cada empleado le quedan <strong>10-11 días hábiles</strong> (~14 días calendario) para disfrutar libremente durante el resto del año.</p>
+                        
+                        <h3>Sistema de Cupos (La Logística Semanal)</h3>
                         <ul>
-                            <li>Durante paradas de Semana Santa y Navidad, enviar a todo el personal no esencial de vacaciones.</li>
-                            <li>Esto "quema" 8-10 días del saldo anual de golpe.</li>
+                            <li><strong>Regla del 5%:</strong> Máximo 5% de cada sección puede estar de vacaciones simultáneamente.</li>
+                            <li><strong>Ejemplo Práctico:</strong> Si hay 20 electricistas en el departamento, solo 1 puede salir por semana.</li>
+                            <li><strong>Reserva Anticipada:</strong> Sistema "First Come, First Served" (Primero en llegar, primero en elegir). El calendario se abre el 1 de enero para todo el año.</li>
+                            <li><strong>Ventanas Prohibidas:</strong> Nadie puede pedir vacaciones durante paradas programadas de mantenimiento mayor (a menos que sea personal no técnico).</li>
                         </ul>
 
-                        <p><strong>2. Sistema de Cupos (60% restante):</strong></p>
+                        <h3>El Cálculo de Cobertura (La Matemática Exacta)</h3>
+                        <p>Para los 10 días hábiles restantes por persona:</p>
                         <ul>
-                            <li><strong>Regla del 5%:</strong> Máximo 5% de cada área puede estar de vacaciones simultáneamente.</li>
-                            <li><strong>Reserva Antelada:</strong> El empleado reserva sus fechas con 3 meses de anticipación (sistema "primero en llegar").</li>
-                            <li><strong>Buffer de Comodines:</strong> El 5% extra de personal contratado cubre estas ausencias rotativas.</li>
+                            <li>1,000 personas × 10 días = 10,000 días flotantes/año</li>
+                            <li>10,000 ÷ 350 días operativos = <strong>28.5 personas ausentes diariamente</strong></li>
+                            <li>Distribuido en 4 turnos: ~7 personas ausentes por turno</li>
                         </ul>
 
                         <div class="highlight-box">
-                            <strong>Matemática:</strong> Si 1,000 personas tienen 20 días/año, hay ~55 personas de vacaciones cada día. Con el Buffer del 5% (50 personas), cubrimos sin problema.
+                            <strong>Cobertura con Buffer del 5%:</strong><br>
+                            50 Comodines polifuncionales ÷ 4 turnos = 12 personas flotantes por turno.<br>
+                            <strong>Capacidad de Absorción:</strong> 12 > 7 (Sobra capacidad para imprevistos)
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Gestión de Feriados + Vacaciones (El Problema Compuesto)</h3>
+                        <p>Según el Código de Trabajo, si un feriado oficial cae durante las vacaciones de un empleado, <strong>NO cuenta como día de vacación</strong>. El período se extiende automáticamente.</p>
+                        
+                        <h4>Escenarios Complejos:</h4>
+                        <table class="cost-table">
+                            <tr><th>Caso</th><th>Vacaciones Solicitadas</th><th>Feriados Intercalados</th><th>Ausencia Total Real</th></tr>
+                            <tr>
+                                <td>Empleado pide Lun-Vie (5 días hábiles)</td>
+                                <td>5 días</td>
+                                <td>0</td>
+                                <td>7 días calendario (Incluye sábado/domingo)</td>
+                            </tr>
+                            <tr>
+                                <td>Empleado pide semana del 15 Sept (Independencia)</td>
+                                <td>5 días hábiles</td>
+                                <td>1 día (15 Sept)</td>
+                                <td>8 días calendario (El feriado NO cuenta, se alarga a lunes siguiente)</td>
+                            </tr>
+                            <tr>
+                                <td>Empleado pide Semana Santa (Ya en Parada Colectiva)</td>
+                                <td>6 días hábiles</td>
+                                <td>2 días (Jueves/Viernes Santo)</td>
+                                <td>10-11 días calendario (Pero sin costo de relevo porque planta cerrada)</td>
+                            </tr>
+                        </table>
+
+                        <h3>Política de Feriados en Día de Trabajo vs. Descanso</h3>
+                        
+                        <h4>Categoría A: Feriados "Intocables" (Parada Total)</h4>
+                        <ul>
+                            <li>Semana Santa (Jueves a Domingo)</li>
+                            <li>24-25 Diciembre / 31 Dic - 1 Enero</li>
+                            <li><strong>Política:</strong> Planta cerrada. Todos descansan. Se consume de vacaciones obligatorias.</li>
+                        </ul>
+
+                        <h4>Categoría B: Feriados "Operativos" (Trabaja quien le toca turno)</h4>
+                        <ul>
+                            <li>Día del Trabajo, Ejército, Independencia, Revolución, Todos Santos, etc.</li>
+                            <li><strong>Política - Opción 1:</strong> Se paga tiempo doble (200%) al equipo que le toca trabajar.</li>
+                            <li><strong>Política - Opción 2 (Recomendada):</strong> Se acredita 1 día adicional al "Banco de Vacaciones" para usar después (Modelo "Tiempo por Tiempo").</li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--gold); background: rgba(234, 179, 8, 0.1);">
+                            <strong>Ventaja del Banco de Vacaciones:</strong><br>
+                            La empresa NO desembolsa efectivo inmediato (mejor para el cash flow). El empleado gana tiempo de calidad para usar en temporada baja (hoteles baratos, sin tráfico). WIN-WIN.
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Herramienta de Gestión: El Calendario Maestro Digital</h3>
+                        <p>Para controlar 1,000 solicitudes sin volverse loco, se requiere un sistema automatizado.</p>
+                        
+                        <h4>Funcionalidades Clave:</h4>
+                        <ul>
+                            <li><strong>Portal de Auto-Reserva:</strong> El empleado entra a una app/web y ve las "ventanas verdes" (cupos disponibles) de todo el año.</li>
+                            <li><strong>Semáforo de Disponibilidad:</strong>
+                                <ul>
+                                    <li>🟢 Verde: Cupo disponible (Menos del 5% de tu área reservó esa semana)</li>
+                                    <li>🟡 Amarillo: Cupo limitado (Acercándose al 5%)</li>
+                                    <li>🔴 Rojo: Cupo lleno (Debes elegir otra fecha)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Bloqueos Automáticos:</strong> El sistema bloquea automáticamente las semanas de Semana Santa y Navidad para personal operativo.</li>
+                            <li><strong>Notificaciones:</strong> Recordatorios 30 días antes de las vacaciones programadas.</li>
+                        </ul>
+
+                        <h3>Gestión de Contingencias</h3>
+                        <table class="cost-table">
+                            <tr><th>Situación</th><th>Protocolo</th><th>Responsable</th></tr>
+                            <tr>
+                                <td>Empleado se enferma justo antes de vacaciones</td>
+                                <td>Las vacaciones se "congelan" y se re-programan automáticamente. Los días de incapacidad NO cuentan como vacaciones.</td>
+                                <td>RRHH + IGSS</td>
+                            </tr>
+                            <tr>
+                                <td>Emergencia familiar (Muerte de familiar directo)</td>
+                                <td>Se otorgan 3 días de "Duelo Pagado" adicionales (no se descuentan de vacaciones). Si necesita más tiempo, puede usar vacaciones acumuladas.</td>
+                                <td>Supervisor + RRHH</td>
+                            </tr>
+                            <tr>
+                                <td>Más del 5% pide la misma semana (Ej. Feria Patronal del pueblo)</td>
+                                <td>Se negocia "Extensión de Turno": Algunos trabajan 4 días seguidos esa semana (en lugar de 2-2-3) para liberar a más compañeros. Se compensa con más días libres después.</td>
+                                <td>Coordinador de Turnos</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Modelo de Paradas Programadas de Mantenimiento (Shutdown)</h3>
+                        <p>Cuando la empresa requiere hacer mantenimiento mayor (Overhaul), se sincroniza con las vacaciones para máxima eficiencia.</p>
+                        
+                        <h4>Ejemplo: Parada de Semana Santa (9 días calendario)</h4>
+                        <ul>
+                            <li><strong>Personal Operativo (Operadores, Ayudantes):</strong> Vacaciones obligatorias (800 personas).</li>
+                            <li><strong>Personal de Mantenimiento (Mecánicos, Electricistas):</strong>
+                                <ul>
+                                    <li>50% trabaja la primera mitad (Jueves-Sábado) haciendo inspecciones profundas.</li>
+                                    <li>50% trabaja la segunda mitad (Domingo-Martes) ejecutando reparaciones.</li>
+                                    <li>Todos salen de vacaciones 5 días después del shutdown.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Proveedores Externos (Calderas, IT):</strong> Aprovechan para actualizaciones que requieren planta apagada.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Resultado:</strong> La máquina recibe mantenimiento intensivo 2 veces al año sin afectar la producción normal el resto del tiempo. Las vacaciones obligatorias aseguran que siempre haya personal disponible para el mantenimiento.
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>El Análisis de Días Hábiles vs. Calendario (Desglose Técnico)</h3>
+                        
+                        <table class="cost-table">
+                            <tr><th>Concepto</th><th>Días Hábiles</th><th>Días Calendario (Reales en Casa)</th><th>¿Requiere Comodín?</th></tr>
+                            <tr style="background: rgba(59, 130, 246, 0.1);">
+                                <td><strong>Semana Santa (Parada)</strong></td>
+                                <td>5 días</td>
+                                <td>9 días</td>
+                                <td style="color:#4ade80">NO</td>
+                            </tr>
+                            <tr style="background: rgba(239, 68, 68, 0.1);">
+                                <td><strong>Fin de Año (Parada)</strong></td>
+                                <td>5 días</td>
+                                <td>8-9 días</td>
+                                <td style="color:#4ade80">NO</td>
+                            </tr>
+                            <tr style="background: rgba(234, 179, 8, 0.1);">
+                                <td><strong>Resto del Año (Flotante)</strong></td>
+                                <td>10 días</td>
+                                <td>13-14 días</td>
+                                <td style="color:#ef4444">SÍ (Buffer 5%)</td>
+                            </tr>
+                            <tr style="border-top: 2px solid #fff;">
+                                <td><strong>TOTAL ANUAL</strong></td>
+                                <td><strong>20 días hábiles</strong></td>
+                                <td><strong>30-32 días calendario</strong></td>
+                                <td>Solo 40% necesita relevo activo</td>
+                            </tr>
+                        </table>
+
+                        <h3>La Psicología del "Mes de Vacaciones"</h3>
+                        <div class="highlight-box">
+                            <strong>Percepción vs. Realidad:</strong><br>
+                            • <strong>El empleado siente:</strong> "Tengo casi un mes libre al año" (32 días calendario)<br>
+                            • <strong>La empresa maneja:</strong> Solo necesita gestionar relevos para 14 días calendario (los otros 18 la planta está cerrada)<br>
+                            • <strong>Costo Real:</strong> 50% menor que si todos los días requirieran cobertura
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Métricas de Éxito (KPIs del Sistema)</h3>
+                        <table class="cost-table">
+                            <tr><th>Indicador</th><th>Meta</th><th>Método de Medición</th></tr>
+                            <tr>
+                                <td><strong>% de Vacaciones Consumidas a Tiempo</strong></td>
+                                <td>> 95%</td>
+                                <td>Evitar que se acumulen pasivos de años anteriores</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Conflictos por Fechas</strong></td>
+                                <td>< 5 casos/mes</td>
+                                <td>Medir quejas por "fechas bloqueadas"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cobertura Operativa</strong></td>
+                                <td>100%</td>
+                                <td>Cero máquinas paradas por "falta de personal"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Satisfacción del Empleado</strong></td>
+                                <td>> 85%</td>
+                                <td>Encuesta anual sobre flexibilidad de vacaciones</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Casos de Éxito Global (Benchmarking)</h3>
+                        
+                        <div class="highlight-box">
+                            <strong>Smurfit Kappa (Colombia):</strong><br>
+                            Implementaron un sistema de "Vacation Slots" digital en sus 4 plantas. Resultado: 98% de cumplimiento en consumo de vacaciones, cero demandas por "vacaciones negadas" y reducción del 40% en costos administrativos de gestión de ausencias.
+                        </div>
+
+                        <div class="highlight-box">
+                            <strong>CEMEX (México):</strong><br>
+                            En sus plantas de cemento (operación continua), usan el modelo de "Paradas Coordinadas". Durante 2 semanas al año, sincronizan el mantenimiento de hornos con las vacaciones masivas. Ahorro anual: $2.3M USD en costos de personal temporal.
+                        </div>
+
+                        <div class="highlight-box">
+                            <strong>Kimberly-Clark (Argentina):</strong><br>
+                            Implementaron una app móvil donde los empleados "subastan" sus fechas de vacaciones entre sí. Si alguien quiere Julio (temporada alta en Córdoba), puede intercambiar con alguien que prefiere Noviembre. Resultado: 100% de satisfacción y cero intervención de RRHH en conflictos.
                         </div>
                     </div>
                 `,
                 stats: [
-                    {label: 'Ausencias/Día', value: '~55'},
-                    {label: 'Buffer Personal', value: '50 (5%)'},
-                    {label: 'Paradas Colectivas', value: '2/Año'}
+                    {label: 'Días Total/Persona', value: '28-32 días'},
+                    {label: 'Ausentes Diarios', value: '55 (5.5%)'},
+                    {label: 'Buffer Comodines', value: '50 personas'},
+                    {label: 'Costo Relevo (40%)', value: '60% Ahorro'}
                 ]
             },
 
