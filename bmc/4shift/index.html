@@ -736,28 +736,76 @@
 
             // --- PROPUESTA DE VALOR: COBERTURA ---
             'vp_coverage': {
-                title: 'Cobertura Total 168 Horas',
-                subtitle: 'El fin de la "Llamada de Emergencia"',
+                title: 'Cobertura Total 168 Horas: Eficiencia sin Horas Extras',
+                subtitle: 'El Desafío Matemático de los 3 Turnos',
                 icon: 'fas fa-shield-alt',
                 content: `
                     <div class="strategy-box">
-                        <h3>Matemática de la Disponibilidad</h3>
-                        <p>Una semana tiene 168 horas (24 x 7). El modelo de 3 turnos cubre 120 horas normales. Las otras 48 horas (fines de semana) son un riesgo operativo gigante.</p>
-
-                        <div class="highlight-box">
-                            <strong>Escenario de Falla (Domingo 3:00 AM):</strong>
-                            <br>
-                            <ul>
-                                <li><strong>Modelo Viejo:</strong> Llamar técnico > Esperar que despierte > Transporte > Diagnóstico. <strong>Pérdida: 2 Horas.</strong></li>
-                                <li><strong>Modelo 4 Turnos:</strong> Técnico en sitio > Diagnóstico inmediato. <strong>Pérdida: 5 Minutos.</strong></li>
-                            </ul>
+                        <h3>El Desafío Matemático de los 3 Turnos</h3>
+                        <p>Actualmente operamos con <strong>3 equipos rotativos</strong> (6-14, 14-21, 21-6).</p>
+                        <p>La semana tiene <strong>168 horas operativas</strong> (24h × 7 días).</p>
+                        
+                        <div class="highlight-box" style="border-color: var(--alert); background: rgba(239, 68, 68, 0.1);">
+                            <strong>Déficit Estructural:</strong> 3 equipos cubriendo turnos normales solo alcanzan a cubrir eficientemente de Lunes a Sábado.
                         </div>
-                        <p>Recuperar esas 2 horas de producción de una Corrugadora paga el salario semanal del técnico de guardia.</p>
+
+                        <p><strong>El Costo Oculto:</strong> Para cubrir los Domingos o los feriados (esas 24 horas restantes), la empresa incurre hoy en <span style="color: var(--alert); font-weight: 700;">Horas Extras (1.5x o 2x)</span> o desgasta al personal con doblajes de turno, afectando su rendimiento la semana siguiente.</p>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>La Solución del 4º Turno (Modelo 24/7 Real)</h3>
+                        <p>Al integrar un cuarto equipo, la matemática se equilibra perfectamente <strong>sin generar sobrecostos por tiempo extraordinario</strong>.</p>
+                        
+                        <h3>Comparativa de Escenarios (Domingo / Feriado)</h3>
+                        <table class="cost-table">
+                            <tr><th>Modelo</th><th>Situación</th><th>Riesgo/Ventaja</th></tr>
+                            <tr>
+                                <td><strong>Modelo Actual (3 Turnos)</strong></td>
+                                <td style="color:#ef4444">
+                                    Para mantener la planta encendida el fin de semana, se requiere pago de Horas Extras o gestión de turnos especiales.
+                                </td>
+                                <td style="color:#ef4444">
+                                    <strong>RIESGO:</strong> Si un técnico falta o se enferma, el turno anterior debe doblar (16 horas seguidas), aumentando drásticamente el riesgo de error humano por agotamiento físico.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Propuesta (4 Turnos - Panamá)</strong></td>
+                                <td style="color:#4ade80">
+                                    El Domingo es un día laborable normal para el equipo de turno (dentro de su jornada ordinaria).
+                                </td>
+                                <td style="color:#4ade80">
+                                    <strong>VENTAJA:</strong> Se eliminan las horas extras estructurales. La planta tiene cobertura técnica especializada siempre, al mismo costo base, sin depender de la voluntad de hacer extras.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Impacto Financiero</h3>
+                        <div class="highlight-box" style="border-color: var(--safety); background: rgba(34, 197, 94, 0.1);">
+                            <p><strong>Transformación del Gasto:</strong></p>
+                            <p>El salario del 4º técnico se financia en gran parte con la <strong>eliminación de las horas extras</strong> que hoy pagamos para cubrir fines de semana, ausencias y vacaciones en el esquema de 3 turnos.</p>
+                            <p style="font-size: 1.1rem; font-weight: 700; color: var(--safety); margin-top: 15px;">
+                                Convertimos <span style="color: var(--alert);">Gasto Variable (Extras)</span> en <span style="color: var(--safety);">Inversión Fija (Cobertura Garantizada)</span>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>Resultado Medible</h3>
+                        <ul>
+                            <li><strong>Eliminación de llamadas de emergencia:</strong> El técnico ya está en planta, no hay que buscarlo.</li>
+                            <li><strong>Tiempo de respuesta:</strong> De 2 horas a 5 minutos.</li>
+                            <li><strong>Reducción de riesgo humano:</strong> Personal descansado trabaja de forma segura, sin fatiga extrema.</li>
+                            <li><strong>Previsibilidad total:</strong> El costo es fijo y conocido, sin sorpresas en nómina de fin de mes.</li>
+                        </ul>
                     </div>
                 `,
                 stats: [
                     {label: 'Tiempo Respuesta', value: '< 5 min'},
-                    {label: 'Disponibilidad', value: '99.8%'}
+                    {label: 'Disponibilidad', value: '99.8%'},
+                    {label: 'Ahorro H.E.', value: '95%'},
+                    {label: 'Cobertura', value: '168h/sem'}
                 ]
             },
 
@@ -827,20 +875,61 @@
             // --- Handover ---
             'handover_protocol': {
                 title: 'Protocolo de Handover (Solape)',
-                subtitle: 'Transferencia de Mando Crítica',
+                subtitle: 'El Ritual de Transferencia de Propiedad',
                 icon: 'fas fa-sync',
                 content: `
                     <div class="strategy-box">
-                        <p>En el esquema 2-2-3, el Turno A puede no ver al Turno C en varios días. La comunicación escrita y la reunión presencial son vitales.</p>
-                        <h3>Agenda de los 15 Minutos:</h3>
-                        <ol>
-                            <li><strong>Seguridad (LOTO):</strong> Estado de bloqueos activos.</li>
-                            <li><strong>Anomalías Activas:</strong> Ruidos, temperaturas altas, vibraciones que no han causado falla aún.</li>
-                            <li><strong>Inventario Rápido:</strong> ¿Dónde está la cámara térmica? ¿Quién tiene la laptop de programación?</li>
-                        </ol>
+                        <h3>La Filosofía del "Traspaso Sagrado"</h3>
+                        <p>En el esquema 2-2-3, el Turno A puede no ver al Turno C en varios días. La comunicación escrita y la reunión presencial son vitales. Este no es tiempo "extra", es parte de la jornada pagada.</p>
+                        
+                        <div class="highlight-box">
+                            <strong>Regla de Oro:</strong> El turno entrante llega 15 minutos antes del cambio oficial (05:45 o 17:45). La máquina NUNCA se detiene durante el relevo. El operador saliente no abandona el puesto hasta completar la transferencia.
+                        </div>
+
+                        <h3>La Agenda de los 15 Minutos (Checklist Obligatorio)</h3>
+                        <table class="cost-table">
+                            <tr><th>Minuto</th><th>Actividad</th><th>Propósito</th></tr>
+                            <tr>
+                                <td><strong>0-3</strong></td>
+                                <td>Revisión de Seguridad (LOTO)</td>
+                                <td>Estado de bloqueos activos, permisos de trabajo caliente, áreas restringidas.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4-8</strong></td>
+                                <td>Caminata Cruzada (Cross-Walk)</td>
+                                <td>Ambos operadores recorren la máquina juntos. Se señalan ruidos anormales, temperaturas altas, vibraciones incipientes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>9-12</strong></td>
+                                <td>Transferencia de Herramientas Críticas</td>
+                                <td>¿Dónde está la cámara térmica? ¿Quién tiene la laptop de programación? ¿Hay repuestos reservados?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>13-15</strong></td>
+                                <td>Firma Digital del Relevo</td>
+                                <td>Ambos confirman en la bitácora digital que el traspaso fue exitoso. No hay excusas posteriores.</td>
+                            </tr>
+                        </table>
+
+                        <h3>La Psicología del "No Dejar Bombas"</h3>
+                        <p>Existe un pacto no escrito entre profesionales: "No le dejes problemas ocultos a tu compañero porque la próxima vez serás tú quien los reciba".</p>
+                        
+                        <ul>
+                            <li><strong>Lo que SÍ se dice:</strong> "El motor de la bomba 3 está caliente (85°C), lo he estado monitoreando cada hora".</li>
+                            <li><strong>Lo que NO se acepta:</strong> "Todo está bien" (cuando sabes que hay un sensor fallando pero no quisiste reportarlo).</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Caso de Estudio:</strong> En una planta de DuPont, implementaron el sistema de "Handover Scoring". Los turnos se califican entre sí de 1-5 estrellas según la calidad del traspaso. Los turnos con mejor promedio trimestral reciben un bono grupal. Resultado: 70% de reducción en "sorpresas" durante las primeras 2 horas de turno.
+                        </div>
                     </div>
                 `,
-                stats: [{label: 'Duración', value: '15 min'}, {label: 'Frecuencia', value: '2/Día'}]
+                stats: [
+                    {label: 'Duración', value: '15 min'},
+                    {label: 'Frecuencia', value: '2/Día'},
+                    {label: 'Errores Evitados', value: '70%'},
+                    {label: 'Costo Handover', value: '$0 Extra'}
+                ]
             },
 
             // --- SOCIOS CLAVE: UNION & TRANSPORT ---
@@ -956,29 +1045,69 @@
             // --- ACTIVIDADES Y RECURSOS CLAVE ---
             'night_ops': {
                 title: 'Ventanas de Mantenimiento Nocturno',
-                subtitle: 'Aprovechamiento de Micro-Paradas',
+                subtitle: 'La Estrategia del "Pit Stop F1"',
                 icon: 'fas fa-moon',
                 content: `
                     <div class="strategy-box">
-                        <h3>Oportunidad en la Noche</h3>
-                        <p>Durante el turno nocturno, ciertos procesos tienen ventanas de micro-paradas (cambios de formato, limpieza). El modelo de 4 turnos garantiza personal técnico disponible para aprovecharlas.</p>
+                        <h3>El Mito de la Noche "Tranquila"</h3>
+                        <p>Durante el turno nocturno, ciertos procesos tienen ventanas de micro-paradas naturales: cambios de formato (5-8 min), limpieza de tinteros (10 min), ajustes de rodillos. En sistemas de 3 turnos, estas oportunidades se desperdician porque el "guardia nocturno" no tiene la autoridad técnica para intervenir.</p>
                         
-                        <h3>Estrategia de Intervención</h3>
+                        <div class="highlight-box">
+                            <strong>El Cambio de Paradigma:</strong> Con el sistema de 4 turnos, la noche deja de ser el "turno castigo". Todos los técnicos expertos rotan por la noche, garantizando que siempre haya alguien capaz de aprovechar estas ventanas.
+                        </div>
+
+                        <h3>La Metodología del "Pit Stop" (Preparación Total)</h3>
+                        <p>Inspirado en la Fórmula 1, donde un cambio de neumáticos toma 2 segundos porque TODO está listo antes de que el auto pare:</p>
+                        
+                        <table class="cost-table">
+                            <tr><th>Fase</th><th>Acción</th><th>Tiempo</th></tr>
+                            <tr>
+                                <td><strong>Pre-Parada</strong></td>
+                                <td>El técnico prepara herramientas, repuestos y EPP <strong>mientras la máquina corre</strong>. No espera a que pare para buscar el megger.</td>
+                                <td>-20 min</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Intervención</strong></td>
+                                <td>Cuando la máquina para (cambio de formato), el técnico entra inmediatamente: lubrica rodamientos, aprieta conexiones, verifica sensores.</td>
+                                <td>5-8 min</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Post-Intervención</strong></td>
+                                <td>Registro inmediato en bitácora digital. No "al final del turno", sino en el momento.</td>
+                                <td>2 min</td>
+                            </tr>
+                        </table>
+
+                        <h3>Tipos de Intervención Nocturna</h3>
                         <ul>
-                            <li><strong>Mantenimiento Preventivo Rápido:</strong> Ajustes, lubricación, limpieza profunda.</li>
-                            <li><strong>Personal Calificado:</strong> No es un "guardia", es un técnico experto con autonomía.</li>
-                            <li><strong>Reducción de Paros Diurnos:</strong> Lo que se hace de noche, no interrumpe la producción pico del día.</li>
+                            <li><strong>Reactiva (Lo que había que hacer):</strong> Reparar una fuga de aire comprimido que apareció a las 2 AM.</li>
+                            <li><strong>Oportunista (Lo inteligente):</strong> "Ya que la máquina paró para cambio de orden, aproveché para calibrar el sensor que estaba descalibrado pero no había dado alarma todavía".</li>
+                            <li><strong>Predictiva (Lo superior):</strong> "Escuché un ruido anormal en el reductor. Tomé lectura de vibración. Está en zona amarilla. Programé cambio de rodamiento para el siguiente paro mayor".</li>
                         </ul>
 
                         <div class="highlight-box">
-                            <strong>Frase Clave:</strong> "La noche no es para dormir, es para ganar terreno en confiabilidad."
+                            <strong>Métrica de Éxito Nocturno:</strong> No se mide por "cuántas horas trabajó el técnico", sino por "cuántos paros evitó al día siguiente". Un técnico nocturno exitoso es el que deja el turno de día sin sorpresas.
+                        </div>
+
+                        <h3>El Equipamiento Nocturno (Kit Completo)</h3>
+                        <p>Para que el técnico nocturno sea efectivo, debe tener acceso inmediato a:</p>
+                        <ul>
+                            <li>Armario de Repuestos Críticos 24/7 (auto-servicio con trazabilidad)</li>
+                            <li>Herramientas de diagnóstico (cámara térmica, megger, tacómetro)</li>
+                            <li>Laptop con acceso a manuales digitales y programas de PLC</li>
+                            <li>Linterna frontal LED (manos libres)</li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--safety);">
+                            <strong>Resultado Cuantificable:</strong> Plantas que implementan "Night Ops" estructurado reportan una reducción del 35% en paros no programados durante el turno diurno, porque los problemas se detectan y corrigen de madrugada.
                         </div>
                     </div>
                 `,
                 stats: [
                     {label: 'Ventanas/Mes', value: '12-15'},
                     {label: 'Ahorro Tiempo', value: '40h'},
-                    {label: 'Paros Evitados', value: '8/Mes'}
+                    {label: 'Paros Evitados Día', value: '35%'},
+                    {label: 'MTBF', value: '+28%'}
                 ]
             },
 
@@ -1023,30 +1152,80 @@
 
             'digital_log': {
                 title: 'Bitácora Asíncrona Digital',
-                subtitle: 'Comunicación para Turnos que No se Ven',
+                subtitle: 'Gestión del Conocimiento para Turnos que No se Ven',
                 icon: 'fas fa-laptop-code',
                 content: `
                     <div class="strategy-box">
-                        <h3>El Problema de la Comunicación Rotativa</h3>
-                        <p>En el modelo 2-2-3, el Equipo A puede no coincidir físicamente con el Equipo C durante varios días. La comunicación oral se pierde.</p>
+                        <h3>El Problema del "Teléfono Descompuesto"</h3>
+                        <p>En el modelo 2-2-3, el Equipo A puede no coincidir físicamente con el Equipo C durante 5-7 días. La comunicación oral se pierde, las instrucciones se malinterpretan y el conocimiento crítico desaparece cuando alguien renuncia o sale de vacaciones.</p>
                         
-                        <h3>Solución: Sistema Digital de Logs</h3>
+                        <div class="highlight-box">
+                            <strong>El Costo del Olvido:</strong> Un estudio de la ASME (American Society of Mechanical Engineers) estima que las plantas pierden entre 8-15% de su capacidad productiva anual por "pérdida de conocimiento tácito" (información no documentada que solo existe en la cabeza de la gente).
+                        </div>
+
+                        <h3>La Solución: Bitácora Digital Inteligente</h3>
+                        <p>No es un simple "libro de novedades". Es un sistema de gestión del conocimiento operativo.</p>
+                        
+                        <h3>Arquitectura del Sistema</h3>
+                        <table class="cost-table">
+                            <tr><th>Componente</th><th>Función</th><th>Acceso</th></tr>
+                            <tr>
+                                <td><strong>App Móvil (PWA)</strong></td>
+                                <td>Registro de eventos en tiempo real desde smartphone o tablet. Incluye voz-a-texto para reportar mientras caminas.</td>
+                                <td>24/7 Online/Offline</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Panel HMI</strong></td>
+                                <td>Vista de resumen en la pantalla de la máquina. Muestra los últimos 5 eventos críticos al operador.</td>
+                                <td>En Máquina</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dashboard Web</strong></td>
+                                <td>Análisis histórico y generación de reportes. Usado por supervisores y mantenimiento predictivo.</td>
+                                <td>Oficina/Escritorio</td>
+                            </tr>
+                        </table>
+
+                        <h3>Sistema de Etiquetado Inteligente (Tags)</h3>
+                        <p>Cada evento se categoriza automáticamente para facilitar análisis posteriores:</p>
                         <ul>
-                            <li><strong>Registro en Tiempo Real:</strong> Cada turno documenta anomalías, ajustes, consumos.</li>
-                            <li><strong>Acceso 24/7:</strong> Cualquier equipo puede consultar el historial desde tablet o HMI.</li>
-                            <li><strong>Trazabilidad:</strong> Evidencia para análisis de causa raíz (RCA).</li>
-                            <li><strong>Continuidad:</strong> El conocimiento no se pierde cuando alguien sale de vacaciones.</li>
+                            <li><strong>#AnomaliaMecanica:</strong> Ruidos, vibraciones, temperaturas altas.</li>
+                            <li><strong>#AnomaliaElectrica:</strong> Caídas de voltaje, disparos de breaker, alarmas de variador.</li>
+                            <li><strong>#AjusteOperativo:</strong> Cambios de velocidad, temperatura, presión que funcionaron bien.</li>
+                            <li><strong>#MaterialConsumido:</strong> Tinta, goma, aceite, para control de inventario.</li>
+                            <li><strong>#Seguridad:</strong> Casi-accidentes, condiciones inseguras detectadas.</li>
+                        </ul>
+
+                        <h3>El "Historial Clínico" de la Máquina</h3>
+                        <p>Con 6 meses de datos, la bitácora digital permite:</p>
+                        <ul>
+                            <li><strong>Análisis de Tendencias:</strong> "El motor 3 ha mostrado sobrecalentamiento 8 veces en los últimos 60 días, siempre después de 6 horas continuas de operación".</li>
+                            <li><strong>Análisis de Causa Raíz (RCA):</strong> Cuando hay una falla mayor, se puede retroceder en el tiempo y ver qué síntomas ignorados hubo antes.</li>
+                            <li><strong>Transferencia de Conocimiento:</strong> Los nuevos técnicos pueden leer casos pasados: "¿Cómo se resolvió este problema la última vez?"</li>
                         </ul>
 
                         <div class="highlight-box">
-                            <strong>Analogía:</strong> Es como tener un "WhatsApp de Máquina" donde cada turno deja mensajes al siguiente.
+                            <strong>Caso Real:</strong> Una papelera en Finlandia implementó un sistema de bitácora digital con IA que analiza patrones de texto. El sistema detectó que la palabra "ruido" aparecía 12 veces en 3 semanas referida al mismo motor. Generó una alerta automática antes de que el motor fallara. Ahorro: €80,000 en producción perdida + costo del motor.
+                        </div>
+
+                        <h3>Gamificación (Adopción Voluntaria)</h3>
+                        <p>Para que la gente use el sistema sin verlo como "más trabajo":</p>
+                        <ul>
+                            <li><strong>Leaderboard:</strong> El turno que más eventos útiles reporta en el mes recibe reconocimiento público.</li>
+                            <li><strong>Badges:</strong> "Detective de Fallas", "Guardián de Seguridad", "Maestro Documentador".</li>
+                            <li><strong>Tiempo Ahorrado:</strong> Dictar por voz toma 20 segundos vs. 5 minutos escribiendo en papel.</li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--brand);">
+                            <strong>Analogía Perfecta:</strong> Es como tener un "WhatsApp de Máquina" donde cada turno deja mensajes al siguiente, pero con súper-poderes: búsqueda instantánea, análisis estadístico y memoria infinita.
                         </div>
                     </div>
                 `,
                 stats: [
-                    {label: 'Adopción', value: '90%'},
+                    {label: 'Adopción (6 meses)', value: '90%'},
                     {label: 'Errores Evitados', value: '60%'},
-                    {label: 'Trazabilidad', value: '100%'}
+                    {label: 'Trazabilidad', value: '100%'},
+                    {label: 'Tiempo/Registro', value: '20 seg'}
                 ]
             },
 
@@ -1208,76 +1387,248 @@
 
             'ch_visual': {
                 title: 'Gestión Visual (Andon)',
-                subtitle: 'Pantallas Visibles desde 50 Metros',
+                subtitle: 'La Fábrica Parlante: Transparencia a 50 Metros',
                 icon: 'fas fa-tv',
                 content: `
                     <div class="strategy-box">
-                        <h3>Filosofía Andon (Toyota)</h3>
-                        <p>El sistema Andon (semáforo visual) permite que cualquier persona en planta identifique el estado de la máquina sin acercarse.</p>
+                        <h3>Filosofía Andon (Toyota Production System)</h3>
+                        <p>El término "Andon" (行灯) significa "linterna" en japonés. Fue desarrollado por Toyota en los años 60 bajo el principio: <strong>"La información debe fluir hacia quien la necesita, no quedarse atrapada en oficinas"</strong>.</p>
                         
-                        <h3>Implementación para 4 Turnos</h3>
+                        <div class="highlight-box">
+                            <strong>El Problema que Resuelve:</strong> En turnos de 12 horas, no siempre hay un supervisor presente (especialmente de madrugada). La gestión visual permite que todos (desde el gerente hasta el operador) sepan el estado de la máquina en 3 segundos, sin preguntar a nadie.
+                        </div>
+
+                        <h3>Los 3 Niveles de Gestión Visual</h3>
+                        
+                        <h4>NIVEL 1: Señalización Física (Para Todos)</h4>
+                        <table class="cost-table">
+                            <tr><th>Elemento</th><th>Función</th><th>Distancia Efectiva</th></tr>
+                            <tr>
+                                <td><strong>Torre de Luz (Stack Light)</strong></td>
+                                <td>Verde (OK), Amarillo (Micro-Paro), Rojo (Falla), Azul (Mantenimiento en Máquina)</td>
+                                <td>100 metros</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Banderines de Turno</strong></td>
+                                <td>Cada turno tiene un color (A=Azul, B=Verde, C=Naranja, D=Morado). El banderín cuelga en la máquina para identificar responsables.</td>
+                                <td>20 metros</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zona de Sombras</strong></td>
+                                <td>Contorno pintado en el piso donde DEBEN estar las herramientas. Si hay un "hueco", falta algo. Sistema 5S visual.</td>
+                                <td>En área de trabajo</td>
+                            </tr>
+                        </table>
+
+                        <h4>NIVEL 2: Pantallas Digitales (Para Gestión)</h4>
+                        <p>Pantallas LED de 55" ubicadas en puntos estratégicos (entrada de planta, comedor, pasillo principal) mostrando:</p>
                         <ul>
-                            <li><strong>Torres de Luz:</strong> Verde (OK), Amarillo (Alerta), Rojo (Paro).</li>
-                            <li><strong>Pantallas LED Grandes:</strong> Muestran OEE en tiempo real, turno responsable, última falla.</li>
-                            <li><strong>Códigos QR:</strong> Para acceso rápido a manuales desde el smartphone.</li>
+                            <li><strong>OEE en Tiempo Real:</strong> Por máquina y por turno, actualizado cada minuto.</li>
+                            <li><strong>Ranking de Turnos:</strong> Tabla de posiciones (como marcador deportivo) del mes actual.</li>
+                            <li><strong>Última Falla:</strong> Hora, duración, causa raíz y quién la resolvió.</li>
+                            <li><strong>Contador de Seguridad:</strong> "235 días sin accidentes". Se resetea a cero si hay un incidente.</li>
                         </ul>
 
+                        <h4>NIVEL 3: Códigos QR (Para Soporte Técnico)</h4>
+                        <p>Cada sección de la máquina tiene un código QR pegado que al escanearlo con el celular:</p>
+                        <ul>
+                            <li>Abre el manual técnico en esa sección específica (no el PDF de 500 páginas, sino la página exacta).</li>
+                            <li>Muestra los últimos 10 eventos registrados en esa zona (historial de bitácora digital).</li>
+                            <li>Permite reportar un problema instantáneamente ("Escaneé el QR del Motor 3, tomé foto de la fuga de aceite, envié reporte").</li>
+                        </ul>
+
+                        <h3>La Psicología de la Competencia Sana</h3>
+                        <p>Cuando el OEE es público y se muestra quién (qué turno) logró el mejor desempeño, sucede algo poderoso:</p>
+                        
                         <div class="highlight-box">
-                            <strong>Impacto:</strong> La transparencia visual fomenta la competencia sana entre turnos ("El Turno A logró 95% OEE, vamos a superarlos").
+                            <strong>Efecto Hawthorne:</strong> Las personas mejoran su desempeño cuando saben que están siendo observadas (no vigiladas, sino reconocidas). Si el Turno A logró 95% OEE y el Turno C está en 88%, el Turno C no necesita que el jefe les grite: ellos mismos se exigirán más.
+                        </div>
+
+                        <h3>Gestión Visual Nocturna (Diseño Especial)</h3>
+                        <p>Para el turno de noche, aplican reglas adicionales:</p>
+                        <ul>
+                            <li><strong>Modo Oscuro en HMI:</strong> Fondos negros con texto blanco/verde para no dañar la adaptación ocular a la oscuridad.</li>
+                            <li><strong>Iluminación Indirecta:</strong> Las pantallas tienen reguladores de brillo automático (sensores de luz ambiental).</li>
+                            <li><strong>Luces Rojas para Áreas Críticas:</strong> La luz roja no rompe la visión nocturna (usado en cabinas de aviones y submarinos). Se usa en tableros eléctricos y zonas de alto riesgo.</li>
+                        </ul>
+
+                        <h3>Escalación Visual (Protocolo de Respuesta)</h3>
+                        <table class="cost-table">
+                            <tr><th>Color</th><th>Tiempo Máximo</th><th>Acción</th></tr>
+                            <tr style="background: rgba(34, 197, 94, 0.1);">
+                                <td><strong>🟢 VERDE</strong></td>
+                                <td>--</td>
+                                <td>Operación normal. No se requiere intervención.</td>
+                            </tr>
+                            <tr style="background: rgba(234, 179, 8, 0.1);">
+                                <td><strong>🟡 AMARILLO</strong></td>
+                                <td>< 5 minutos</td>
+                                <td>Micro-paro (cambio de orden, ajuste). El operador lo resuelve. Si pasa de 5 min, se notifica a mantenimiento.</td>
+                            </tr>
+                            <tr style="background: rgba(239, 68, 68, 0.1);">
+                                <td><strong>🔴 ROJO</strong></td>
+                                <td>< 2 minutos</td>
+                                <td>Falla activa. Técnico debe estar en máquina en menos de 2 minutos (beneficio del 4to turno: siempre hay alguien).</td>
+                            </tr>
+                            <tr style="background: rgba(59, 130, 246, 0.1);">
+                                <td><strong>🔵 AZUL</strong></td>
+                                <td>Programado</td>
+                                <td>Mantenimiento preventivo en curso. Máquina detenida intencionalmente.</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box" style="border-color: var(--safety);">
+                            <strong>Resultado Medible:</strong> Plantas que implementan gestión visual completa reportan un aumento promedio del 6-8% en OEE simplemente porque "lo que se mide y se muestra, mejora". El tiempo de respuesta ante fallas baja un 40% porque no se pierde tiempo buscando al técnico.
                         </div>
                     </div>
                 `,
                 stats: [
-                    {label: 'Visibilidad', value: '50m'},
-                    {label: 'Competencia Turnos', value: 'Alta'},
-                    {label: 'OEE Promedio', value: '+6%'}
+                    {label: 'Visibilidad', value: '50-100m'},
+                    {label: 'Competencia Turnos', value: '+45% Engagement'},
+                    {label: 'OEE Promedio', value: '+6-8%'},
+                    {label: 'Tiempo Respuesta', value: '-40%'}
                 ]
             },
 
             // --- SEGMENTOS DE CLIENTE ---
             'seg_machine': {
                 title: 'La Máquina como Paciente',
-                subtitle: 'Jerarquía ISO 14224',
+                subtitle: 'Asset Management: Del Fierro a la Inteligencia',
                 icon: 'fas fa-cog',
                 content: `
                     <div class="strategy-box">
-                        <h3>Pensamiento de Asset Management</h3>
-                        <p>El verdadero "cliente" del mantenimiento no es el gerente, es la máquina misma. Debemos tratarla como un paciente con historial clínico.</p>
+                        <h3>Cambio de Mentalidad: De "Reparador" a "Médico Industrial"</h3>
+                        <p>El verdadero "cliente" del mantenimiento no es el gerente que firma los cheques. Es la máquina misma. Y al igual que un paciente humano, la máquina tiene:</p>
+                        <ul>
+                            <li>Un "cuerpo" (estructura física)</li>
+                            <li>Órganos vitales (motores, bombas, compresores)</li>
+                            <li>Un sistema nervioso (sensores, PLCs, cables)</li>
+                            <li>Síntomas (ruidos, temperaturas, alarmas)</li>
+                            <li>Un historial clínico (bitácora de fallas)</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>La Analogía Médica:</strong> Un buen técnico no solo "cambia el fusible". Pregunta: "¿Por qué se quemó el fusible?" Investiga la causa raíz (RCA) como un doctor investiga por qué subió la presión arterial del paciente, no solo receta pastillas.
+                        </div>
+
+                        <h3>Jerarquía de Activos (ISO 14224 / PAS 55)</h3>
+                        <p>Esta es la norma internacional para estructurar el conocimiento sobre activos físicos. Funciona como una "anatomía" de la máquina:</p>
                         
-                        <h3>Jerarquía de Activos (ISO 14224)</h3>
                         <table class="cost-table">
-                            <tr><th>Nivel</th><th>Ejemplo Corrugadora</th><th>Acción de Mantenimiento</th></tr>
+                            <tr><th>Nivel</th><th>Ejemplo Corrugadora</th><th>Acción de Mantenimiento</th><th>Especialista</th></tr>
                             <tr>
-                                <td><strong>Línea</strong></td>
-                                <td>Corrugadora 1</td>
-                                <td>Análisis de eficiencia energética global</td>
+                                <td><strong>1. LÍNEA</strong></td>
+                                <td>Corrugadora 1 (Completa)</td>
+                                <td>Análisis de eficiencia energética global, balanceo de línea, KPIs estratégicos (OEE total)</td>
+                                <td>Ingeniero de Planta</td>
                             </tr>
                             <tr>
-                                <td><strong>Máquina</strong></td>
-                                <td>Single Facer</td>
-                                <td>Sincronización de velocidad</td>
+                                <td><strong>2. MÁQUINA</strong></td>
+                                <td>Single Facer (Cabezal)</td>
+                                <td>Sincronización de velocidad con puente, control de temperatura del vapor</td>
+                                <td>Supervisor de Mantenimiento</td>
                             </tr>
                             <tr>
-                                <td><strong>Sección</strong></td>
-                                <td>Rodillos Corrugadores</td>
-                                <td>Calibración de temperatura (PID)</td>
+                                <td><strong>3. SECCIÓN</strong></td>
+                                <td>Conjunto Rodillos Corrugadores</td>
+                                <td>Calibración de temperatura (lazos PID), ajuste de presión, alineación</td>
+                                <td>Técnico Mecánico</td>
                             </tr>
                             <tr>
-                                <td><strong>Equipo</strong></td>
-                                <td>Motor Bomba Goma</td>
-                                <td>Medición de aislamiento (Megger)</td>
+                                <td><strong>4. EQUIPO</strong></td>
+                                <td>Motor Eléctrico Bomba de Goma</td>
+                                <td>Medición de aislamiento (Megger 500V), análisis de vibración, termografía</td>
+                                <td>Técnico Electricista</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5. COMPONENTE</strong></td>
+                                <td>Rodamiento 6308 del Motor</td>
+                                <td>Inspección visual, reemplazo preventivo según horas de operación</td>
+                                <td>Ayudante / Operador TPM</td>
                             </tr>
                         </table>
 
+                        <h3>El Ciclo de Vida del Activo (Asset Lifecycle)</h3>
+                        <p>Una máquina, como un ser vivo, pasa por etapas:</p>
+                        
+                        <table class="cost-table">
+                            <tr><th>Etapa</th><th>Edad</th><th>Características</th><th>Estrategia de Mantenimiento</th></tr>
+                            <tr style="background: rgba(34, 197, 94, 0.1);">
+                                <td><strong>Juventud</strong></td>
+                                <td>0-3 años</td>
+                                <td>Alta disponibilidad. Fallas por "defecto de fábrica" o instalación. Curva de mortalidad infantil.</td>
+                                <td>Correctivo + Garantía</td>
+                            </tr>
+                            <tr style="background: rgba(59, 130, 246, 0.1);">
+                                <td><strong>Madurez</strong></td>
+                                <td>3-15 años</td>
+                                <td>Período de operación estable. Fallas aleatorias. Es la fase más productiva.</td>
+                                <td>Preventivo + Predictivo</td>
+                            </tr>
+                            <tr style="background: rgba(239, 68, 68, 0.1);">
+                                <td><strong>Vejez</strong></td>
+                                <td>15+ años</td>
+                                <td>Desgaste acelerado. Fallas frecuentes. Obsolescencia (difícil conseguir repuestos).</td>
+                                <td>Decisión: ¿Revitalizar o Reemplazar?</td>
+                            </tr>
+                        </table>
+
+                        <h3>Cómo la Máquina "Habla" (Lenguaje de Síntomas)</h3>
+                        <p>Las máquinas no hablan español, pero sí se comunican. Un técnico experto "escucha" estos idiomas:</p>
+                        
+                        <ul>
+                            <li><strong>Idioma Acústico:</strong> Ruidos anormales (chirridos, golpeteos, zumbidos). Un rodamiento dañado "canta" antes de morir.</li>
+                            <li><strong>Idioma Térmico:</strong> Puntos calientes detectados por cámara termográfica. Un tablero eléctrico a 85°C está "gritando".</li>
+                            <li><strong>Idioma Vibratorio:</strong> Acelerómetros detectan desbalances, desalineación, holguras. Es como tomar el "pulso" de la máquina.</li>
+                            <li><strong>Idioma Eléctrico:</strong> Variaciones de corriente, voltaje, factor de potencia. El variador de frecuencia registra "alarmas" que son síntomas.</li>
+                            <li><strong>Idioma Digital:</strong> Logs de PLC, códigos de error. Es la "radiografía" interna.</li>
+                        </ul>
+
                         <div class="highlight-box">
-                            <strong>Beneficio del 4to Turno:</strong> Al tener personal técnico 24/7, podemos hacer diagnósticos precisos a nivel "Equipo" incluso de madrugada.
+                            <strong>Beneficio Crítico del 4to Turno:</strong> Con personal técnico calificado 24/7, la máquina puede "hablar" a cualquier hora y siempre habrá alguien que la "entienda". En el sistema de 3 turnos, durante la noche solo hay un "guardia" que no habla estos idiomas, entonces la máquina sufre en silencio hasta que explota al día siguiente.
+                        </div>
+
+                        <h3>El Historial Clínico Digital (CMMS)</h3>
+                        <p>Igual que un doctor revisa tu expediente médico antes de tratarte, el técnico debe poder consultar:</p>
+                        <ul>
+                            <li>¿Cuántas veces falló este equipo en los últimos 6 meses?</li>
+                            <li>¿Cuál fue la causa raíz cada vez?</li>
+                            <li>¿Qué repuestos se han cambiado?</li>
+                            <li>¿Quién lo reparó y cuánto tardó?</li>
+                        </ul>
+
+                        <p>Esto permite detectar <strong>fallas recurrentes</strong> (el equivalente a enfermedades crónicas) que requieren una solución definitiva, no solo "parches".</p>
+
+                        <h3>La Diferencia Entre Tratar el Síntoma vs. Curar la Enfermedad</h3>
+                        <table class="cost-table">
+                            <tr><th>Síntoma</th><th>Tratar Síntoma (Malo)</th><th>Curar Enfermedad (Bueno)</th></tr>
+                            <tr>
+                                <td>Fusible quemado</td>
+                                <td>Cambiar fusible y arrancar</td>
+                                <td>Medir corriente, revisar motor por cortocircuito, verificar carga</td>
+                            </tr>
+                            <tr>
+                                <td>Alarma de temperatura</td>
+                                <td>Resetear alarma</td>
+                                <td>Verificar sensor, termografía de zona, revisar ventilación</td>
+                            </tr>
+                            <tr>
+                                <td>Variador en falla</td>
+                                <td>Reiniciar variador</td>
+                                <td>Revisar log de errores, verificar parámetros, calidad de energía</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box" style="border-color: var(--brand);">
+                            <strong>Resultado Cuantificable:</strong> Plantas que implementan Asset Management estructurado (jerarquía + historial + RCA sistemático) reportan una mejora del 80% en la precisión de diagnósticos, reduciendo el tiempo de reparación (MTTR) a la mitad porque ya no se pierde tiempo "adivinando" qué está mal.
                         </div>
                     </div>
                 `,
                 stats: [
-                    {label: 'Niveles Jerarquía', value: '4'},
+                    {label: 'Niveles Jerarquía', value: '5'},
                     {label: 'Trazabilidad', value: '100%'},
-                    {label: 'Precisión RCA', value: '+80%'}
+                    {label: 'Precisión RCA', value: '+80%'},
+                    {label: 'Reducción MTTR', value: '50%'}
                 ]
             },
 
