@@ -325,6 +325,18 @@
                         <span class="item-title">Logística Transporte</span>
                         <span class="item-desc">Rutas seguras para entradas 6:00 AM / 6:00 PM.</span>
                     </li>
+                    <li class="action-item" onclick="openModal('oem_providers')">
+                        <span class="item-title">Proveedores OEM & IT</span>
+                        <span class="item-desc">Soporte Nivel 3 (Siemens/AB) y conectividad.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('mintrab_legal')">
+                        <span class="item-title">Ministerio de Trabajo</span>
+                        <span class="item-desc">Validación legal jornada especial 12h.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('warehouse_jit')">
+                        <span class="item-title">Almacén de Repuestos</span>
+                        <span class="item-desc">Logística Just-in-Time para turno nocturno.</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -342,6 +354,18 @@
                         <span class="item-title">Ventanas de Mantenimiento</span>
                         <span class="item-desc">Aprovechamiento de micro-paradas nocturnas.</span>
                     </li>
+                    <li class="action-item" onclick="openModal('predictive_maint')">
+                        <span class="item-title">Mantenimiento Predictivo</span>
+                        <span class="item-desc">Análisis de vibraciones, termografía y tendencias.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('tpm_training')">
+                        <span class="item-title">Capacitación TPM</span>
+                        <span class="item-desc">Operadores detectan fallas (Mantenimiento Autónomo).</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('vacation_mgmt')">
+                        <span class="item-title">Gestión de Vacaciones</span>
+                        <span class="item-desc">Paros de Planta programados y sistema de Cupos.</span>
+                    </li>
                 </ul>
             </div>
             <div class="bmc-card">
@@ -354,6 +378,18 @@
                     <li class="action-item" onclick="openModal('digital_log')">
                         <span class="item-title">Bitácora Asíncrona</span>
                         <span class="item-desc">Comunicación digital para turnos que no se ven.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('buffer_comodines')">
+                        <span class="item-title">Comodines Polifuncionales (Buffer 5%)</span>
+                        <span class="item-desc">Personal flotante para cubrir vacaciones/ausencias.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('diagnostic_tools')">
+                        <span class="item-title">Herramientas de Diagnóstico</span>
+                        <span class="item-desc">Laptops, cámaras térmicas, Megger para análisis.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('cafeteria_infra')">
+                        <span class="item-title">Infraestructura de Bienestar</span>
+                        <span class="item-desc">Comedor 24/7 para jornada continua (30 min).</span>
                     </li>
                 </ul>
             </div>
@@ -518,6 +554,14 @@
 
     <script>
         // --- KNOWLEDGE BASE (DATABASE) ---
+        // REGLA PARA AGREGAR NUEVA INFORMACIÓN:
+        // 1. Crear archivo .txt con el contenido (título, puntos clave, frases destacadas)
+        // 2. Identificar el ID del onclick del elemento en el HTML (ej: 'vp_cost_control')
+        // 3. Crear entrada en bmcData con estructura: title, subtitle, icon, content, stats
+        // 4. Usar <div class="strategy-box"> para agrupar secciones
+        // 5. Usar <div class="highlight-box"> para frases de impacto o citas clave
+        // 6. Las stats se muestran en la barra lateral del modal
+        
         const bmcData = {
             // --- HORARIOS Y ARQUITECTURA (El Core de la solicitud) ---
             'schedule_architecture': {
@@ -716,6 +760,69 @@
                     {label: 'Disponibilidad', value: '99.8%'}
                 ]
             },
+
+            // --- PROPUESTA DE VALOR: COSTO PREDECIBLE ---
+            'vp_cost_control': {
+                title: 'Costo Predecible (Flat Rate)',
+                subtitle: 'Nómina estabilizada sin picos de H.E.',
+                icon: 'fas fa-file-invoice-dollar',
+                content: `
+                    <div class="strategy-box">
+                        <h3>1. El argumento del "Cash Flow" (Flujo de Caja)</h3>
+                        <p>En un sistema de 3 turnos + Horas Extra (HE), la nómina es una montaña rusa.</p>
+                        
+                        <p><strong>El problema:</strong> En meses de alta demanda o vacaciones (Diciembre, Semana Santa), la nómina se dispara un 30-40% de golpe. Esto rompe la planificación financiera mensual.</p>
+                        
+                        <p><strong>La Profundización:</strong> Con el sistema de 4 turnos, la nómina se convierte en un <strong>Costo Fijo Anualizado</strong>. Sabes exactamente cuánto vas a gastar en salarios en Noviembre desde el mes de Enero.</p>
+                        
+                        <div class="highlight-box">
+                            <strong>Frase clave:</strong> "Pasamos de un modelo de Crisis Management (pagar incendios) a un modelo de Suscripción (costo fijo por disponibilidad total)."
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>2. Eliminación de la "Inflación de Tareas"</h3>
+                        <p>Este es un secreto a voces en mantenimiento.</p>
+                        
+                        <p><strong>El problema:</strong> Cuando se pagan Horas Extra, existe un incentivo perverso (inconsciente o consciente) de tardar más en una reparación para "entrar en horas extra" o ser llamado el fin de semana.</p>
+                        
+                        <p><strong>La Profundización:</strong> Al tener una nómina estabilizada (salario competitivo fijo sin HE), el incentivo cambia. El técnico quiere que la máquina no falle, porque si falla, tiene que trabajar más por el mismo dinero.</p>
+                        
+                        <div class="highlight-box">
+                            <strong>Frase clave:</strong> "Alineamos el bolsillo del técnico con el objetivo de la empresa: que la máquina funcione, no que se rompa para venir a arreglarla."
+                        </div>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>3. Reducción de Costos Administrativos (Lean Admin)</h3>
+                        <p><strong>El problema:</strong> Gestionar HE requiere: autorización del supervisor, validación de relojes, cálculo de nómina complejo, reclamos por errores de cálculo ("me faltó media hora"). Esto consume horas de RRHH y Supervisores.</p>
+                        
+                        <p><strong>La Profundización:</strong> El costo administrativo de gestionar una nómina plana es casi cero. Es automático.</p>
+                        
+                        <p><strong>Dato:</strong> Se estima que por cada hora extra pagada, hay un <span style="color: var(--alert); font-weight: 700;">15% de "costo oculto"</span> administrativo y de gestión.</p>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>4. El Costo Real del Domingo (Matemática Pura)</h3>
+                        <p><strong>Sistema 3 Turnos:</strong> Si llamas a alguien un domingo, a menudo pagas transporte (taxi/Uber) + tiempo de viaje + la hora al 200% o 300% (según el país). Una intervención de 2 horas te cuesta como si fueran 8 horas normales.</p>
+                        
+                        <p><strong>Sistema 4 Turnos:</strong> La hora de domingo ya está prorrateada en el salario base mensual. No hay "picos" de costo por trabajar en festivo o domingo, porque es parte de su jornada ordinaria rotativa.</p>
+                    </div>
+
+                    <div class="strategy-box">
+                        <h3>5. Mitigación de Riesgo Legal (Pasivo Laboral)</h3>
+                        <p><strong>El problema:</strong> En muchos países, tener empleados con excesivas horas extra genera un riesgo legal (demandas por fatiga, errores en cálculos de prestaciones sobre variables).</p>
+                        
+                        <p><strong>La Profundización:</strong> Al estabilizar la nómina, el cálculo de indemnizaciones, aguinaldos y beneficios se vuelve transparente y predecible, reduciendo contingencias legales futuras.</p>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Costo Admin HE', value: '15%'},
+                    {label: 'Nómina', value: '100% Predecible'},
+                    {label: 'Incentivo', value: 'Alineado'},
+                    {label: 'Riesgo Legal', value: 'Reducido'}
+                ]
+            },
             
             // --- Handover ---
             'handover_protocol': {
@@ -734,6 +841,912 @@
                     </div>
                 `,
                 stats: [{label: 'Duración', value: '15 min'}, {label: 'Frecuencia', value: '2/Día'}]
+            },
+
+            // --- SOCIOS CLAVE: UNION & TRANSPORT ---
+            'union_agreement': {
+                title: 'Acuerdo de Banco de Horas',
+                subtitle: 'Gestión Estratégica con Talento Humano',
+                icon: 'fas fa-handshake',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Desafío de Semana Santa</h3>
+                        <p>En operación continua, parar la planta en festivos críticos cuesta millones. Pagar esos días al triple desangra el presupuesto. La solución: <strong>Bancarización del Tiempo</strong>.</p>
+                        
+                        <h3>Modelo de Banco de Horas</h3>
+                        <p>En lugar de pagar dinero, compensamos con <strong>Calidad de Vida</strong> en temporada baja.</p>
+                        
+                        <ul>
+                            <li><strong>Acumulación:</strong> Trabajar un festivo genera crédito de 2.0 días en el banco virtual.</li>
+                            <li><strong>Canje Estratégico:</strong> Utilizar días acumulados para crear "Super Puentes" (4 días libres consecutivos).</li>
+                            <li><strong>Gestión de Turnos:</strong> Los compañeros se cubren entre sí (Turno A cubre a B).</li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--gold);">
+                            <strong>Resultado:</strong> Cobertura 24/7 en festivos sin impacto en Cash Flow inmediato y mayor satisfacción del empleado a largo plazo.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Costo Cash', value: '$0'},
+                    {label: 'Pasivo Laboral', value: 'Controlado'},
+                    {label: 'Satisfacción', value: 'Alta'}
+                ]
+            },
+
+            'transport_logistics': {
+                title: 'Logística de Transporte 24/7',
+                subtitle: 'Rutas Seguras para Cambios de Turno',
+                icon: 'fas fa-bus',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema del Transporte Nocturno</h3>
+                        <p>Los cambios de turno a las 6:00 AM y 6:00 PM requieren que los trabajadores viajen en horarios de riesgo (madrugada y noche).</p>
+                        
+                        <h3>Estrategia de Rutas Planificadas</h3>
+                        <ul>
+                            <li><strong>Rutas Fijas:</strong> Identificación de zonas de concentración de empleados.</li>
+                            <li><strong>Transporte Subsidiado:</strong> Convenio con empresa de transporte o flota propia.</li>
+                            <li><strong>Seguridad:</strong> Reducción de riesgos de asaltos y accidentes.</li>
+                            <li><strong>Puntualidad:</strong> Garantía de llegada oportuna a los relevos.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Beneficio Dual:</strong> El empleado ahorra en transporte personal y la empresa garantiza la puntualidad de los turnos críticos.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Cobertura', value: '4 Rutas'},
+                    {label: 'Seguridad', value: '+85%'},
+                    {label: 'Puntualidad', value: '98%'}
+                ]
+            },
+
+            // --- ACTIVIDADES Y RECURSOS CLAVE ---
+            'night_ops': {
+                title: 'Ventanas de Mantenimiento Nocturno',
+                subtitle: 'Aprovechamiento de Micro-Paradas',
+                icon: 'fas fa-moon',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Oportunidad en la Noche</h3>
+                        <p>Durante el turno nocturno, ciertos procesos tienen ventanas de micro-paradas (cambios de formato, limpieza). El modelo de 4 turnos garantiza personal técnico disponible para aprovecharlas.</p>
+                        
+                        <h3>Estrategia de Intervención</h3>
+                        <ul>
+                            <li><strong>Mantenimiento Preventivo Rápido:</strong> Ajustes, lubricación, limpieza profunda.</li>
+                            <li><strong>Personal Calificado:</strong> No es un "guardia", es un técnico experto con autonomía.</li>
+                            <li><strong>Reducción de Paros Diurnos:</strong> Lo que se hace de noche, no interrumpe la producción pico del día.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Frase Clave:</strong> "La noche no es para dormir, es para ganar terreno en confiabilidad."
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Ventanas/Mes', value: '12-15'},
+                    {label: 'Ahorro Tiempo', value: '40h'},
+                    {label: 'Paros Evitados', value: '8/Mes'}
+                ]
+            },
+
+            'crew_d': {
+                title: 'El 4to Equipo (Crew D)',
+                subtitle: 'El Activo Humano que Elimina las H.E.',
+                icon: 'fas fa-users-cog',
+                content: `
+                    <div class="strategy-box">
+                        <h3>La Pieza que Falta</h3>
+                        <p>Con solo 3 turnos, es matemáticamente imposible cubrir 168 horas semanales sin horas extra masivas. El <strong>Cuarto Equipo</strong> es la inversión que convierte el caos en orden.</p>
+                        
+                        <h3>Impacto Financiero</h3>
+                        <p>El costo de contratar el 4to equipo (aumento del 33% de plantilla) se <strong>auto-financia</strong> con:</p>
+                        <ul>
+                            <li>Eliminación de pago de tiempo extra (1.5x y 2.0x).</li>
+                            <li>Reducción de pasivo laboral (liquidaciones se calculan sobre salario base, no inflado).</li>
+                            <li>Aumento de productividad (personal descansado produce más y con menos errores).</li>
+                        </ul>
+
+                        <table class="cost-table">
+                            <tr><th>Concepto</th><th>3 Turnos</th><th>4 Turnos</th></tr>
+                            <tr>
+                                <td>Costo Nómina Mensual</td>
+                                <td style="color:#ef4444">4.2 Unidades (Base + Extras)</td>
+                                <td style="color:#4ade80">4.0 Unidades (Solo Base)</td>
+                            </tr>
+                            <tr>
+                                <td>Previsibilidad</td>
+                                <td style="color:#ef4444">Caótica</td>
+                                <td style="color:#4ade80">100% Predecible</td>
+                            </tr>
+                        </table>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Inversión', value: '+33% Plantilla'},
+                    {label: 'ROI', value: '6-9 Meses'},
+                    {label: 'Ahorro H.E.', value: '95%'}
+                ]
+            },
+
+            'digital_log': {
+                title: 'Bitácora Asíncrona Digital',
+                subtitle: 'Comunicación para Turnos que No se Ven',
+                icon: 'fas fa-laptop-code',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema de la Comunicación Rotativa</h3>
+                        <p>En el modelo 2-2-3, el Equipo A puede no coincidir físicamente con el Equipo C durante varios días. La comunicación oral se pierde.</p>
+                        
+                        <h3>Solución: Sistema Digital de Logs</h3>
+                        <ul>
+                            <li><strong>Registro en Tiempo Real:</strong> Cada turno documenta anomalías, ajustes, consumos.</li>
+                            <li><strong>Acceso 24/7:</strong> Cualquier equipo puede consultar el historial desde tablet o HMI.</li>
+                            <li><strong>Trazabilidad:</strong> Evidencia para análisis de causa raíz (RCA).</li>
+                            <li><strong>Continuidad:</strong> El conocimiento no se pierde cuando alguien sale de vacaciones.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Analogía:</strong> Es como tener un "WhatsApp de Máquina" donde cada turno deja mensajes al siguiente.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Adopción', value: '90%'},
+                    {label: 'Errores Evitados', value: '60%'},
+                    {label: 'Trazabilidad', value: '100%'}
+                ]
+            },
+
+            // --- PROPUESTA DE VALOR: FATIGA Y CONTINUIDAD ---
+            'vp_fatigue': {
+                title: 'Gestión de Fatiga (-40%)',
+                subtitle: 'Modelo 2-2-3: Ciencia del Descanso',
+                icon: 'fas fa-bed',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema del Turno Tradicional</h3>
+                        <p>Trabajar 7 noches seguidas o 12 días corridos destruye el ritmo circadiano. La fatiga acumulada genera:</p>
+                        <ul>
+                            <li>Errores operacionales (+300% vs personal descansado).</li>
+                            <li>Accidentes laborales.</li>
+                            <li>Ausentismo por enfermedades.</li>
+                            <li>Rotación de personal (burnout).</li>
+                        </ul>
+
+                        <h3>La Ciencia del 2-2-3</h3>
+                        <p>El patrón de rotación rápida (2 días ON, 2 OFF, 3 ON, 2 OFF, 2 ON, 3 OFF) evita la acumulación de "deuda de sueño".</p>
+                        
+                        <div class="highlight-box">
+                            <strong>Dato Clave:</strong> Estudios de la NASA muestran que el rendimiento cognitivo se mantiene por encima del 85% con ciclos de 2-3 días, pero cae al 60% después de 7 noches consecutivas.
+                        </div>
+
+                        <h3>Beneficios Medibles</h3>
+                        <ul>
+                            <li>Reducción de accidentes: -40%</li>
+                            <li>Reducción de merma/desperdicio: -25%</li>
+                            <li>Aumento de velocidad promedio: +8%</li>
+                        </ul>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Reducción Fatiga', value: '-40%'},
+                    {label: 'Accidentes', value: '-40%'},
+                    {label: 'Burnout', value: '-65%'}
+                ]
+            },
+
+            'vp_continuity': {
+                title: 'Continuidad Técnica 24/7',
+                subtitle: 'Experto vs. Guardia: La Diferencia',
+                icon: 'fas fa-user-shield',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Mito del "Guardia de Noche"</h3>
+                        <p>En sistemas de 3 turnos, la noche suele cubrirse con personal menos calificado o "guardias" que solo pueden llamar al técnico si algo falla.</p>
+                        
+                        <h3>La Realidad del 4to Turno</h3>
+                        <p>Con rotación equitativa, <strong>todos los técnicos expertos pasan por la noche</strong>. No hay "turno de segunda".</p>
+                        
+                        <ul>
+                            <li><strong>Diagnóstico Inmediato:</strong> El técnico puede resolver la falla sin esperar a la mañana.</li>
+                            <li><strong>Decisiones Autónomas:</strong> Puede hacer ajustes de PLC, cambiar parámetros, gestionar prioridades.</li>
+                            <li><strong>Mantenimiento Proactivo:</strong> No solo reacciona, anticipa.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Frase de Impacto:</strong> "No vendemos reparaciones, vendemos disponibilidad matemática. Siempre hay un experto en planta, no un guardia."
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'MTTR Nocturno', value: '-70%'},
+                    {label: 'Decisiones/Noche', value: '12'},
+                    {label: 'Cobertura Experta', value: '100%'}
+                ]
+            },
+
+            // --- RELACIONES Y CANALES ---
+            'rel_night_support': {
+                title: 'Soporte Operativo Nocturno',
+                subtitle: 'El Operador Ya No Está Solo',
+                icon: 'fas fa-headset',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Abandono Nocturno</h3>
+                        <p>En modelos tradicionales, el operador de noche siente que "está solo". Si la máquina falla, debe llamar a casa del técnico, esperar transporte, diagnóstico...</p>
+                        
+                        <h3>El Nuevo Contrato Psicológico</h3>
+                        <p>Con el sistema de 4 turnos:</p>
+                        <ul>
+                            <li><strong>Presencia Física:</strong> Hay un técnico electricista y uno mecánico en planta durante toda la noche.</li>
+                            <li><strong>Respuesta Inmediata:</strong> Tiempo de respuesta < 5 minutos (vs 2 horas del modelo antiguo).</li>
+                            <li><strong>Soporte Emocional:</strong> El operador sabe que no lleva la responsabilidad solo.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Impacto Cultural:</strong> La rotación de personal cae un 50% porque la gente ya no teme el turno nocturno.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Tiempo Respuesta', value: '< 5 min'},
+                    {label: 'Rotación', value: '-50%'},
+                    {label: 'Satisfacción', value: '92%'}
+                ]
+            },
+
+            'rel_flexibility': {
+                title: 'Pacto de Flexibilidad',
+                subtitle: 'Intercambio de Turnos Autogestionado',
+                icon: 'fas fa-people-arrows',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Empoderamiento del Empleado</h3>
+                        <p>El sistema de 4 turnos permite que los trabajadores intercambien días entre ellos sin pasar por burocracia de RRHH.</p>
+                        
+                        <h3>Reglas del Intercambio</h3>
+                        <ul>
+                            <li><strong>Entre Pares:</strong> Solo pueden intercambiar roles del mismo nivel (Operador con Operador).</li>
+                            <li><strong>Notificación 48h:</strong> Avisar al supervisor con 2 días de anticipación.</li>
+                            <li><strong>Sin Costo Extra:</strong> No genera horas extra para la empresa.</li>
+                            <li><strong>Win-Win:</strong> Uno puede ir a una boda, el otro acumula favores para después.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Resultado:</strong> Los empleados sienten control sobre su tiempo, aumentando el compromiso y la lealtad.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Intercambios/Mes', value: '45'},
+                    {label: 'Satisfacción', value: '88%'},
+                    {label: 'Costo Empresa', value: '$0'}
+                ]
+            },
+
+            'ch_app': {
+                title: 'App Móvil (Dark Mode)',
+                subtitle: 'UX Diseñada para Entornos Nocturnos',
+                icon: 'fas fa-mobile-alt',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema de las Pantallas Brillantes</h3>
+                        <p>En el turno nocturno, las pantallas tradicionales (blancas) fatigan la vista y rompen la adaptación a la oscuridad.</p>
+                        
+                        <h3>Solución: App con Modo Oscuro Nativo</h3>
+                        <ul>
+                            <li><strong>Contraste Alto:</strong> Texto blanco sobre fondo negro/azul oscuro.</li>
+                            <li><strong>Luz Roja/Naranja:</strong> Para preservar la visión nocturna en áreas críticas.</li>
+                            <li><strong>Botones Grandes:</strong> Facilidad de uso con guantes de seguridad.</li>
+                            <li><strong>Notificaciones Push:</strong> Alertas de máquina sin tener que estar frente al HMI.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Benchmark:</strong> Empresas como Siemens y ABB ya usan apps industriales con "Night Shift Mode" en sus plantas 24/7.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Adopción', value: '95%'},
+                    {label: 'Fatiga Visual', value: '-60%'},
+                    {label: 'Tiempo Respuesta', value: '-40%'}
+                ]
+            },
+
+            'ch_visual': {
+                title: 'Gestión Visual (Andon)',
+                subtitle: 'Pantallas Visibles desde 50 Metros',
+                icon: 'fas fa-tv',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Filosofía Andon (Toyota)</h3>
+                        <p>El sistema Andon (semáforo visual) permite que cualquier persona en planta identifique el estado de la máquina sin acercarse.</p>
+                        
+                        <h3>Implementación para 4 Turnos</h3>
+                        <ul>
+                            <li><strong>Torres de Luz:</strong> Verde (OK), Amarillo (Alerta), Rojo (Paro).</li>
+                            <li><strong>Pantallas LED Grandes:</strong> Muestran OEE en tiempo real, turno responsable, última falla.</li>
+                            <li><strong>Códigos QR:</strong> Para acceso rápido a manuales desde el smartphone.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Impacto:</strong> La transparencia visual fomenta la competencia sana entre turnos ("El Turno A logró 95% OEE, vamos a superarlos").
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Visibilidad', value: '50m'},
+                    {label: 'Competencia Turnos', value: 'Alta'},
+                    {label: 'OEE Promedio', value: '+6%'}
+                ]
+            },
+
+            // --- SEGMENTOS DE CLIENTE ---
+            'seg_machine': {
+                title: 'La Máquina como Paciente',
+                subtitle: 'Jerarquía ISO 14224',
+                icon: 'fas fa-cog',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Pensamiento de Asset Management</h3>
+                        <p>El verdadero "cliente" del mantenimiento no es el gerente, es la máquina misma. Debemos tratarla como un paciente con historial clínico.</p>
+                        
+                        <h3>Jerarquía de Activos (ISO 14224)</h3>
+                        <table class="cost-table">
+                            <tr><th>Nivel</th><th>Ejemplo Corrugadora</th><th>Acción de Mantenimiento</th></tr>
+                            <tr>
+                                <td><strong>Línea</strong></td>
+                                <td>Corrugadora 1</td>
+                                <td>Análisis de eficiencia energética global</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Máquina</strong></td>
+                                <td>Single Facer</td>
+                                <td>Sincronización de velocidad</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sección</strong></td>
+                                <td>Rodillos Corrugadores</td>
+                                <td>Calibración de temperatura (PID)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Equipo</strong></td>
+                                <td>Motor Bomba Goma</td>
+                                <td>Medición de aislamiento (Megger)</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box">
+                            <strong>Beneficio del 4to Turno:</strong> Al tener personal técnico 24/7, podemos hacer diagnósticos precisos a nivel "Equipo" incluso de madrugada.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Niveles Jerarquía', value: '4'},
+                    {label: 'Trazabilidad', value: '100%'},
+                    {label: 'Precisión RCA', value: '+80%'}
+                ]
+            },
+
+            'seg_prod_mgr': {
+                title: 'Gerencia de Producción',
+                subtitle: 'Cliente que Exige Volumen 24h',
+                icon: 'fas fa-chart-line',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Las Necesidades del Cliente Interno</h3>
+                        <p>La Gerencia de Producción tiene metas de volumen (toneladas/día, cajas/hora). Su único miedo: <strong>Paros No Programados</strong>.</p>
+                        
+                        <h3>Cómo el 4to Turno Resuelve sus Dolores</h3>
+                        <ul>
+                            <li><strong>Previsibilidad:</strong> Al tener mantenimiento preventivo efectivo 24/7, los paros se programan.</li>
+                            <li><strong>Velocidad de Respuesta:</strong> Las fallas se resuelven en minutos, no horas.</li>
+                            <li><strong>Calidad Estable:</strong> Personal descansado comete menos errores de ajuste.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Lenguaje Común:</strong> Hablar en términos de OEE, MTBF y MTTR. No decir "arreglé la máquina", sino "aumentamos el MTBF un 15% este mes".
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Cumplimiento Metas', value: '98%'},
+                    {label: 'Paros No Prog.', value: '-70%'},
+                    {label: 'OEE Promedio', value: '87%'}
+                ]
+            },
+
+            // --- ESTRUCTURA DE COSTOS: DETALLES ---
+            'cost_cafeteria': {
+                title: 'Cafetería "Oculta" (KPI)',
+                subtitle: 'Subsidio Variable Basado en Rendimiento',
+                icon: 'fas fa-utensils',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Ingeniería Financiera del Alimento</h3>
+                        <p>En lugar de cobrar al empleado, utilizamos el alimento como herramienta de gestión de KPIs. El empleado percibe que es "gratis", pero internamente es un costo variable ligado a resultados.</p>
+
+                        <table class="cost-table">
+                            <tr><th>Escenario</th><th>Acción (Visible)</th><th>Acción (Contable/Oculta)</th></tr>
+                            <tr>
+                                <td><strong>OEE > 95%</strong></td>
+                                <td style="color:#4ade80">Menú Premium (Gratis)</td>
+                                <td>Empresa absorbe 100% como "Bono Productividad"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OEE < 85%</strong></td>
+                                <td style="color:#facc15">Menú Estándar</td>
+                                <td>Se aplica "Ajuste de Presupuesto"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Falla Crítica</strong></td>
+                                <td style="color:#ef4444">Lunch Box</td>
+                                <td>Costo cargado a "Mantenimiento Correctivo"</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box">
+                            <strong>Psicología:</strong> No decimos "te descuento la comida". Decimos "La empresa te invita si cuidamos los costos juntos". El técnico protege la máquina para proteger su beneficio.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Costo Q/día', value: 'Q25'},
+                    {label: 'Impacto Moral', value: 'Alto'},
+                    {label: 'Control Costos', value: 'Automático'}
+                ]
+            },
+
+            'cost_night_surcharge': {
+                title: 'Recargos Nocturnos',
+                subtitle: 'Impacto Legal y Ahorro Real',
+                icon: 'fas fa-moon',
+                content: `
+                    <div class="strategy-box">
+                        <h3>La Bomba de Tiempo Legal</h3>
+                        <p>En el sistema de 3 turnos, el turno nocturno genera automáticamente 3 horas extra diarias (jornada nocturna legal: 6h, trabajadas: 9h).</p>
+                        
+                        <h3>Costo Anual (Ejemplo Real)</h3>
+                        <p>Basado en la boleta de "Robin el Electricista":</p>
+                        <ul>
+                            <li><strong>72 horas extra en 14 días</strong> = Q2,250 adicionales.</li>
+                            <li>Proyección anual: <strong>Q58,500 por trabajador</strong> solo en recargos nocturnos.</li>
+                            <li>Para 333 trabajadores: <strong>Q19.4 millones/año</strong> en sobrecosto.</li>
+                        </ul>
+
+                        <h3>Solución con 4 Turnos</h3>
+                        <p>Al trabajar turnos de 12 horas en un promedio de 42h semanales, el recargo nocturno se <strong>prorratea</strong> en el salario base mensual integrado. No hay picos de pago.</p>
+
+                        <div class="highlight-box" style="border-color: var(--alert);">
+                            <strong>Ahorro Real:</strong> Eliminación del 95% del gasto en recargos nocturnos. El dinero se reinvierte en salario base competitivo.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Ahorro Anual', value: 'Q18.4M'},
+                    {label: 'Reducción Recargos', value: '95%'},
+                    {label: 'ROI', value: '8 Meses'}
+                ]
+            },
+
+            // --- FLUJO DE INGRESOS / ROI ---
+            'roi_oee': {
+                title: 'Recuperación OEE Nocturno',
+                subtitle: 'Igualar Eficiencia Noche = Día',
+                icon: 'fas fa-chart-bar',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema del OEE Nocturno</h3>
+                        <p>En sistemas de 3 turnos, el OEE (Overall Equipment Effectiveness) nocturno suele ser 15-25% inferior al diurno por:</p>
+                        <ul>
+                            <li>Personal fatigado.</li>
+                            <li>Menos supervisión.</li>
+                            <li>Ajustes incorrectos por falta de experiencia del "guardia".</li>
+                        </ul>
+
+                        <h3>El Valor de Igualar el OEE</h3>
+                        <p>Si una corrugadora produce 1,000 toneladas/día en turno diurno (OEE 90%) pero solo 750 ton/día en nocturno (OEE 67%):</p>
+                        <ul>
+                            <li><strong>Pérdida:</strong> 250 toneladas/día × 365 días = 91,250 ton/año.</li>
+                            <li><strong>Valor:</strong> A Q2,000/ton = <span style="color: var(--safety); font-weight: 700;">Q182.5 millones/año</span> en producción perdida.</li>
+                        </ul>
+
+                        <h3>Solución con 4 Turnos</h3>
+                        <p>Al rotar a todos los expertos por la noche, el OEE nocturno sube al 85%. Recuperamos el 80% de esa producción perdida.</p>
+
+                        <div class="highlight-box">
+                            <strong>ROI del Proyecto:</strong> Si recuperar OEE nocturno genera Q146M adicionales, y contratar el 4to equipo cuesta Q18M/año, el retorno es del <strong>811%</strong>.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'OEE Día', value: '90%'},
+                    {label: 'OEE Noche (Antes)', value: '67%'},
+                    {label: 'OEE Noche (Después)', value: '85%'},
+                    {label: 'Ingresos Extra', value: 'Q146M/Año'}
+                ]
+            },
+
+            'roi_mttr': {
+                title: 'Reducción MTTR',
+                subtitle: 'Valor del Tiempo de Respuesta Inmediato',
+                icon: 'fas fa-stopwatch',
+                content: `
+                    <div class="strategy-box">
+                        <h3>¿Qué es el MTTR?</h3>
+                        <p><strong>Mean Time To Repair (Tiempo Medio de Reparación):</strong> Tiempo promedio desde que la máquina falla hasta que vuelve a producir.</p>
+                        
+                        <h3>Comparativa de Escenarios</h3>
+                        <table class="cost-table">
+                            <tr><th>Escenario</th><th>MTTR Promedio</th><th>Costo/Hora Parada</th></tr>
+                            <tr>
+                                <td><strong>3 Turnos (Llamar técnico)</strong></td>
+                                <td style="color:#ef4444">2.5 Horas</td>
+                                <td>Q50,000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4 Turnos (Técnico in-situ)</strong></td>
+                                <td style="color:#4ade80">0.5 Horas</td>
+                                <td>Q10,000</td>
+                            </tr>
+                        </table>
+
+                        <h3>Impacto Financiero</h3>
+                        <p>Si ocurren 20 fallas/mes en horario nocturno:</p>
+                        <ul>
+                            <li><strong>Antes:</strong> 20 fallas × 2.5h × Q50k = Q2.5M/mes en producción perdida.</li>
+                            <li><strong>Después:</strong> 20 fallas × 0.5h × Q50k = Q500k/mes.</li>
+                            <li><strong>Ahorro:</strong> Q2M/mes = <strong>Q24M/año</strong>.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Conclusión:</strong> Reducir el MTTR un 80% (de 2.5h a 0.5h) paga por sí solo el costo del 4to equipo en el primer año.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'MTTR Actual', value: '2.5h'},
+                    {label: 'MTTR Objetivo', value: '0.5h'},
+                    {label: 'Reducción', value: '80%'},
+                    {label: 'Ahorro', value: 'Q24M/Año'}
+                ]
+            },
+
+            'roi_turnover': {
+                title: 'Retención de Talento',
+                subtitle: 'Ahorro en Reclutamiento y Curva de Aprendizaje',
+                icon: 'fas fa-user-check',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Costo Oculto de la Rotación</h3>
+                        <p>Cuando un técnico especializado renuncia por burnout, la empresa pierde:</p>
+                        <ul>
+                            <li><strong>Reclutamiento:</strong> Q5,000 (anuncios, entrevistas, pruebas).</li>
+                            <li><strong>Capacitación:</strong> 3 meses de curva de aprendizaje × Q8,000/mes = Q24,000.</li>
+                            <li><strong>Productividad Perdida:</strong> Los primeros 6 meses, el nuevo produce al 60% de un experto = Q30,000 en errores/desperdicio.</li>
+                            <li><strong>Total:</strong> <span style="color: var(--alert); font-weight: 700;">Q59,000 por cada renuncia</span>.</li>
+                        </ul>
+
+                        <h3>Impacto del 4to Turno en Retención</h3>
+                        <p>Empresas que implementan sistemas de descanso equitativo reportan:</p>
+                        <ul>
+                            <li>Reducción de rotación voluntaria: <strong>-60%</strong>.</li>
+                            <li>Si una planta tenía 50 renuncias/año, baja a 20.</li>
+                            <li><strong>Ahorro:</strong> 30 renuncias evitadas × Q59k = <strong>Q1.77M/año</strong>.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Intangible Valioso:</strong> Los técnicos senior (10+ años de experiencia) ya no se van. El conocimiento crítico se queda en la empresa.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Costo/Renuncia', value: 'Q59,000'},
+                    {label: 'Reducción Rotación', value: '60%'},
+                    {label: 'Ahorro Anual', value: 'Q1.77M'},
+                    {label: 'Retención Seniors', value: '95%'}
+                ]
+            },
+
+            // --- NUEVOS SOCIOS CLAVE ---
+            'oem_providers': {
+                title: 'Proveedores OEM & IT',
+                subtitle: 'Soporte Técnico Nivel 3 y Conectividad',
+                icon: 'fas fa-server',
+                content: `
+                    <div class="strategy-box">
+                        <h3>La Necesidad de Soporte Especializado</h3>
+                        <p>En un sistema 24/7, no podemos esperar hasta el lunes para contactar al fabricante si falla un variador Siemens o un PLC Allen-Bradley a las 3 AM.</p>
+                        
+                        <h3>Estrategia de Alianza Técnica</h3>
+                        <ul>
+                            <li><strong>Contratos de Soporte Premium:</strong> Acceso a línea directa de ingenieros del fabricante en horario extendido.</li>
+                            <li><strong>Stock Consignado:</strong> Repuestos críticos en bodega sin pagar hasta usarlos.</li>
+                            <li><strong>Capacitación Continua:</strong> Updates de firmware y nuevas funcionalidades para el equipo técnico.</li>
+                            <li><strong>Conectividad Remota:</strong> VPN segura para diagnóstico remoto desde centro de soporte del OEM.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Caso de Uso:</strong> A las 2 AM, el PLC muestra error fatal. El técnico in-situ contacta al soporte Siemens, quien accede remotamente y restaura el programa en 30 minutos. Sin este servicio, la máquina estaría parada hasta las 8 AM.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Tiempo Respuesta', value: '< 1 Hora'},
+                    {label: 'Disponibilidad', value: '24/7/365'},
+                    {label: 'Paros Evitados', value: '15/Año'}
+                ]
+            },
+
+            'mintrab_legal': {
+                title: 'Ministerio de Trabajo',
+                subtitle: 'Validación Legal de Jornada Especial',
+                icon: 'fas fa-balance-scale',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Marco Legal de los 4 Turnos</h3>
+                        <p>Para implementar jornadas de 12 horas, se requiere aprobación formal del Ministerio de Trabajo bajo la figura de "Jornada Especial" o "Trabajo Continuo".</p>
+                        
+                        <h3>Proceso de Legalización</h3>
+                        <ul>
+                            <li><strong>Reglamento Interior Actualizado:</strong> Documento que especifica horarios, rotaciones y compensaciones.</li>
+                            <li><strong>Auditoría de Cumplimiento:</strong> Demostrar que el promedio semanal no excede 42-44 horas.</li>
+                            <li><strong>Acuerdo Colectivo (si aplica):</strong> Negociación con representantes sindicales para evitar conflictos.</li>
+                            <li><strong>Inspecciones Programadas:</strong> Visitas del inspector laboral para verificar condiciones.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Blindaje Legal:</strong> Al tener el aval del Ministerio, la empresa se protege contra demandas laborales por "jornadas extenuantes". El sistema está respaldado por ley.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Tiempo Trámite', value: '60-90 Días'},
+                    {label: 'Vigencia', value: 'Indefinida'},
+                    {label: 'Riesgo Legal', value: 'Blindado'}
+                ]
+            },
+
+            'warehouse_jit': {
+                title: 'Almacén de Repuestos JIT',
+                subtitle: 'Logística para Operación Nocturna',
+                icon: 'fas fa-boxes',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema del Almacén Cerrado</h3>
+                        <p>Tradicionalmente, el almacén cierra a las 5 PM. Si el técnico nocturno necesita un contactor a las 11 PM, debe esperar hasta las 7 AM. Resultado: 8 horas de máquina parada.</p>
+                        
+                        <h3>Solución: Armario Técnico 24/7</h3>
+                        <ul>
+                            <li><strong>Inventario Crítico:</strong> Stock mínimo de repuestos de alto consumo (contactores, fusibles, rodamientos, sensores).</li>
+                            <li><strong>Sistema de Auto-Servicio:</strong> Armario con código de acceso. El técnico toma lo que necesita y registra en tablet.</li>
+                            <li><strong>Reposición Automática:</strong> Cuando el stock baja del mínimo, se genera orden de compra automáticamente.</li>
+                            <li><strong>Trazabilidad Total:</strong> Cada repuesto está vinculado a una máquina y una orden de trabajo.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Impacto en MTTR:</strong> Reducción del 60% en tiempo de reparación nocturna al tener repuestos disponibles inmediatamente.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Ítems Críticos', value: '120'},
+                    {label: 'Acceso', value: '24/7'},
+                    {label: 'MTTR Reducción', value: '-60%'}
+                ]
+            },
+
+            // --- NUEVAS ACTIVIDADES CLAVE ---
+            'predictive_maint': {
+                title: 'Mantenimiento Predictivo',
+                subtitle: 'Análisis de Condición para Prevenir Fallas',
+                icon: 'fas fa-chart-area',
+                content: `
+                    <div class="strategy-box">
+                        <h3>De Reactivo a Predictivo</h3>
+                        <p>El mantenimiento correctivo cuesta 10 veces más que el predictivo. Con personal 24/7, podemos monitorear continuamente la "salud" de los equipos.</p>
+                        
+                        <h3>Técnicas de Monitoreo</h3>
+                        <ul>
+                            <li><strong>Análisis de Vibraciones:</strong> Detectar desbalances en motores y rodamientos antes de la falla catastrófica.</li>
+                            <li><strong>Termografía Infrarroja:</strong> Identificar puntos calientes en tableros eléctricos (conexiones flojas, sobrecargas).</li>
+                            <li><strong>Análisis de Aceite:</strong> Detección de partículas metálicas que indican desgaste interno.</li>
+                            <li><strong>Ultrasonido:</strong> Detección de fugas en sistemas neumáticos y válvulas.</li>
+                            <li><strong>Análisis de Tendencias:</strong> Gráficos de consumo de corriente para detectar cambios anormales.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Caso Real:</strong> La termografía nocturna detectó un contactor a 85°C (debería estar a 40°C). Se reemplazó en la siguiente parada programada. Dos semanas después, el contactor antiguo se probó y falló. Se evitó un paro de 4 horas en producción.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Fallas Evitadas', value: '70%'},
+                    {label: 'Ahorro vs Correctivo', value: '10x'},
+                    {label: 'Inspecciones/Semana', value: '28'}
+                ]
+            },
+
+            'tpm_training': {
+                title: 'Capacitación TPM',
+                subtitle: 'Total Productive Maintenance - Operadores Autónomos',
+                icon: 'fas fa-chalkboard-teacher',
+                content: `
+                    <div class="strategy-box">
+                        <h3>La Filosofía TPM</h3>
+                        <p>Total Productive Maintenance (TPM) convierte al operador en el "primer respondiente". No espera al técnico para tareas básicas.</p>
+                        
+                        <h3>Niveles de Capacitación</h3>
+                        <ul>
+                            <li><strong>Nivel 1 - Inspección Visual:</strong> Detectar fugas, ruidos anormales, temperaturas altas.</li>
+                            <li><strong>Nivel 2 - Limpieza Técnica:</strong> Limpiar sensores, ajustar guías, lubricar puntos accesibles.</li>
+                            <li><strong>Nivel 3 - Ajustes Menores:</strong> Calibrar tensión de bandas, centrar rodillos, ajustar presión.</li>
+                            <li><strong>Nivel 4 - Diagnóstico Básico:</strong> Leer alarmas del HMI, resetear fallos menores, verificar sensores.</li>
+                        </ul>
+
+                        <h3>Implementación en 4 Turnos</h3>
+                        <p>Con 4 equipos rotativos, la capacitación debe ser estándar. Cada operador recibe 40 horas de formación TPM al año.</p>
+
+                        <div class="highlight-box">
+                            <strong>Resultado:</strong> El 40% de las "llamadas a mantenimiento" se resuelven por el operador mismo. El técnico se enfoca en trabajos complejos.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Resolución Operador', value: '40%'},
+                    {label: 'Horas Formación/Año', value: '40h'},
+                    {label: 'Llamadas Reducidas', value: '-35%'}
+                ]
+            },
+
+            'vacation_mgmt': {
+                title: 'Gestión de Vacaciones',
+                subtitle: 'Sistema de Cupos y Paros Programados',
+                icon: 'fas fa-calendar-check',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Desafío de 1,000 Vacaciones</h3>
+                        <p>Con 1,000 empleados y 20 días de vacaciones cada uno, debemos gestionar 20,000 días de ausencias al año sin que colapse la operación.</p>
+                        
+                        <h3>Estrategia Dual</h3>
+                        <p><strong>1. Vacaciones Colectivas (40% del total):</strong></p>
+                        <ul>
+                            <li>Durante paradas de Semana Santa y Navidad, enviar a todo el personal no esencial de vacaciones.</li>
+                            <li>Esto "quema" 8-10 días del saldo anual de golpe.</li>
+                        </ul>
+
+                        <p><strong>2. Sistema de Cupos (60% restante):</strong></p>
+                        <ul>
+                            <li><strong>Regla del 5%:</strong> Máximo 5% de cada área puede estar de vacaciones simultáneamente.</li>
+                            <li><strong>Reserva Antelada:</strong> El empleado reserva sus fechas con 3 meses de anticipación (sistema "primero en llegar").</li>
+                            <li><strong>Buffer de Comodines:</strong> El 5% extra de personal contratado cubre estas ausencias rotativas.</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>Matemática:</strong> Si 1,000 personas tienen 20 días/año, hay ~55 personas de vacaciones cada día. Con el Buffer del 5% (50 personas), cubrimos sin problema.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Ausencias/Día', value: '~55'},
+                    {label: 'Buffer Personal', value: '50 (5%)'},
+                    {label: 'Paradas Colectivas', value: '2/Año'}
+                ]
+            },
+
+            // --- NUEVOS RECURSOS CLAVE ---
+            'buffer_comodines': {
+                title: 'Comodines Polifuncionales',
+                subtitle: 'El Buffer del 5% para Continuidad',
+                icon: 'fas fa-user-cog',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Concepto del "Flotante"</h3>
+                        <p>Los Comodines son técnicos u operadores sin turno fijo. Su función es cubrir vacaciones, incapacidades y ausencias sin generar horas extra.</p>
+                        
+                        <h3>Perfil del Comodín</h3>
+                        <ul>
+                            <li><strong>Polivalencia:</strong> Capacitado en múltiples máquinas (Corrugadora, Flexo, Troquel).</li>
+                            <li><strong>Disponibilidad:</strong> Horario flexible, puede entrar en cualquier turno con 24h de aviso.</li>
+                            <li><strong>Compensación:</strong> Salario base 10-15% superior por la versatilidad requerida.</li>
+                            <li><strong>Desarrollo:</strong> Considerados candidatos prioritarios para ascensos a supervisión.</li>
+                        </ul>
+
+                        <h3>Dimensionamiento</h3>
+                        <p>Para una planta de 1,000 operativos, se requieren aproximadamente 50 Comodines (5% de la plantilla) para mantener cobertura durante:</p>
+                        <ul>
+                            <li>Vacaciones programadas</li>
+                            <li>Incapacidades médicas</li>
+                            <li>Permisos personales</li>
+                            <li>Capacitaciones externas</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <strong>ROI:</strong> El costo del Buffer (5% extra) se compensa eliminando las horas extra de "llamadas de emergencia" que antes se pagaban al doble o triple.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Cantidad (1,000p)', value: '50'},
+                    {label: 'Compensación Extra', value: '+15%'},
+                    {label: 'Cobertura', value: '365 Días'}
+                ]
+            },
+
+            'diagnostic_tools': {
+                title: 'Herramientas de Diagnóstico',
+                subtitle: 'Arsenal Técnico para Mantenimiento Predictivo',
+                icon: 'fas fa-toolbox',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Técnico como "Doctor" de Máquinas</h3>
+                        <p>Así como un médico tiene estetoscopio y rayos X, el técnico industrial necesita herramientas de diagnóstico para "ver" problemas invisibles.</p>
+                        
+                        <h3>Kit Básico por Turno</h3>
+                        <ul>
+                            <li><strong>Laptop Industrial:</strong> Para programación de PLCs, análisis de logs, respaldo de parámetros.</li>
+                            <li><strong>Cámara Termográfica:</strong> Detectar puntos calientes en tableros (conexiones defectuosas, sobrecargas).</li>
+                            <li><strong>Analizador de Vibraciones:</strong> Medir desbalances en motores antes de que fallen.</li>
+                            <li><strong>Megger (Medidor de Aislamiento):</strong> Verificar estado de bobinados de motores.</li>
+                            <li><strong>Multímetro de Pinza:</strong> Medición de corrientes, voltajes, frecuencias.</li>
+                            <li><strong>Detector Ultrasónico:</strong> Encontrar fugas de aire comprimido y fallos en rodamientos.</li>
+                        </ul>
+
+                        <h3>Inversión vs Beneficio</h3>
+                        <table class="cost-table">
+                            <tr><th>Herramienta</th><th>Costo Unitario</th><th>Fallas Detectadas/Año</th></tr>
+                            <tr><td>Cámara Térmica</td><td>Q25,000</td><td>12-15</td></tr>
+                            <tr><td>Analizador Vibración</td><td>Q15,000</td><td>8-10</td></tr>
+                            <tr><td>Megger Digital</td><td>Q8,000</td><td>6-8</td></tr>
+                        </table>
+
+                        <div class="highlight-box">
+                            <strong>Amortización:</strong> Una sola falla evitada (paro de 8 horas = Q400k perdidos) paga el costo de todas las herramientas combinadas.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Inversión/Turno', value: 'Q60k'},
+                    {label: 'Vida Útil', value: '7-10 Años'},
+                    {label: 'ROI', value: '< 1 Mes'}
+                ]
+            },
+
+            'cafeteria_infra': {
+                title: 'Infraestructura de Bienestar',
+                subtitle: 'Comedor 24/7 para Jornada Continua',
+                icon: 'fas fa-utensils',
+                content: `
+                    <div class="strategy-box">
+                        <h3>La Media Hora que Cambia Todo</h3>
+                        <p>En jornadas de 12 horas, la alimentación no es un "beneficio", es una necesidad fisiológica. Un trabajador hambriento es un trabajador inseguro.</p>
+                        
+                        <h3>Diseño del Comedor Industrial</h3>
+                        <ul>
+                            <li><strong>Capacidad:</strong> 200 personas simultáneas (20% de la plantilla activa).</li>
+                            <li><strong>Horario:</strong> Servicio caliente 24/7 (desayuno 6 AM, almuerzo 12 PM, cena 6 PM, refrigerio 12 AM).</li>
+                            <li><strong>Menú Rotativo:</strong> 3 opciones diarias (pollo, res, vegetariano) para evitar monotonía.</li>
+                            <li><strong>Estándar Nutricional:</strong> Menús diseñados por nutricionista (3,000 cal para trabajo físico).</li>
+                            <li><strong>Higiene Industrial:</strong> Área separada de producción, lavamanos industriales, vestuario.</li>
+                        </ul>
+
+                        <h3>Modelo Financiero</h3>
+                        <p><strong>Opción 1 - Concesionario:</strong> Empresa externa opera el comedor. La empresa subsidia Q15-Q25 por ración.</p>
+                        <p><strong>Opción 2 - Operación Propia:</strong> Personal de cocina en nómina, control total de calidad.</p>
+
+                        <div class="highlight-box">
+                            <strong>Impacto en Productividad:</strong> Estudios muestran que alimentación adecuada incrementa la productividad 12% y reduce accidentes por fatiga 30%.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Capacidad', value: '200 Pax'},
+                    {label: 'Subsidio/Ración', value: 'Q25'},
+                    {label: 'Costo Mensual', value: 'Q450k'}
+                ]
             },
 
             // --- Default ---
