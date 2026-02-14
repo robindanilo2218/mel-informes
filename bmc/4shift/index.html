@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master BMC: Sistema de Gestión de Activos 4 Turnos (Rotación 2-2-3)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- CORE DESIGN SYSTEM --- */
+        :root {
+            --bg-deep: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-card: #334155;
+            
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            
+            /* Semántica Industrial */
+            --brand: #3b82f6; /* Azul Estratégico */
+            --safety: #22c55e; /* Verde Seguridad/ROI */
+            --alert: #ef4444; /* Rojo Crítico/Costos */
+            --gold: #eab308; /* Amarillo Finanzas */
+            --purple: #a855f7; /* RRHH / Talento */
+            
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-glow: 0 0 15px rgba(59, 130, 246, 0.3);
+            
+            --border-radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* App-like feel */
+        }
+
+        /* --- DASHBOARD HEADER --- */
+        .top-bar {
+            height: 70px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .brand-block h1 {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .brand-block span { font-size: 0.8rem; color: var(--brand); font-weight: 600; }
+
+        .kpi-wrapper { display: flex; gap: 15px; }
+        .kpi-chip {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- BMC GRID LAYOUT --- */
+        .bmc-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: 55vh 1fr; /* Estructura 2 filas principales */
+            gap: 15px;
+            padding: 20px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        /* Áreas Superiores */
+        .col-left { grid-column: 1 / 3; display: flex; flex-direction: column; gap: 15px; } /* KP */
+        .col-mid-left { grid-column: 3 / 5; display: flex; flex-direction: column; gap: 15px; } /* KA, KR */
+        .col-center { grid-column: 5 / 7; } /* VP (Propuesta Valor) */
+        .col-mid-right { grid-column: 7 / 9; display: flex; flex-direction: column; gap: 15px; } /* CR, CH */
+        .col-right { grid-column: 9 / 11; } /* CS */
+
+        /* Áreas Inferiores (Costos e Ingresos) */
+        .row-bottom-left { grid-column: 1 / 6; grid-row: 2 / 3; }
+        .row-bottom-right { grid-column: 6 / 11; grid-row: 2 / 3; }
+
+        /* --- CARD STYLING --- */
+        .bmc-card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            flex: 1; /* Para llenar espacios en flex columns */
+        }
+
+        .bmc-card:hover {
+            border-color: var(--brand);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            z-index: 10;
+        }
+
+        /* Special Borders for Context */
+        .card-vp { border-top: 3px solid var(--brand); background: linear-gradient(to bottom, #1e293b, #0f172a); }
+        .card-fin { border-top: 3px solid var(--gold); }
+        .card-cost { border-top: 3px solid var(--alert); }
+        .card-hr { border-top: 3px solid var(--purple); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-header i { font-size: 1.1rem; opacity: 0.8; }
+        .card-header h3 { margin: 0; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+
+        /* --- INTERACTIVE LIST ITEMS --- */
+        .action-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; }
+        
+        .action-item {
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .action-item:hover {
+            background: rgba(255,255,255,0.08);
+            border-left-color: var(--brand);
+            padding-left: 15px;
+        }
+
+        .item-title { display: block; font-size: 0.9rem; font-weight: 600; color: #e2e8f0; margin-bottom: 2px; }
+        .item-desc { display: block; font-size: 0.75rem; color: #64748b; }
+
+        /* --- MODAL SYSTEM (The "Brain") --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-window {
+            background: #0f172a;
+            width: 90vw;
+            max-width: 1400px;
+            height: 90vh;
+            border: 1px solid var(--brand);
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-window { transform: scale(1); }
+
+        /* Modal Sidebar */
+        .modal-sidebar {
+            background: #111827;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-icon-box {
+            width: 60px; height: 60px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.8rem; color: var(--brand);
+            margin-bottom: 10px;
+        }
+
+        .sidebar-stat {
+            background: rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-lbl { display: block; font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 5px; }
+        .stat-val { font-size: 1.1rem; font-weight: 700; color: #fff; }
+
+        /* Modal Content */
+        .modal-content {
+            background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 70%);
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute; top: 20px; right: 20px;
+            background: none; border: none; color: #64748b; font-size: 1.5rem; cursor: pointer;
+            transition: 0.2s;
+        }
+        .modal-close:hover { color: var(--alert); transform: rotate(90deg); }
+
+        .content-title { font-size: 1.8rem; color: var(--brand); margin-bottom: 10px; }
+        .content-subtitle { font-size: 1rem; color: #94a3b8; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+
+        /* Estilos de Contenido Rico */
+        .strategy-box { margin-bottom: 30px; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--brand);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(14, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .day-cell {
+            padding: 10px 5px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .day-on { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+        .day-off { background: rgba(255, 255, 255, 0.05); color: #94a3b8; border: 1px solid #475569; }
+        .grid-header { font-size: 0.7rem; text-transform: uppercase; color: #64748b; margin-bottom: 5px; }
+
+        .cost-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .cost-table th { text-align: left; padding: 12px; background: #111827; color: var(--gold); border-bottom: 2px solid #334155; }
+        .cost-table td { padding: 12px; border-bottom: 1px solid #334155; color: #cbd5e1; }
+        
+        .tooltip-icon { color: var(--brand); margin-left: 5px; cursor: help; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="top-bar">
+        <div class="brand-block">
+            <h1>Strategic Maintenance <span>BMC</span></h1>
+            <div style="font-size: 0.75rem; color: #64748b;">Sistema de Gestión 4 Turnos | Modelo Rotativo 2-2-3</div>
+        </div>
+        <div class="kpi-wrapper">
+            <div class="kpi-chip" style="color: var(--safety); border-color: var(--safety);">
+                <i class="fas fa-clock"></i> 168h Cobertura
+            </div>
+            <div class="kpi-chip" style="color: var(--alert); border-color: var(--alert);">
+                <i class="fas fa-chart-line"></i> HE: -95%
+            </div>
+            <div class="kpi-chip" style="color: var(--purple); border-color: var(--purple);">
+                <i class="fas fa-users"></i> 4 Equipos (A,B,C,D)
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas Grid -->
+    <div class="bmc-container">
+
+        <!-- 8. SOCIOS CLAVE (Columna Izquierda) -->
+        <div class="col-left">
+            <div class="bmc-card card-hr">
+                <div class="card-header"><i class="fas fa-handshake"></i><h3>Socios Clave</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('schedule_architecture')">
+                        <span class="item-title">RR.HH. (Arquitectura 2-2-3)</span>
+                        <span class="item-desc">Diseño del ciclo rápido (Panamá) sin nombrarlo.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('cafeteria_strategy')">
+                        <span class="item-title">Concesionario Alimentos</span>
+                        <span class="item-desc">Estrategia de subsidio variable (La "Cafetería Oculta").</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('union_agreement')">
+                        <span class="item-title">Sindicato / Comité</span>
+                        <span class="item-desc">Acuerdo de Banco de Horas (Semana Santa).</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('transport_logistics')">
+                        <span class="item-title">Logística Transporte</span>
+                        <span class="item-desc">Rutas seguras para entradas 6:00 AM / 6:00 PM.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7. ACTIVIDADES & 6. RECURSOS (Columna Media Izquierda) -->
+        <div class="col-mid-left">
+            <div class="bmc-card">
+                <div class="card-header"><i class="fas fa-cogs"></i><h3>Actividades Clave</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('handover_protocol')">
+                        <span class="item-title">Handover Sagrado (15 min)</span>
+                        <span class="item-desc">Reunión de solape obligatorio entre turnos.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('night_ops')">
+                        <span class="item-title">Ventanas de Mantenimiento</span>
+                        <span class="item-desc">Aprovechamiento de micro-paradas nocturnas.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bmc-card">
+                <div class="card-header"><i class="fas fa-microchip"></i><h3>Recursos Clave</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('crew_d')">
+                        <span class="item-title">El 4to Equipo (Crew D)</span>
+                        <span class="item-desc">El activo humano que elimina las horas extra.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('digital_log')">
+                        <span class="item-title">Bitácora Asíncrona</span>
+                        <span class="item-desc">Comunicación digital para turnos que no se ven.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 1. PROPUESTA DE VALOR (Centro) -->
+        <div class="col-center">
+            <div class="bmc-card card-vp" style="height: 100%;">
+                <div class="card-header" style="color:var(--brand);"><i class="fas fa-gem"></i><h3>Propuesta de Valor</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('vp_coverage')">
+                        <span class="item-title">Cobertura Total (168 Hrs)</span>
+                        <span class="item-desc">Eliminación de la "Llamada de Emergencia" en domingos.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('vp_fatigue')">
+                        <span class="item-title">Gestión de Fatiga (-40%)</span>
+                        <span class="item-desc">Modelo 2-2-3 evita trabajar más de 3 noches seguidas.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('vp_cost_control')">
+                        <span class="item-title">Costo Predecible (Flat Rate)</span>
+                        <span class="item-desc">Nómina estabilizada sin picos de H.E.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('vp_continuity')">
+                        <span class="item-title">Continuidad Técnica</span>
+                        <span class="item-desc">Siempre hay un experto en planta, no un "guardia".</span>
+                    </li>
+                </ul>
+                <div style="margin-top:auto; padding:15px; background:rgba(255,255,255,0.05); border-radius:8px; font-size:0.8rem; color:#94a3b8; font-style:italic;">
+                    "No vendemos reparaciones, vendemos disponibilidad matemática."
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. RELACIONES & 3. CANALES (Columna Media Derecha) -->
+        <div class="col-mid-right">
+            <div class="bmc-card">
+                <div class="card-header"><i class="fas fa-heart"></i><h3>Relaciones</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('rel_night_support')">
+                        <span class="item-title">Soporte Operativo</span>
+                        <span class="item-desc">El operador nocturno deja de estar "solo".</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('rel_flexibility')">
+                        <span class="item-title">Pacto de Flexibilidad</span>
+                        <span class="item-desc">Intercambio de turnos autogestionado.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bmc-card">
+                <div class="card-header"><i class="fas fa-network-wired"></i><h3>Canales</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('ch_app')">
+                        <span class="item-title">App Móvil (Dark Mode)</span>
+                        <span class="item-desc">UX diseñada para entornos nocturnos.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('ch_visual')">
+                        <span class="item-title">Gestión Visual (Andon)</span>
+                        <span class="item-desc">Pantallas visibles desde 50m.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. SEGMENTOS (Columna Derecha) -->
+        <div class="col-right">
+            <div class="bmc-card">
+                <div class="card-header"><i class="fas fa-users"></i><h3>Segmentos</h3></div>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('seg_machine')">
+                        <span class="item-title">La Máquina (Paciente)</span>
+                        <span class="item-desc">Jerarquía ISO 14224: Línea > Equipo > Componente.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('seg_prod_mgr')">
+                        <span class="item-title">Gerencia Producción</span>
+                        <span class="item-desc">Cliente que exige volumen constante 24h.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 9. ESTRUCTURA DE COSTOS (Abajo Izquierda) -->
+        <div class="bmc-card card-cost row-bottom-left">
+            <div class="card-header"><i class="fas fa-coins"></i><h3>Estructura de Costos & Finanzas</h3></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('cost_payroll')">
+                        <span class="item-title">Análisis Nómina vs H.E.</span>
+                        <span class="item-desc">Comparativa financiera detallada (3 vs 4 Turnos).</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('cost_cafeteria')">
+                        <span class="item-title">Cafetería "Oculta" (KPI)</span>
+                        <span class="item-desc">Subsidio variable basado en rendimiento.</span>
+                    </li>
+                </ul>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('cost_holiday_bank')">
+                        <span class="item-title">Banco de Horas (Semana Santa)</span>
+                        <span class="item-desc">Gestión financiera de festivos (Anualización).</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('cost_night_surcharge')">
+                        <span class="item-title">Recargos Nocturnos</span>
+                        <span class="item-desc">Impacto de ley en el presupuesto.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. FLUJO DE INGRESOS / ROI (Abajo Derecha) -->
+        <div class="bmc-card card-fin row-bottom-right">
+            <div class="card-header"><i class="fas fa-chart-line"></i><h3>Retorno de Inversión (ROI)</h3></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('roi_oee')">
+                        <span class="item-title">Recuperación OEE Nocturno</span>
+                        <span class="item-desc">Igualar eficiencia Noche = Día.</span>
+                    </li>
+                    <li class="action-item" onclick="openModal('roi_mttr')">
+                        <span class="item-title">Reducción MTTR</span>
+                        <span class="item-desc">Valor del tiempo respuesta inmediato.</span>
+                    </li>
+                </ul>
+                <ul class="action-list">
+                    <li class="action-item" onclick="openModal('roi_turnover')">
+                        <span class="item-title">Retención de Talento</span>
+                        <span class="item-desc">Ahorro en costos de reclutamiento y curva de aprendizaje.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL SYSTEM -->
+    <div id="master-modal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
+        <div class="modal-window">
+            
+            <!-- Sidebar -->
+            <div class="modal-sidebar">
+                <div class="sidebar-icon-box" id="modal-icon">
+                    <i class="fas fa-info"></i>
+                </div>
+                <div id="modal-stats">
+                    <!-- Stats injected via JS -->
+                </div>
+                <div style="margin-top:auto;">
+                    <button onclick="closeModal()" style="width:100%; padding:12px; background:var(--bg-card); border:1px solid #475569; color:#fff; border-radius:6px; cursor:pointer;">Cerrar</button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <h2 class="content-title" id="modal-title">Título</h2>
+                <div class="content-subtitle" id="modal-subtitle">Subtítulo explicativo</div>
+                <div id="modal-body-content">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- KNOWLEDGE BASE (DATABASE) ---
+        const bmcData = {
+            // --- HORARIOS Y ARQUITECTURA (El Core de la solicitud) ---
+            'schedule_architecture': {
+                title: 'Modelo de Rotación 2-2-3 (Ciclo Rápido)',
+                subtitle: 'Ingeniería de Horarios para Máxima Cobertura y Bienestar',
+                icon: 'fas fa-calendar-alt',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Secreto: Rotación de Ciclo Corto</h3>
+                        <p>Evitamos mencionar nombres de países. Nos enfocamos en la <strong>matemática del descanso</strong>. El sistema tradicional de 7 noches seguidas es destructivo. El modelo 2-2-3 reduce la fatiga acumulada.</p>
+                        
+                        <div class="highlight-box">
+                            <strong>La Fórmula 2-2-3:</strong>
+                            <br>2 Días Trabajo > 2 Días Descanso > 3 Días Trabajo > 2 Días Descanso > 2 Días Trabajo > 3 Días Descanso.
+                        </div>
+
+                        <h3>Visualización del Ciclo (14 Días)</h3>
+                        <p>Ejemplo para el <strong>Equipo A</strong> (Turno de 12 Horas, 6am - 6pm):</p>
+                        
+                        <div class="schedule-grid">
+                            <!-- Headers -->
+                            <div class="grid-header">LUN</div><div class="grid-header">MAR</div><div class="grid-header">MIE</div><div class="grid-header">JUE</div><div class="grid-header">VIE</div><div class="grid-header">SAB</div><div class="grid-header">DOM</div>
+                            <div class="grid-header">LUN</div><div class="grid-header">MAR</div><div class="grid-header">MIE</div><div class="grid-header">JUE</div><div class="grid-header">VIE</div><div class="grid-header">SAB</div><div class="grid-header">DOM</div>
+
+                            <!-- Week 1 -->
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-on">DIA</div>
+
+                            <!-- Week 2 -->
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-on">DIA</div>
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-off">OFF</div>
+                            <div class="day-cell day-off">OFF</div>
+                        </div>
+
+                        <p><strong>Ventaja Competitiva:</strong> El técnico descansa un fin de semana completo (Viernes, Sábado, Domingo) cada dos semanas. Esto garantiza equilibrio vida-trabajo y reduce la rotación de personal.</p>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Días Libres/Año', value: '182 Días'},
+                    {label: 'Fines de Semana Libres', value: '26/Año'},
+                    {label: 'Jornada', value: '12 Horas'}
+                ]
+            },
+
+            // --- ESTRATEGIA CAFETERIA ---
+            'cafeteria_strategy': {
+                title: 'Estrategia de Subsidio por Rendimiento',
+                subtitle: 'Modelo de "Costo Oculto" o "Cafetería Silenciosa"',
+                icon: 'fas fa-utensils',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Ingeniería Financiera del Alimento</h3>
+                        <p>En lugar de cobrar al empleado, utilizamos el alimento como una herramienta de gestión de KPIs. El empleado percibe que la comida es "gratis", pero internamente es un costo variable ligado a resultados.</p>
+
+                        <table class="cost-table">
+                            <tr><th>Escenario</th><th>Acción (Visible)</th><th>Acción (Contable/Oculta)</th></tr>
+                            <tr>
+                                <td><strong>KPI OEE > 95%</strong></td>
+                                <td style="color:#4ade80">Menú Premium (Gratis)</td>
+                                <td>Empresa absorbe 100% como "Bono Productividad" (Deducible).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>KPI OEE < 85%</strong></td>
+                                <td style="color:#facc15">Menú Estándar</td>
+                                <td>Se aplica "Ajuste de Presupuesto" al comedor.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Falla Crítica</strong></td>
+                                <td style="color:#ef4444">Lunch Box en Máquina</td>
+                                <td>Costo cargado a "Mantenimiento Correctivo".</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box">
+                            <strong>Psicología:</strong> No decimos "te descuento la comida". Decimos "La empresa te invita si cuidamos los costos juntos". El técnico protege la máquina para proteger su beneficio.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Impacto Moral', value: 'Alto'},
+                    {label: 'Control Costos', value: 'Automático'}
+                ]
+            },
+
+            // --- BANCO DE HORAS (SEMANA SANTA) ---
+            'cost_holiday_bank': {
+                title: 'Gestión Financiera de Festivos',
+                subtitle: 'Anualización de Jornada y Banco de Horas (Opción B)',
+                icon: 'fas fa-piggy-bank',
+                content: `
+                    <div class="strategy-box">
+                        <h3>El Problema de la Semana Santa</h3>
+                        <p>En operación continua, parar la planta en Jueves/Viernes Santo cuesta millones. Pagar esos días al triple desangra el presupuesto de nómina. La solución es la <strong>Bancarización del Tiempo</strong>.</p>
+
+                        <h3>Modelo de Banco de Horas (Opción B)</h3>
+                        <p>En lugar de pagar dinero, pagamos con <strong>Calidad de Vida</strong> en temporada baja.</p>
+                        
+                        <ul>
+                            <li><strong>Acumulación:</strong> Trabajar un festivo genera un crédito de 2.0 días en el banco virtual del técnico.</li>
+                            <li><strong>Canje Estratégico:</strong> El técnico utiliza estos días acumulados para crear "Super Puentes" (Ej: Tomar 4 días libres seguidos en Octubre).</li>
+                            <li><strong>Gestión de Turnos:</strong> Los compañeros se cubren entre sí (Turno A cubre a B) para disfrutar estos descansos, eliminando la necesidad de contratar externos.</li>
+                        </ul>
+
+                        <div class="highlight-box" style="border-color: var(--gold); background: rgba(234, 179, 8, 0.1);">
+                            <strong>Resultado:</strong> Cobertura 24/7 en festivos sin impacto en Cash Flow inmediato y mayor satisfacción del empleado a largo plazo.
+                        </div>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Costo Cash', value: '$0'},
+                    {label: 'Pasivo Laboral', value: 'Controlado'}
+                ]
+            },
+
+            // --- NOMINA VS HE ---
+            'cost_payroll': {
+                title: 'Análisis: 4 Equipos vs 3 + Horas Extra',
+                subtitle: 'Desmitificando el costo del Cuarto Turno',
+                icon: 'fas fa-calculator',
+                content: `
+                    <div class="strategy-box">
+                        <p>Existe la creencia errónea de que un 4to equipo aumenta el costo laboral en un 33%. Al analizar los costos ocultos del modelo de 3 turnos, la realidad es diferente.</p>
+
+                        <table class="cost-table">
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Modelo 3 Turnos (Tradicional)</th>
+                                <th>Modelo 4 Turnos (2-2-3)</th>
+                            </tr>
+                            <tr>
+                                <td>Salario Base</td>
+                                <td>100%</td>
+                                <td>133% (Aparente aumento)</td>
+                            </tr>
+                            <tr>
+                                <td>Horas Extra (Fines Semana)</td>
+                                <td style="color:#ef4444">Masivas (Pago Doble/Triple)</td>
+                                <td style="color:#4ade80">Casi Nulo (Incluido en jornada)</td>
+                            </tr>
+                            <tr>
+                                <td>Taxis / Transporte Extra</td>
+                                <td style="color:#ef4444">Alto (Llamadas emergencia)</td>
+                                <td style="color:#4ade80">Planificado (Ruta fija)</td>
+                            </tr>
+                            <tr>
+                                <td>Productividad (Fatiga)</td>
+                                <td style="color:#ef4444">Baja (Errores frecuentes)</td>
+                                <td style="color:#4ade80">Alta (Personal descansado)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>COSTO TOTAL REAL</strong></td>
+                                <td><strong>Variable (120-140%)</strong></td>
+                                <td><strong>Fijo (135%) y Predecible</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Ahorro H.E.', value: '95%'},
+                    {label: 'Previsibilidad', value: 'Total'}
+                ]
+            },
+
+            // --- PROPUESTA DE VALOR: COBERTURA ---
+            'vp_coverage': {
+                title: 'Cobertura Total 168 Horas',
+                subtitle: 'El fin de la "Llamada de Emergencia"',
+                icon: 'fas fa-shield-alt',
+                content: `
+                    <div class="strategy-box">
+                        <h3>Matemática de la Disponibilidad</h3>
+                        <p>Una semana tiene 168 horas (24 x 7). El modelo de 3 turnos cubre 120 horas normales. Las otras 48 horas (fines de semana) son un riesgo operativo gigante.</p>
+
+                        <div class="highlight-box">
+                            <strong>Escenario de Falla (Domingo 3:00 AM):</strong>
+                            <br>
+                            <ul>
+                                <li><strong>Modelo Viejo:</strong> Llamar técnico > Esperar que despierte > Transporte > Diagnóstico. <strong>Pérdida: 2 Horas.</strong></li>
+                                <li><strong>Modelo 4 Turnos:</strong> Técnico en sitio > Diagnóstico inmediato. <strong>Pérdida: 5 Minutos.</strong></li>
+                            </ul>
+                        </div>
+                        <p>Recuperar esas 2 horas de producción de una Corrugadora paga el salario semanal del técnico de guardia.</p>
+                    </div>
+                `,
+                stats: [
+                    {label: 'Tiempo Respuesta', value: '< 5 min'},
+                    {label: 'Disponibilidad', value: '99.8%'}
+                ]
+            },
+            
+            // --- Handover ---
+            'handover_protocol': {
+                title: 'Protocolo de Handover (Solape)',
+                subtitle: 'Transferencia de Mando Crítica',
+                icon: 'fas fa-sync',
+                content: `
+                    <div class="strategy-box">
+                        <p>En el esquema 2-2-3, el Turno A puede no ver al Turno C en varios días. La comunicación escrita y la reunión presencial son vitales.</p>
+                        <h3>Agenda de los 15 Minutos:</h3>
+                        <ol>
+                            <li><strong>Seguridad (LOTO):</strong> Estado de bloqueos activos.</li>
+                            <li><strong>Anomalías Activas:</strong> Ruidos, temperaturas altas, vibraciones que no han causado falla aún.</li>
+                            <li><strong>Inventario Rápido:</strong> ¿Dónde está la cámara térmica? ¿Quién tiene la laptop de programación?</li>
+                        </ol>
+                    </div>
+                `,
+                stats: [{label: 'Duración', value: '15 min'}, {label: 'Frecuencia', value: '2/Día'}]
+            },
+
+            // --- Default ---
+            'default': {
+                title: 'Detalle Estratégico',
+                subtitle: 'Seleccione un elemento para ver más información.',
+                icon: 'fas fa-info-circle',
+                content: '<p>Navegue por el canvas para explorar la estrategia.</p>',
+                stats: []
+            }
+        };
+
+        // --- JS LOGIC ---
+        function openModal(id) {
+            const data = bmcData[id] || bmcData['default'];
+            const modal = document.getElementById('master-modal');
+            
+            // Populate Content
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-subtitle').innerText = data.subtitle;
+            document.getElementById('modal-body-content').innerHTML = data.content;
+            
+            // Populate Sidebar Icon
+            const iconContainer = document.getElementById('modal-icon');
+            iconContainer.innerHTML = `<i class="${data.icon}"></i>`;
+
+            // Populate Sidebar Stats
+            const statsContainer = document.getElementById('modal-stats');
+            statsContainer.innerHTML = ''; // Clear previous
+            
+            if (data.stats && data.stats.length > 0) {
+                data.stats.forEach(stat => {
+                    statsContainer.innerHTML += `
+                        <div class="sidebar-stat">
+                            <span class="stat-lbl">${stat.label}</span>
+                            <span class="stat-val">${stat.value}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                statsContainer.innerHTML = `<div class="sidebar-stat"><span class="stat-lbl">Info</span><span class="stat-val">General</span></div>`;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('master-modal').classList.remove('active');
+        }
+
+        // Close on Esc key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
