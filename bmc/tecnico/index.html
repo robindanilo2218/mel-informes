@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMC: Técnico Electricista Industrial</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Azul oscuro industrial */
+            --accent-color: #eab308; /* Amarillo seguridad/eléctrico */
+            --bg-color: #f8fafc;
+            --border-color: #cbd5e1;
+            --text-color: #334155;
+            --header-bg: #1e293b;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--header-bg);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- GRID LAYOUT --- */
+        .canvas-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: auto auto auto;
+            gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Definición de Áreas del Canvas */
+        .kp { grid-column: 1 / 2; grid-row: 1 / 3; } /* Socios Clave */
+        .ka { grid-column: 2 / 3; grid-row: 1 / 2; } /* Actividades Clave */
+        .kr { grid-column: 2 / 3; grid-row: 2 / 3; } /* Recursos Clave */
+        .vp { grid-column: 3 / 4; grid-row: 1 / 3; } /* Propuesta de Valor */
+        .cr { grid-column: 4 / 5; grid-row: 1 / 2; } /* Relaciones */
+        .ch { grid-column: 4 / 5; grid-row: 2 / 3; } /* Canales */
+        .cs { grid-column: 5 / 6; grid-row: 1 / 3; } /* Segmentos */
+        .cst { grid-column: 1 / 3; grid-row: 3 / 4; } /* Costos */
+        .rs { grid-column: 3 / 6; grid-row: 3 / 4; }  /* Ingresos */
+
+        /* Estilos de las Cajas */
+        .box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .box.bottom-row::before {
+            background-color: var(--accent-color);
+        }
+
+        /* Títulos e Iconos */
+        .box h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .box h3 i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        /* Contenido de listas */
+        .box ul {
+            list-style: none;
+        }
+
+        .box ul li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .box ul li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .sub-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-left: 5px;
+        }
+
+        /* Botón de impresión */
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-print {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #334155;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .canvas-container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+            /* Reordenar para tablet */
+            .kp, .ka, .kr, .vp, .cr, .ch, .cs, .cst, .rs { grid-column: auto; grid-row: auto; }
+            .cst, .rs { grid-column: span 2; }
+        }
+
+        @media (max-width: 768px) {
+            .canvas-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .header h1 { font-size: 1.5rem; }
+        }
+
+        @media print {
+            body { background-color: white; padding: 0; }
+            header { background: white; color: black; border: none; box-shadow: none; padding: 0; margin-bottom: 20px; }
+            header p { color: black; }
+            .btn-print { display: none; }
+            .box { box-shadow: none; border: 1px solid #000; break-inside: avoid; }
+            .canvas-container { display: grid !important; gap: 10px; } /* Forzar grid en print */
+            /* Ajustes para que quepa en una hoja horizontal si es posible */
+            @page { size: landscape; margin: 0.5cm; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Business Model Canvas</h1>
+        <p>Unidad de Mantenimiento Eléctrico: Corrugación y Conversión</p>
+    </header>
+
+    <div class="canvas-container">
+
+        <!-- 8. Socios Clave -->
+        <div class="box kp">
+            <h3><i class="fas fa-handshake"></i> Socios Clave</h3>
+            <ul>
+                <li><strong>Almacén de Repuestos:</strong> Logística Just-in-Time para componentes críticos.</li>
+                <li><strong>Fabricantes (OEM):</strong> Soporte nivel 3 (Siemens, Allen Bradley, Marquip).</li>
+                <li><strong>Departamento Mecánico:</strong> Colaboración en fallas mixtas.</li>
+                <li><strong>IT / Sistemas:</strong> Infraestructura de red industrial y servidores.</li>
+            </ul>
+        </div>
+
+        <!-- 7. Actividades Clave -->
+        <div class="box ka">
+            <h3><i class="fas fa-tools"></i> Actividades Clave</h3>
+            <ul>
+                <li><strong>Mantenimiento Correctivo:</strong> Diagnóstico de Causa Raíz (RCA) inmediato.</li>
+                <li><strong>Mantenimiento Preventivo:</strong> Termografía, apriete y limpieza técnica.</li>
+                <li><strong>Mantenimiento Predictivo:</strong> Análisis de amperaje, vibración y logs de error.</li>
+                <li><strong>Gestión de Datos:</strong> Registro de intervenciones y actualización de planos.</li>
+            </ul>
+        </div>
+
+        <!-- 6. Recursos Clave -->
+        <div class="box kr">
+            <h3><i class="fas fa-microchip"></i> Recursos Clave</h3>
+            <ul>
+                <li><strong>Capital Intelectual:</strong> Lógica de control, VFDs y Software.</li>
+                <li><strong>Herramientas:</strong> Laptop de diagnóstico, multímetros, escáneres.</li>
+                <li><strong>Infraestructura Digital:</strong> Planos actualizados y Manuales.</li>
+                <li><strong>Inventario Crítico:</strong> PLCs de repuesto, tarjetas I/O.</li>
+            </ul>
+        </div>
+
+        <!-- 1. Propuesta de Valor -->
+        <div class="box vp">
+            <h3><i class="fas fa-gift"></i> Propuesta de Valor</h3>
+            <ul>
+                <li><span class="highlight">Garantía de Disponibilidad (Uptime):</span> Maximizar tiempo operativo en Corrugadoras y Conversión.</li>
+                <li><span class="highlight">Seguridad Operativa:</span> Certeza en paradas de emergencia y enclavamientos.</li>
+                <li><span class="highlight">Fiabilidad del Activo:</span> Maquinaria operando a velocidad de diseño.</li>
+                <li><span class="highlight">Optimización (SMED):</span> Reducción drástica de tiempos muertos por falla.</li>
+            </ul>
+        </div>
+
+        <!-- 4. Relaciones con Clientes -->
+        <div class="box cr">
+            <h3><i class="fas fa-heart"></i> Relaciones</h3>
+            <ul>
+                <li><strong>Socio Estratégico:</strong> Confianza técnica absoluta.</li>
+                <li><strong>Soporte Consultivo:</strong> Capacitación en sitio (Mantenimiento Autónomo).</li>
+                <li><strong>Transparencia:</strong> Explicación clara de fallas para evitar recurrencia.</li>
+            </ul>
+        </div>
+
+        <!-- 3. Canales -->
+        <div class="box ch">
+            <h3><i class="fas fa-truck-loading"></i> Canales</h3>
+            <ul>
+                <li><strong>Digital / CMMS:</strong> App de gestión de órdenes y estatus.</li>
+                <li><strong>HMI / SCADA:</strong> Comunicación directa máquina-operador.</li>
+                <li><strong>Presencia en Piso:</strong> Rondas de inspección (Gemba Walk).</li>
+            </ul>
+        </div>
+
+        <!-- 2. Segmentos de Clientes -->
+        <div class="box cs">
+            <h3><i class="fas fa-users"></i> Segmentos de Clientes</h3>
+            <ul>
+                <li><strong>Cliente Primario:</strong> Operadores de Máquina.</li>
+                <li><strong>Cliente Estratégico:</strong> Gerencia de Producción.</li>
+                <li><strong>El "Paciente" (Jerarquía de Activos):</strong>
+                    <br><span class="sub-tag">Línea</span> (Corrugadora 1)
+                    <br><span class="sub-tag">Máquina</span> (Single Facer / Flexo)
+                    <br><span class="sub-tag">Sección</span> (Unidad Impresión)
+                    <br><span class="sub-tag">Equipo</span> (Motor Principal / VFD)
+                </li>
+            </ul>
+        </div>
+
+        <!-- 9. Estructura de Costos -->
+        <div class="box cst bottom-row">
+            <h3><i class="fas fa-file-invoice-dollar"></i> Estructura de Costos</h3>
+            <ul>
+                <li><strong>Nómina Especializada:</strong> Talento técnico de alto nivel.</li>
+                <li><strong>Capacitación Continua:</strong> Cursos de actualización tecnológica.</li>
+                <li><strong>Equipamiento:</strong> Herramientas de precisión y EPP.</li>
+                <li><strong>Software:</strong> Licencias de programación y gestión.</li>
+            </ul>
+        </div>
+
+        <!-- 5. Fuentes de Ingresos -->
+        <div class="box rs bottom-row">
+            <h3><i class="fas fa-chart-line"></i> Fuentes de Valor (Ingresos)</h3>
+            <ul>
+                <li><span class="highlight">↑ OEE:</span> Incremento en disponibilidad y eficiencia.</li>
+                <li><span class="highlight">↓ Scrap:</span> Reducción de costos de No Calidad.</li>
+                <li><span class="highlight">↑ Vida Útil (CAPEX):</span> Pospone la compra de maquinaria nueva.</li>
+                <li><span class="highlight">↓ Horas Extras:</span> Menos emergencias fuera de horario.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <button class="btn-print" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimir / Guardar como PDF
+        </button>
+    </div>
+
+</body>
+</html>
+
