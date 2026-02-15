@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Model Canvas - Servidor Local</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 { text-align: center; font-weight: 800; color: var(--primary); margin-bottom: 30px; }
+
+        /* Estructura del Canvas */
+        .canvas-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 300px) 150px;
+            gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .block {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .block:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .block h3 { margin-top: 0; font-size: 0.9rem; color: var(--primary); text-transform: uppercase; }
+        .block p { font-size: 0.85rem; line-height: 1.4; }
+
+        /* Posicionamiento específico del Canvas */
+        .alianzas { grid-row: span 2; }
+        .actividades { grid-row: span 1; }
+        .recursos { grid-row: span 1; }
+        .propuesta { grid-row: span 2; }
+        .relaciones { grid-row: span 1; }
+        .canales { grid-row: span 1; }
+        .segmentos { grid-row: span 2; }
+        .costes { grid-column: span 2.5; }
+        .beneficios { grid-column: span 3; }
+
+        /* Estilos del Modal (Ventana Emergente) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            width: 50%;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px; top: 15px;
+            font-size: 28px; font-weight: bold; cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .canvas-container { display: block; }
+            .block { margin-bottom: 10px; height: auto !important; }
+            .modal-content { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Business Model Canvas: Infraestructura Servidor Local</h1>
+
+    <div class="canvas-container">
+        <!-- Fila Superior -->
+        <div class="block alianzas" onclick="openModal('alianzas')">
+            <h3>Alianzas Clave</h3>
+            <p>Proveedores de Hardware, Partners de Software y Soporte Eléctrico...</p>
+        </div>
+
+        <div class="block actividades" onclick="openModal('actividades')">
+            <h3>Actividades Clave</h3>
+            <p>Mantenimiento Preventivo, Monitoreo y Seguridad...</p>
+        </div>
+
+        <div class="block propuesta" onclick="openModal('propuesta')">
+            <h3>Propuesta de Valor</h3>
+            <p>Latencia Cero, Privacidad Total y Potencia Bruta para Transacciones...</p>
+        </div>
+
+        <div class="block relaciones" onclick="openModal('relaciones')">
+            <h3>Relaciones</h3>
+            <p>Soporte Técnico in-situ y Paneles de Autogestión...</p>
+        </div>
+
+        <div class="block segmentos" onclick="openModal('segmentos')">
+            <h3>Segmentos</h3>
+            <p>Equipos de Dev, Analítica y Sistemas Core (ERP/CRM)...</p>
+        </div>
+
+        <!-- Fila Media -->
+        <div class="block recursos" onclick="openModal('recursos')">
+            <h3>Recursos Clave</h3>
+            <p>CPU Multi-core, RAM ECC, NVMe RAID y Red 10Gbps...</p>
+        </div>
+
+        <div class="block canales" onclick="openModal('canales')">
+            <h3>Canales</h3>
+            <p>SSH seguro, VPN WireGuard y Nginx para Web Apps...</p>
+        </div>
+
+        <!-- Fila Inferior (Estructura Económica) -->
+        <div class="block costes" onclick="openModal('costes')">
+            <h3>Estructura de Costes</h3>
+            <p>Inversión CAPEX (Hardware) y Gasto OPEX (Energía)...</p>
+        </div>
+
+        <div class="block beneficios" onclick="openModal('beneficios')">
+            <h3>Beneficios / Retorno</h3>
+            <p>Ahorro en Cloud, Seguridad de Datos y Velocidad de Desarrollo...</p>
+        </div>
+    </div>
+
+    <!-- Modales -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="color: var(--primary);"></h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const content = {
+            alianzas: "<ul><li><b>Hardware:</b> Dell (PowerEdge), HPE (ProLiant).</li><li><b>Software:</b> Canonical, Red Hat, Docker.</li><li><b>Infraestructura:</b> Proveedores de UPS para redundancia eléctrica.</li></ul>",
+            actividades: "<ul><li>Actualización de firmware y kernel Linux.</li><li>Supervisión de IOPS y latencia de bases de datos.</li><li>Backups locales e inmutables.</li></ul>",
+            propuesta: "<ul><li>Acceso inmediato sin latencia de internet.</li><li>Control físico absoluto del hardware y los datos.</li><li>Capacidad de escalar RAM y almacenamiento sin cuotas mensuales.</li></ul>",
+            relaciones: "<ul><li>Asistencia técnica directa.</li><li>Dashboards de rendimiento (Grafana/Prometheus).</li><li>Soberanía sobre las políticas de seguridad.</li></ul>",
+            segmentos: "<ul><li>Desarrolladores internos que requieren entornos de staging pesados.</li><li>Analistas de datos procesando volúmenes sensibles.</li><li>Aplicaciones empresariales críticas (SAP, CRM local).</li></ul>",
+            recursos: "<ul><li><b>CPU:</b> AMD EPYC o Xeon 16+ Cores.</li><li><b>RAM:</b> 128GB ECC DDR4/5.</li><li><b>Almacenamiento:</b> RAID 10 de NVMe para evitar cuellos de botella.</li></ul>",
+            canales: "<ul><li>Red Local (Gigabit/10G).</li><li>VPN Segura para acceso externo.</li><li>Puertos específicos gestionados por Nginx.</li></ul>",
+            costes: "<ul><li>Compra de servidor: $3,000 - $8,000.</li><li>Energía: ~150W-400W constantes.</li><li>Administración de sistemas (SysAdmin).</li></ul>",
+            beneficios: "<ul><li>Eliminación de facturas de transferencia de datos en la nube.</li><li>Alta disponibilidad local.</li><li>Cumplimiento de normativas de protección de datos (GDPR/Local).</li></ul>"
+        };
+
+        function openModal(id) {
+            document.getElementById('modalTitle').innerText = id.toUpperCase();
+            document.getElementById('modalBody').innerHTML = content[id];
+            document.getElementById('infoModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('infoModal')) closeModal();
+        }
+    </script>
+</body>
+</html>
