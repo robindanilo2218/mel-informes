@@ -1,1 +1,617 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Perf Local Server Plan | 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            900: '#0f172a', // Fondo principal
+                            800: '#1e293b', // Tarjetas
+                            700: '#334155', // Bordes
+                            accent: '#3b82f6', // Azul eléctrico
+                            success: '#10b981', // Verde éxito
+                            danger: '#ef4444', // Rojo alerta
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0b1120; }
+        .grid-canvas {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, minmax(280px, auto)) minmax(180px, auto);
+            gap: 1rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Posicionamiento Canvas Standard */
+        .area-partners { grid-row: span 2; }
+        .area-activities { grid-column: 2; grid-row: 1; }
+        .area-resources { grid-column: 2; grid-row: 2; }
+        .area-value { grid-column: 3; grid-row: span 2; }
+        .area-relationships { grid-column: 4; grid-row: 1; }
+        .area-channels { grid-column: 4; grid-row: 2; }
+        .area-segments { grid-column: 5; grid-row: span 2; }
+        .area-cost { grid-column: span 2; grid-row: 3; }
+        .area-revenue { grid-column: span 3; grid-row: 3; }
 
+        /* Efectos */
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .grid-canvas { display: flex; flex-direction: column; }
+            .area-partners, .area-value, .area-segments { min-height: 200px; }
+        }
+    </style>
+</head>
+<body class="text-slate-300 font-sans p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-[1600px] mx-auto mb-8 flex justify-between items-end border-b border-slate-700 pb-4">
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fa-solid fa-server text-3xl text-blue-500"></i>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">INFRAESTRUCTURA <span class="text-blue-500">LOCAL 2026</span></h1>
+            </div>
+            <p class="text-slate-400 font-mono text-sm"><i class="fa-solid fa-terminal mr-2"></i>sysadmin@localhost:~$ ./init_high_performance_stack.sh</p>
+        </div>
+        <div class="text-right hidden md:block">
+            <div class="text-xs font-mono text-emerald-400 border border-emerald-900 bg-emerald-900/20 px-3 py-1 rounded">
+                STATUS: SYSTEM OPTIMAL
+            </div>
+            <div class="text-xs text-slate-500 mt-1">Updated: Feb 2026</div>
+        </div>
+    </header>
+
+    <!-- Canvas Grid -->
+    <div class="grid-canvas">
+        
+        <!-- 1. Key Partners -->
+        <div class="area-partners bg-slate-800 border border-slate-700 rounded-xl p-6 card-hover cursor-pointer relative overflow-hidden group" onclick="openModal('partners')">
+            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <i class="fa-solid fa-handshake text-6xl"></i>
+            </div>
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">Aliados Clave</h3>
+            <ul class="space-y-3 text-sm">
+                <li class="flex items-center gap-2"><i class="fa-brands fa-linux text-yellow-500"></i> Canonical / RedHat</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-microchip text-red-500"></i> AMD Enterprise</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-box text-blue-300"></i> Docker Inc.</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-hard-drive text-gray-400"></i> Samsung (NVMe)</li>
+            </ul>
+            <div class="mt-6 pt-4 border-t border-slate-700">
+                <span class="text-xs font-mono text-emerald-400 bg-emerald-900/30 px-2 py-1 rounded">PROVEEDORES HARDWARE</span>
+            </div>
+        </div>
+
+        <!-- 2. Key Activities -->
+        <div class="area-activities bg-slate-800 border border-slate-700 rounded-xl p-5 card-hover cursor-pointer group" onclick="openModal('activities')">
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-3">Actividades Clave</h3>
+            <ul class="space-y-2 text-xs md:text-sm">
+                <li><i class="fa-solid fa-shield-halved text-emerald-500 mr-2"></i>Kernel Hardening</li>
+                <li><i class="fa-solid fa-rotate text-blue-500 mr-2"></i>RAID 10 Mgmt</li>
+                <li><i class="fa-brands fa-docker text-blue-400 mr-2"></i>Container Orch.</li>
+            </ul>
+        </div>
+
+        <!-- 3. Key Resources -->
+        <div class="area-resources bg-slate-800 border border-slate-700 rounded-xl p-5 card-hover cursor-pointer group relative overflow-hidden" onclick="openModal('resources')">
+            <div class="absolute -right-4 -bottom-4 opacity-10">
+                <i class="fa-solid fa-memory text-8xl"></i>
+            </div>
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-3">Recursos (Hardware)</h3>
+            <div class="font-mono text-xs space-y-2 text-slate-300">
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span>CPU:</span> <span class="text-white">AMD EPYC 7003</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span>RAM:</span> <span class="text-white">256GB ECC</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>DISK:</span> <span class="text-white">8TB NVMe RAID</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Value Proposition -->
+        <div class="area-value bg-slate-800 border border-slate-700 rounded-xl p-6 card-hover cursor-pointer relative group" onclick="openModal('value')">
+            <div class="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+            <div class="absolute top-10 right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                <i class="fa-solid fa-bolt text-9xl"></i>
+            </div>
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-6 text-center">Propuesta de Valor</h3>
+            
+            <div class="space-y-6 text-center">
+                <div>
+                    <div class="text-3xl font-black text-white">0.2ms</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-widest">Latencia de Red (LAN)</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-black text-white">100%</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-widest">Soberanía de Datos</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-black text-white">>150k</div>
+                    <div class="text-xs text-slate-400 uppercase tracking-widest">IOPS en DB</div>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <span class="inline-block bg-blue-600/20 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-500/30">Sin costes de egreso (AWS Tax)</span>
+            </div>
+        </div>
+
+        <!-- 5. Customer Relationships -->
+        <div class="area-relationships bg-slate-800 border border-slate-700 rounded-xl p-5 card-hover cursor-pointer" onclick="openModal('relationships')">
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-3">Relaciones</h3>
+            <ul class="space-y-2 text-sm">
+                <li><i class="fa-solid fa-headset mr-2 text-slate-500"></i>Soporte On-Site</li>
+                <li><i class="fa-solid fa-chart-line mr-2 text-purple-400"></i>Grafana Dashboards</li>
+                <li><i class="fa-solid fa-users-gear mr-2 text-orange-400"></i>Self-Service (Portainer)</li>
+            </ul>
+        </div>
+
+        <!-- 6. Channels -->
+        <div class="area-channels bg-slate-800 border border-slate-700 rounded-xl p-5 card-hover cursor-pointer" onclick="openModal('channels')">
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-3">Canales</h3>
+            <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                <div class="bg-slate-900 p-2 rounded border border-slate-600">
+                    <i class="fa-solid fa-network-wired block mb-1 text-lg"></i> 10GbE
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-600">
+                    <i class="fa-solid fa-lock block mb-1 text-lg"></i> VPN
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-600">
+                    <i class="fa-solid fa-globe block mb-1 text-lg"></i> Nginx
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-600">
+                    <i class="fa-solid fa-terminal block mb-1 text-lg"></i> SSH
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Segments -->
+        <div class="area-segments bg-slate-800 border border-slate-700 rounded-xl p-6 card-hover cursor-pointer relative overflow-hidden group" onclick="openModal('segments')">
+            <div class="absolute -right-6 top-1/2 transform -translate-y-1/2 opacity-10">
+                <i class="fa-solid fa-users-viewfinder text-8xl"></i>
+            </div>
+            <h3 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">Segmentos</h3>
+            <ul class="space-y-4">
+                <li class="bg-slate-900/50 p-3 rounded-lg border-l-4 border-purple-500">
+                    <div class="font-bold text-white text-sm">DevOps & QA</div>
+                    <div class="text-xs text-slate-400">Entornos de Staging masivos</div>
+                </li>
+                <li class="bg-slate-900/50 p-3 rounded-lg border-l-4 border-yellow-500">
+                    <div class="font-bold text-white text-sm">Data Science</div>
+                    <div class="text-xs text-slate-400">Entrenamiento ML Local</div>
+                </li>
+                <li class="bg-slate-900/50 p-3 rounded-lg border-l-4 border-blue-500">
+                    <div class="font-bold text-white text-sm">ERP Crítico</div>
+                    <div class="text-xs text-slate-400">Contabilidad y Stock (Odoo/SAP)</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 8. Cost Structure -->
+        <div class="area-cost bg-slate-800 border border-slate-700 rounded-xl p-6 card-hover cursor-pointer relative" onclick="openModal('cost')">
+            <h3 class="text-red-400 font-bold uppercase tracking-wider text-sm mb-2"><i class="fa-solid fa-file-invoice-dollar mr-2"></i>Estructura de Costes (CAPEX/OPEX)</h3>
+            <div class="flex items-end justify-between mt-4">
+                <div>
+                    <div class="text-3xl font-mono font-bold text-white">$7,250</div>
+                    <div class="text-xs text-slate-400">Inversión Inicial Estimada</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-mono text-red-300">~$40/mes</div>
+                    <div class="text-xs text-slate-400">Energía (400W avg)</div>
+                </div>
+            </div>
+            <div class="w-full bg-slate-700 h-1 mt-4 rounded-full overflow-hidden">
+                <div class="bg-red-500 h-1 w-3/4"></div>
+            </div>
+        </div>
+
+        <!-- 9. Revenue/Benefits -->
+        <div class="area-revenue bg-slate-800 border border-slate-700 rounded-xl p-6 card-hover cursor-pointer" onclick="openModal('revenue')">
+            <h3 class="text-emerald-400 font-bold uppercase tracking-wider text-sm mb-2"><i class="fa-solid fa-piggy-bank mr-2"></i>Retorno de Inversión (ROI)</h3>
+            <div class="flex items-center gap-6 mt-2">
+                <div class="flex-1">
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Costo AWS (3 años)</span>
+                        <span class="text-red-400">$34,000</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div class="bg-red-500 h-2 rounded-full w-full"></div>
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Costo Local (3 años)</span>
+                        <span class="text-emerald-400">$9,500</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2">
+                        <div class="bg-emerald-500 h-2 rounded-full w-[28%]"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 text-center">
+                <span class="text-emerald-400 font-bold text-lg">Ahorro Neto: ~$24,500 USD</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <!-- Modal Content -->
+        <div class="bg-slate-900 border border-slate-600 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 bg-slate-800 rounded-full p-2 w-10 h-10 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Dynamic Content Injected Here -->
+            <div id="modalBody" class="p-0"></div>
+        </div>
+    </div>
+
+    <script>
+        // Base de Datos del Proyecto (Data Flooding)
+        const db = {
+            partners: {
+                title: "Proveedores & Alianzas Estratégicas",
+                icon: "fa-handshake",
+                color: "text-blue-400",
+                img: "https://images.unsplash.com/photo-1558494949-ef526b0042a0?auto=format&fit=crop&q=80&w=800",
+                html: `
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-white font-bold mb-4 border-b border-slate-700 pb-2">Hardware Enterprise</h4>
+                            <ul class="space-y-4">
+                                <li class="bg-slate-800 p-3 rounded border border-slate-700">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-bold text-white">Dell Outlet / Refurbished</span>
+                                        <span class="bg-green-900 text-green-300 text-xs px-2 py-0.5 rounded">Recomendado</span>
+                                    </div>
+                                    <p class="text-sm text-slate-400">Mejor ratio precio/rendimiento. Servidores R740xd o R750xs recuperados de Data Centers.</p>
+                                    <a href="https://www.dell.com/en-us/dfh/shop/dell-refurbished/cp/outlet" target="_blank" class="text-blue-400 text-xs hover:underline mt-2 inline-block">Ver Inventario &rarr;</a>
+                                </li>
+                                <li class="bg-slate-800 p-3 rounded border border-slate-700">
+                                    <div class="font-bold text-white mb-1">ServerMonkey</div>
+                                    <p class="text-sm text-slate-400">Configuraciones a medida con garantía de 1 a 5 años. Envío internacional.</p>
+                                    <a href="https://www.servermonkey.com/" target="_blank" class="text-blue-400 text-xs hover:underline mt-2 inline-block">Configurar Servidor &rarr;</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold mb-4 border-b border-slate-700 pb-2">Software Stack</h4>
+                            <table class="w-full text-sm text-left text-slate-400">
+                                <thead class="text-xs uppercase bg-slate-800 text-slate-200">
+                                    <tr><th class="p-2">Componente</th><th class="p-2">Elección</th><th class="p-2">Costo</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-700">
+                                    <tr><td class="p-2">OS</td><td class="p-2 text-white">Ubuntu Server 24.04 LTS</td><td class="p-2 text-green-400">$0</td></tr>
+                                    <tr><td class="p-2">Virtualización</td><td class="p-2 text-white">Proxmox VE 8.x</td><td class="p-2 text-green-400">$0 (Community)</td></tr>
+                                    <tr><td class="p-2">Contenedores</td><td class="p-2 text-white">Docker + Portainer</td><td class="p-2 text-green-400">$0</td></tr>
+                                    <tr><td class="p-2">DB Engine</td><td class="p-2 text-white">PostgreSQL 16</td><td class="p-2 text-green-400">$0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            resources: {
+                title: "Arquitectura de Hardware (Specs)",
+                icon: "fa-microchip",
+                color: "text-purple-400",
+                img: "https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=800",
+                html: `
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-purple-400 font-mono text-lg mb-4">&lt;Compute_Node /&gt;</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase">Procesador</div>
+                                    <div class="text-white font-bold text-lg">AMD EPYC 7443P</div>
+                                    <div class="text-sm text-slate-400">24 Cores / 48 Threads @ 2.85GHz base</div>
+                                    <div class="text-xs text-green-400 mt-1">Precio est: $900 (eBay)</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase">Memoria RAM</div>
+                                    <div class="text-white font-bold text-lg">256 GB DDR4 ECC</div>
+                                    <div class="text-sm text-slate-400">8x 32GB 3200MHz RDIMM</div>
+                                    <div class="text-xs text-green-400 mt-1">Precio est: $450</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                            <h4 class="text-blue-400 font-mono text-lg mb-4">&lt;Storage_Pool /&gt;</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase">Discos NVMe (Hot Tier)</div>
+                                    <div class="text-white font-bold text-lg">4x Samsung PM9A3 1.92TB</div>
+                                    <div class="text-sm text-slate-400">Config: RAID 10 (ZFS Mirror)</div>
+                                    <div class="text-xs text-blue-300 mt-1">Velocidad: 6,000 MB/s Seq Read</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase">Backup (Cold Tier)</div>
+                                    <div class="text-white font-bold text-lg">2x HDD 12TB IronWolf</div>
+                                    <div class="text-sm text-slate-400">Config: RAID 1 Mirror</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-slate-900 p-3 rounded border border-slate-700 flex justify-between items-center">
+                        <span class="text-slate-400 text-sm">Consumo Energético Estimado:</span>
+                        <span class="text-yellow-400 font-mono font-bold">350W - 450W (Carga media)</span>
+                    </div>
+                `
+            },
+            cost: {
+                title: "Análisis Financiero Detallado",
+                icon: "fa-file-invoice-dollar",
+                color: "text-red-400",
+                img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800",
+                html: `
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-300">
+                            <thead class="text-xs text-slate-100 uppercase bg-slate-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Ítem (CAPEX)</th>
+                                    <th scope="col" class="px-6 py-3">Especificación</th>
+                                    <th scope="col" class="px-6 py-3 text-right">Precio Est. (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-700 bg-slate-800">
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Servidor Barebones</td>
+                                    <td class="px-6 py-4">Dell R750xs / HP DL380 G10 (Chasis+Mobo+PSU)</td>
+                                    <td class="px-6 py-4 text-right">$2,200</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">CPU</td>
+                                    <td class="px-6 py-4">1x AMD EPYC 7443P</td>
+                                    <td class="px-6 py-4 text-right">$950</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Memoria RAM</td>
+                                    <td class="px-6 py-4">256GB (8x32GB) DDR4 ECC Reg</td>
+                                    <td class="px-6 py-4 text-right">$500</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Almacenamiento NVMe</td>
+                                    <td class="px-6 py-4">4x 1.92TB Enterprise U.2</td>
+                                    <td class="px-6 py-4 text-right">$1,200</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Networking</td>
+                                    <td class="px-6 py-4">Switch 10GbE Mikrotik + Cables DAC</td>
+                                    <td class="px-6 py-4 text-right">$600</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Protección Eléctrica</td>
+                                    <td class="px-6 py-4">UPS 2200VA Doble Conversión (APC)</td>
+                                    <td class="px-6 py-4 text-right">$900</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium">Rack & Cooling</td>
+                                    <td class="px-6 py-4">Rack 12U + Ventilación</td>
+                                    <td class="px-6 py-4 text-right">$500</td>
+                                </tr>
+                                <tr class="bg-slate-900 border-t-2 border-blue-500">
+                                    <td class="px-6 py-4 font-bold text-white">TOTAL INVERSIÓN</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4 text-right font-bold text-blue-400 text-lg">$6,850</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 bg-yellow-900/20 border border-yellow-700/50 p-4 rounded text-sm text-yellow-200">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> <strong>Nota:</strong> Los precios están basados en el mercado de segunda mano certificado (eBay Enterprise / ServerMonkey) y componentes nuevos selectos. Comprar esto 100% nuevo en Dell.com costaría aprox. $18,000.
+                    </div>
+                `
+            },
+            revenue: {
+                title: "ROI vs Cloud (AWS)",
+                icon: "fa-chart-line",
+                color: "text-emerald-400",
+                img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+                html: `
+                    <p class="text-slate-300 mb-6">Comparativa directa contra una instancia <strong>r6id.8xlarge</strong> (32 vCPU, 256GB RAM, 2x NVMe) en AWS us-east-1.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-slate-800 p-6 rounded-xl border border-red-900/30 relative">
+                            <div class="absolute top-0 right-0 bg-red-900 text-red-100 text-xs px-2 py-1 rounded-bl">NUBE PÚBLICA</div>
+                            <h3 class="text-xl font-bold text-white mb-2">AWS / Azure</h3>
+                            <div class="text-4xl font-bold text-red-400 mb-1">$980 <span class="text-sm text-slate-400">/mes</span></div>
+                            <ul class="text-sm text-slate-400 mt-4 space-y-2">
+                                <li>+ $0.09 por GB de salida</li>
+                                <li>+ Costo de EBS (Discos extra)</li>
+                                <li>+ Soporte Business ($100/mes)</li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-slate-700">
+                                <div class="text-xs text-slate-500">Costo a 3 años:</div>
+                                <div class="text-lg font-bold text-white">~$36,500 USD</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 p-6 rounded-xl border border-emerald-900/30 relative">
+                            <div class="absolute top-0 right-0 bg-emerald-900 text-emerald-100 text-xs px-2 py-1 rounded-bl">LOCAL (ON-PREM)</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Tu Servidor</h3>
+                            <div class="text-4xl font-bold text-emerald-400 mb-1">$6,850 <span class="text-sm text-slate-400">pago único</span></div>
+                            <ul class="text-sm text-slate-400 mt-4 space-y-2">
+                                <li>+ $40/mes electricidad</li>
+                                <li>+ $0 por transferencia de datos</li>
+                                <li>+ Control total de hardware</li>
+                            </ul>
+                            <div class="mt-6 pt-4 border-t border-slate-700">
+                                <div class="text-xs text-slate-500">Costo a 3 años (HW + Luz):</div>
+                                <div class="text-lg font-bold text-white">~$8,300 USD</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg text-center">
+                        <h4 class="text-blue-300 font-bold uppercase tracking-wider mb-2">Punto de Equilibrio (Break-even)</h4>
+                        <div class="text-3xl font-black text-white">7.5 Meses</div>
+                        <p class="text-sm text-slate-400 mt-1">A partir del mes 8, el servidor genera un "ahorro" de $900 mensuales.</p>
+                    </div>
+                `
+            },
+            // Contenido Genérico para los bloques restantes
+            activities: {
+                title: "Operaciones Diarias (SysAdmin)",
+                icon: "fa-terminal",
+                color: "text-blue-400",
+                img: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80&w=800",
+                html: `
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex gap-3">
+                            <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                            <div>
+                                <strong class="text-white">Gestión de Backups (3-2-1):</strong>
+                                <p class="text-sm text-slate-400">Snapshots ZFS cada hora locales + Sync nocturno a NAS externo o S3 Glacier (encriptado).</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                            <div>
+                                <strong class="text-white">Monitoreo Proactivo:</strong>
+                                <p class="text-sm text-slate-400">Revisión de alertas de Netdata/Prometheus (Temperatura CPU, Salud de discos SMART, Saturación de RAM).</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                            <div>
+                                <strong class="text-white">Seguridad & Parches:</strong>
+                                <p class="text-sm text-slate-400">Actualización desatendida de seguridad (unattended-upgrades) y revisión de logs de UFW (Firewall).</p>
+                            </div>
+                        </li>
+                    </ul>
+                `
+            },
+            value: {
+                title: "Ventajas Competitivas",
+                icon: "fa-bolt",
+                color: "text-blue-400",
+                img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+                html: `<p class="text-lg text-slate-300">La principal ventaja es la <strong>Latencia Cero</strong>. Mover gigabytes de datos entre tu PC y el servidor ocurre a 1000MB/s (vía 10GbE), comparado con los 30-50MB/s de una conexión a internet estándar.</p>`
+            },
+            relationships: {
+                title: "Gestión de Usuarios",
+                icon: "fa-users",
+                color: "text-orange-400",
+                img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+                html: `<p class="text-slate-300">Implementación de <strong>LDAP / Active Directory</strong> para gestión centralizada de accesos y VPN Wireguard para teletrabajadores.</p>`
+            },
+            channels: {
+                title: "Infraestructura de Red",
+                icon: "fa-network-wired",
+                color: "text-blue-400",
+                img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800",
+                html: `<p class="text-slate-300">Switch Ubiquiti o Mikrotik CRS305 (10GbE SFP+). Cableado Cat6A o Fibra OM3 para conectar el servidor a las estaciones de trabajo principales.</p>`
+            },
+            segments: {
+                title: "Usuarios Objetivo",
+                icon: "fa-id-card",
+                color: "text-purple-400",
+                img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800",
+                html: `<p class="text-slate-300">Diseñado para departamentos que manejan "Heavy Data": Edición de Video 4K directa en servidor, Compilación de código masivo, Bases de datos analíticas (OLAP).</p>`
+            }
+        };
+
+        const overlay = document.getElementById('modalOverlay');
+        const contentDiv = document.getElementById('modalContent');
+        const bodyDiv = document.getElementById('modalBody');
+
+        function openModal(key) {
+            const data = db[key];
+            if(!data) return;
+
+            // Construir el HTML interno del modal
+            bodyDiv.innerHTML = `
+                <div class="relative h-48 md:h-64 overflow-hidden">
+                    <img src="${data.img}" class="w-full h-full object-cover opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 md:left-10">
+                        <div class="flex items-center gap-4 mb-2">
+                            <div class="bg-slate-900/80 p-3 rounded-full border border-slate-600 backdrop-blur-sm">
+                                <i class="fa-solid ${data.icon} text-2xl ${data.color}"></i>
+                            </div>
+                            <h2 class="text-2xl md:text-4xl font-bold text-white tracking-tight">${data.title}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 md:p-10">
+                    ${data.html}
+                    <div class="mt-8 pt-6 border-t border-slate-700 flex justify-end">
+                        <button onclick="closeModal()" class="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-lg border border-slate-600 transition-colors">
+                            Cerrar Panel
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            overlay.classList.remove('hidden');
+            // Timeout pequeño para permitir que el display:block se aplique antes de la transición de opacidad
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                contentDiv.classList.remove('scale-95');
+                contentDiv.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden'; // Evitar scroll del fondo
+        }
+
+        function closeModal() {
+            overlay.classList.add('opacity-0');
+            contentDiv.classList.remove('scale-100');
+            contentDiv.classList.add('scale-95');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Cerrar al hacer clic fuera
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal();
+        });
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
