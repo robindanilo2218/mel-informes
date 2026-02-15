@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Model Canvas - Infraestructura Local</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --card-bg: #ffffff; --border: #e2e8f0; --text: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        h1 { text-align: center; font-weight: 800; color: var(--primary); margin-bottom: 30px; }
+
+        .canvas-container { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 300px) 150px; gap: 10px; max-width: 1200px; margin: 0 auto; }
+        .block { background: var(--card-bg); border: 2px solid var(--border); padding: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .block:hover { border-color: var(--primary); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transform: translateY(-2px); }
+        .block h3 { margin-top: 0; font-size: 0.9rem; color: var(--primary); text-transform: uppercase; }
+        
+        /* Grid Layout */
+        .alianzas { grid-row: span 2; } .actividades { grid-row: span 1; } .recursos { grid-row: span 1; }
+        .propuesta { grid-row: span 2; } .relaciones { grid-row: span 1; } .canales { grid-row: span 1; }
+        .segmentos { grid-row: span 2; } .costes { grid-column: span 2; } .beneficios { grid-column: span 3; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 25px; width: 60%; border-radius: 12px; position: relative; display: flex; gap: 20px; flex-wrap: wrap; }
+        .modal-img { flex: 1; min-width: 250px; max-height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+        .modal-text { flex: 1; min-width: 250px; }
+        .close { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; }
+
+        @media (max-width: 900px) { .canvas-container { display: block; } .block { margin-bottom: 10px; height: auto !important; } .modal-content { width: 90%; } }
+    </style>
+</head>
+<body>
+
+    <h1>Business Model Canvas: Servidor Potente Local</h1>
+
+    <div class="canvas-container">
+        <div class="block alianzas" onclick="openModal('alianzas')"><h3>Alianzas Clave</h3><p>HPE, Dell, Canonical...</p></div>
+        <div class="block actividades" onclick="openModal('actividades')"><h3>Actividades Clave</h3><p>Monitoreo y Seguridad...</p></div>
+        <div class="block recursos" onclick="openModal('recursos')"><h3>Recursos Clave</h3><p>AMD EPYC, NVMe RAID...</p></div>
+        <div class="block propuesta" onclick="openModal('propuesta')"><h3>Propuesta de Valor</h3><p>Latencia Cero y Soberanía...</p></div>
+        <div class="block relaciones" onclick="openModal('relaciones')"><h3>Relaciones</h3><p>Dashboards de Salud...</p></div>
+        <div class="block canales" onclick="openModal('canales')"><h3>Canales</h3><p>Red 10G y VPN...</p></div>
+        <div class="block segmentos" onclick="openModal('segmentos')"><h3>Segmentos</h3><p>Equipos Dev y Analítica...</p></div>
+        <div class="block costes" onclick="openModal('costes')"><h3>Estructura de Costes</h3><p>Hardware y Energía...</p></div>
+        <div class="block beneficios" onclick="openModal('beneficios')"><h3>Retorno / Beneficios</h3><p>Ahorro en Cloud...</p></div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImg" class="modal-img" src="" alt="Hardware">
+            <div class="modal-text">
+                <h2 id="modalTitle" style="color: var(--primary);"></h2>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const content = {
+            alianzas: { text: "Socios estratégicos para hardware (Dell/HPE) y soporte Linux empresarial.", img: "https://www.dell.com" },
+            actividades: { text: "Mantenimiento crítico, parches de seguridad y optimización de índices en DB.", img: "https://images.unsplash.com" },
+            recursos: { text: "Procesadores AMD EPYC de 16+ núcleos y discos NVMe en RAID 10.", img: "https://www.amd.com" },
+            propuesta: { text: "Control total de datos sin depender de la nube externa y velocidad de LAN.", img: "https://images.unsplash.com" },
+            relaciones: { text: "Implementación de Grafana para visualización de métricas en tiempo real.", img: "https://images.unsplash.com" },
+            canales: { text: "Conexión física mediante fibra o cobre Cat6a a 10Gbps.", img: "https://www.amazon.com" },
+            segmentos: { text: "Equipos de desarrollo que necesitan compilar y probar DBs masivas.", img: "https://images.unsplash.com" },
+            costes: { text: "Inversión inicial alta (CAPEX) para autonomía a largo plazo.", img: "https://images.unsplash.com" },
+            beneficios: { text: "Ahorro masivo en cuotas de AWS/Azure y seguridad inexpugnable.", img: "https://images.unsplash.com" }
+        };
+
+        function openModal(id) {
+            document.getElementById('modalTitle').innerText = id.toUpperCase();
+            document.getElementById('modalBody').innerHTML = content[id].text;
+            document.getElementById('modalImg').src = content[id].img;
+            document.getElementById('infoModal').style.display = "block";
+        }
+
+        function closeModal() { document.getElementById('infoModal').style.display = "none"; }
+        window.onclick = function(event) { if (event.target == document.getElementById('infoModal')) closeModal(); }
+    </script>
+</body>
+</html>
